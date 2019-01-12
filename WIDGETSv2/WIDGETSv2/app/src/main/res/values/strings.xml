@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WIDGETSv2</string>
+    <string name="name">Name</string>
+    <string name="add">Add</string>
+    <string name="people">People</string>
+    <string name="no_people">No People!</string>
+</resources>

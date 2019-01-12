@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="address" type="com.javadude.databinding2.example04.Address"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:labelFor="@id/street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/street" />
+
+        <EditText
+            android:id="@+id/street"
+            android:text="@={address.street}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <TextView
+            android:labelFor="@id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/city" />
+
+        <EditText
+            android:id="@+id/city"
+            android:text="@={address.city}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+        <TextView
+            android:labelFor="@id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/state" />
+
+        <com.javadude.databinding2.example04.StateSpinner
+            android:id="@+id/state"
+            app:selection="@={address.state}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+        <TextView
+            android:labelFor="@id/zip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zip" />
+
+        <EditText
+            android:id="@+id/zip"
+            android:text="@={address.zip}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+    </LinearLayout>
+</layout>

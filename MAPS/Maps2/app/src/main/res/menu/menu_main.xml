@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+
+	<item
+		android:title="@string/remember_location"
+		android:id="@+id/action_remember_location"
+		android:icon="@drawable/ic_pin_drop_white_24dp"
+		app:showAsAction="ifRoom"/>
+	<item
+		android:title="@string/show_route"
+		android:id="@+id/action_show_route"
+		android:icon="@drawable/ic_directions_walk_white_24dp"
+		app:showAsAction="ifRoom"/>
+	<item
+		android:title="@string/navigate"
+		android:id="@+id/action_navigate"
+		android:icon="@drawable/ic_navigation_white_24dp"
+		app:showAsAction="ifRoom"/>
+</menu>

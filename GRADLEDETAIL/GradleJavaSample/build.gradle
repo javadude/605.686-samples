@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'Foo'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.apache.commons:commons-lang3:3.4'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src/main/java'
+			srcDir 'src2'
+		}
+	}
+}
+
+
+compileJava {
+	doFirst {
+		println "About to compile Java code"
+	}
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.javadude.intents">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- the main activity that will be launched from the home screen or app chooser -->
+        <activity android:name=".MainActivity" android:label="Main Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- an activity that can only be started via explicit intents -->
+        <activity android:name=".MainActivity2" android:label="Another Activity"/>
+
+        <!-- an activity that can be started by an explicit or implicit intent
+             NOTE: this has the same intent filter as MainActivity4, and will
+                   cause the activity chooser to be displayed!
+        -->
+        <activity android:name=".MainActivity3" android:label="Yet Another Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.javadude.data" />
+            </intent-filter>
+        </activity>
+
+        <!-- an activity that can be started by an explicit or implicit intent
+             NOTE: this has the same intent filter as MainActivity3, and will
+                   cause the activity chooser to be displayed!
+        -->
+        <activity android:name=".MainActivity4" android:label="AND YET Another Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.javadude.data" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

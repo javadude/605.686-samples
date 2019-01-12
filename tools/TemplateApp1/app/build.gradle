@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion versions.sdk.compile
+    defaultConfig {
+        applicationId "com.javadude.templateapp1"
+        minSdkVersion versions.sdk.min
+        targetSdkVersion versions.sdk.target
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+    implementation "androidx.appcompat:appcompat:${versions.androidx.appcompat}"
+    implementation "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}"
+    kapt "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycle}"
+    implementation "androidx.core:core-ktx:${versions.androidx.ktx}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.androidx.constraintlayout}"
+    implementation "com.google.android.material:material:${versions.androidx.design}"
+    implementation "androidx.cardview:cardview:${versions.androidx.cardview}"
+    implementation "androidx.recyclerview:recyclerview:${versions.androidx.recyclerview}"
+
+}

@@ -1,0 +1,16 @@
+<resources>
+	<string name="app_name">Maps</string>
+	<string name="title_activity_maps">Map</string>
+
+	<string name="permission_needed_title">Permission Needed</string>
+	<string name="permission_needed_message">I need permission to %1$s. If you want to use this function, please accept the permission request from the system on the next dialog.</string>
+	<string name="permissions_denied_message">You\'ve previously denied the following permissions: %1$s. I need these permissions to %2$s. To grant these permissions, please go to the application settings, then try this function again. Press Cancel to abort.</string>
+	<string name="ok">OK</string>
+	<string name="settings">Settings</string>
+	<string name="cancel">Cancel</string>
+	<string name="perform_this_action">perform this action</string>
+	<string name="remember_location">Remember Location</string>
+	<string name="item">Item</string>
+	<string name="show_route">Show Route</string>
+	<string name="navigate">Navigate</string>
+</resources>

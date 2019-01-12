@@ -1,0 +1,15 @@
+<resources>
+	<string name="app_name">Fragments</string>
+	<string name="save_data_title">Save Data?</string>
+	<string name="save_data_message">Do you want to save your changes?</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="action_settings">Settings</string>
+	<string name="title_activity_edit">EditActivity</string>
+	<string name="done">Done</string>
+	<string name="cancel">Cancel</string>
+	<string name="permission_label">JavaDude Todo Information</string>
+	<string name="permission_description">Permission to allow access to JavaDude to-do list information</string>
+	<string name="group_label">JavaDude Information Group</string>
+	<string name="group_description">Permissions for all JavaDude information tools</string>
+</resources>

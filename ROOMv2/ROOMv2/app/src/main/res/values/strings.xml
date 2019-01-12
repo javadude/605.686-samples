@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ROOMv2</string>
+    <string name="show_project_1">Show Project 1</string>
+    <string name="show_project_2">Show Project 2</string>
+    <string name="add_item">Add Item</string>
+    <string name="create_projects">Create Projects</string>
+</resources>

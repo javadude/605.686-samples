@@ -1,0 +1,5 @@
+<resources>
+	<declare-styleable name="CustomView2">
+		<attr name="color" />
+	</declare-styleable>
+</resources>

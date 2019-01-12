@@ -1,0 +1,7 @@
+1 - Person with Address, non-databinding UI
+        MainActivity1
+        Person1
+        Address1
+        activity_main1.xml
+        address_form1.xml
+

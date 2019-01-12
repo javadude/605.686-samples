@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LinearLayout
+	xmlns:android='http://schemas.android.com/apk/res/android'
+	android:orientation='vertical'
+	android:layout_width='match_parent'
+	android:layout_height='match_parent'
+	android:paddingBottom='@dimen/activity_vertical_margin'
+	android:paddingLeft='@dimen/activity_horizontal_margin'
+	android:paddingRight='@dimen/activity_horizontal_margin'
+	android:paddingTop='@dimen/activity_vertical_margin'>
+<ImageView
+	android:layout_weight='1'
+	android:layout_width='match_parent'
+	android:layout_height='0dp'
+	android:src='@drawable/ic_movie_black_24dp'/>
+<View
+android:layout_width='fill_parent'
+android:layout_height='2dp'
+android:background='#c0c0c0'/>
+<TextView
+	android:text='You might like...'
+	android:textSize='30sp'
+	android:layout_width='match_parent'
+	android:layout_height='wrap_content'/>
+<TextView
+	android:onClick='gotoStatham1'
+	android:text='Jason Statham Kicks Someone'
+	android:layout_width='match_parent'
+	android:layout_height='wrap_content'/>
+<TextView
+	android:onClick='gotoStatham2'
+	android:text='Jason Statham Kicks Someone Else'
+	android:layout_width='match_parent'
+	android:layout_height='wrap_content'/>
+<TextView
+	android:onClick='gotoStatham4'
+	android:text='Jason Statham Takes Off His Shirt'
+	android:layout_width='match_parent'
+	android:layout_height='wrap_content'/>
+</LinearLayout>

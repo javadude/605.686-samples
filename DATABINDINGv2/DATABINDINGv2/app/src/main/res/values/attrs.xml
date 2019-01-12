@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="BindingRecyclerView">
+		<attr name="row_layout" format="reference"/>
+		<attr name="items" format="reference"/>
+		<attr name="model" format="reference"/>
+	</declare-styleable>
+</resources>

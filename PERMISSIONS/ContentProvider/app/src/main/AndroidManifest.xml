@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.javadude.providers">
+
+	<permission-group android:name="com.javadude.group"
+	                  android:description="@string/group_description"
+	                  android:label="@string/group_label" />
+
+	<permission android:name="com.javadude.provider.todo"
+	            android:label="@string/permission_label"
+	            android:permissionGroup="com.javadude.group"
+	            android:description="@string/permission_description"
+	            android:protectionLevel="dangerous" />
+
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme">
+		<activity
+			android:name="com.javadude.providers.TodoListFrameworkActivity"
+			android:label="@string/app_name"
+			android:theme="@style/AppTheme.NoActionBar">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<!--
+		<activity
+			android:name="com.javadude.fragments.EditActivity"
+			android:label="@string/title_activity_edit"
+			android:theme="@style/AppTheme.NoActionBar">
+		</activity>
+        -->
+		<provider
+			android:name="com.javadude.providers.TodoContentProvider"
+			android:authorities="todo.javadude.com"
+			android:enabled="true"
+			android:permission="com.javadude.provider.todo"
+			android:exported="true">
+		</provider>
+
+	</application>
+
+</manifest>

@@ -1,0 +1,132 @@
+apply plugin: MyJavaPlugin
+defaultTasks 'runApplication'
+
+myJava {
+	successMessage = 'Java Succeeded'
+	settings {
+		release {
+			src = "src/main/java"
+			build = 'build-release'
+			jar = 'sample-release.jar'
+			mainClass = 'Foo'
+		}
+		debug {
+			src = "src/main/java"
+			build = 'build-debug'
+			jar = 'sample-debug.jar'
+			mainClass = 'Foo'
+		}
+	}
+}
+
+compileJava {
+	doFirst {
+		println "About to perform common Java compilation"
+	}
+	doLast {
+		println "Common Java compilation done"
+	}
+}
+
+//
+//task buildJar (type:MyJarTask, dependsOn:compileJava) {
+//	jarBuildDir = buildDir
+//	jarName = jarFile
+//
+//	doFirst {
+//		println "About to perform common jar build"
+//	}
+//	doLast {
+//		println "Common jar build done"
+//	}
+//}
+//
+//task runApplication (type:MyRunTask, dependsOn: buildJar) {
+//	runJarName = jarFile
+//	runMainClass = "Foo"
+//	runBuildDir = buildDir
+//}
+
+
+class MyJavaExtension {
+	String successMessage
+	NamedDomainObjectCollection<JavaSettings> settings
+	MyJavaExtension(settings) {
+		this.settings = settings
+	}
+	def settings(final Closure configClosure) {
+		settings.configure(configClosure)
+	}
+}
+
+class JavaSettings {
+	String name
+	String src
+	String build
+	String jar
+	String mainClass
+	JavaSettings(String name) {
+		this.name = name
+	}
+}
+
+class MyJavaPlugin implements Plugin<Project> {
+	void apply(final Project project) {
+		def settings = project.container(JavaSettings)
+		project.extensions.create('myJava', MyJavaExtension, settings)
+
+		project.task('compileJava', type: MyCompileTask)
+		project.task('buildJar', type: MyJarTask) {
+			dependsOn 'compileJava'
+		}
+		project.task('runApplication', type: MyRunTask) {
+			dependsOn 'buildJar'
+		}
+
+		project.task('clean') << {
+			project.myJava.settings.all {
+				println "Cleaning ${build}..."
+				project.delete(build)
+			}
+		}
+	}
+}
+
+
+class MyCompileTask extends DefaultTask {
+	@TaskAction
+	def compile() {
+		project.myJava.settings.all {
+			println "Compiling Java Code for build type ${name}"
+			project.mkdir(build)
+			project.exec {
+				commandLine 'javac', '-sourcepath', src, '-d', build, "${src}/*"
+			}
+		}
+	}
+}
+
+class MyJarTask extends DefaultTask {
+	@TaskAction
+	def createJar() {
+		project.myJava.settings.all {
+			println "Building JAR file for build type ${name}"
+			project.exec {
+				workingDir build
+				commandLine 'jar', '-cvf', jar, "*.class"
+			}
+		}
+	}
+}
+
+class MyRunTask extends DefaultTask {
+	@TaskAction
+	def runApp() {
+		project.myJava.settings.all {
+			println "Running Java Application for build type ${name}"
+			project.exec {
+				commandLine 'java', '-cp', "${build}/${jar}", mainClass
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TOOLBARSv2</string>
+    <string name="show_project_1">Show Project 1</string>
+    <string name="show_project_2">Show Project 2</string>
+    <string name="add_item">Add Item</string>
+    <string name="create_projects">Create Projects</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="priority">Priority</string>
+    <string name="add_project">Add Project</string>
+    <string name="add_todo_item">Add Todo Item</string>
+    <string name="about">About</string>
+    <string name="mark_done">Mark Done</string>
+    <string name="delete">Delete</string>
+    <string name="delete_todo_items">Delete Todo Items</string>
+</resources>
