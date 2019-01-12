@@ -6,7 +6,6 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    antlr 'org.antlr:antlr4:4.5.1-1'
-    compile 'org.json:json:20151123'
+    antlr 'org.antlr:antlr4:4.5.3'
+    compile 'org.json:json:20160212'
 }

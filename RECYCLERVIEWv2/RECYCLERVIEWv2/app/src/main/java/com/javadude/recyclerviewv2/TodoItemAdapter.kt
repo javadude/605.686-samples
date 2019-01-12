@@ -30,24 +30,24 @@ class TodoItemAdapter(
     }
 
     @UiThread
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TodoItemViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.todo_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.todo_item, parent, false)
         return TodoItemViewHolder(view)
     }
 
     @UiThread
-    override fun onBindViewHolder(holder: TodoItemViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         val item = items.value!![position]
-        holder!!.bind(item)
+        holder.bind(item)
     }
 
     inner class TodoItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(todoItemEntity: TodoItemEntity) {
             name.text = todoItemEntity.name
             priority.text = todoItemEntity.priority.toString()
-            containerView.setOnClickListener({
+            containerView.setOnClickListener {
                 selectedItem.value = items.value!![adapterPosition]
-            })
+            }
         }
     }
 }

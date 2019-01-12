@@ -10,8 +10,8 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val id = intent.extras.getInt("id", 0)
-        val message = intent.extras.getString("message", "")
+        val id = intent.extras?.getInt("id", 0) ?: 0
+        val message = intent.extras?.getString("message", "") ?: ""
 
         text.text = "From notification $id\n$message"
     }

@@ -31,12 +31,12 @@ class TodoSwipeCallback(
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-        val item = viewModel.todoItems.value!![viewHolder!!.adapterPosition]
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val item = viewModel.todoItems.value!![viewHolder.adapterPosition]
         executor.execute {
             viewModel.delete(item)
         }

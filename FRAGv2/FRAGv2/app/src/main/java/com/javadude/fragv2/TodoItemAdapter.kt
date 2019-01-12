@@ -1,8 +1,6 @@
 package com.javadude.fragv2
 
 import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.support.annotation.UiThread
 import android.support.v7.widget.RecyclerView
@@ -36,20 +34,20 @@ class TodoItemAdapter(
     }
 
     @UiThread
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TodoItemViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.todo_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.todo_item, parent, false)
         return TodoItemViewHolder(view)
     }
 
     @UiThread
-    override fun onBindViewHolder(holder: TodoItemViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         val item = viewModel.todoItems.value!![position]
-        holder!!.bind(item)
+        holder.bind(item)
     }
 
     inner class TodoItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         init {
-            containerView.setOnLongClickListener({
+            containerView.setOnLongClickListener {
                 if (viewModel.selectedItem.value !== null) {
                     viewModel.selectedItem.value = null
                 }
@@ -73,8 +71,8 @@ class TodoItemAdapter(
                         }
 
                 true
-            })
-            containerView.setOnClickListener({
+            }
+            containerView.setOnClickListener {
                 val newItem = viewModel.todoItems.value!![adapterPosition]
                 val existingMultiSelects = viewModel.multiSelects.value
                 if (existingMultiSelects === null) {
@@ -99,13 +97,13 @@ class TodoItemAdapter(
                                 newSet
                             }
                 }
-            })
+            }
         }
         fun bind(todoItemEntity: TodoItemEntity) {
             name.text = todoItemEntity.name
             priority.text = todoItemEntity.priority.toString()
             val multi = viewModel.multiSelects.value
-            val selected = (multi !== null && multi.contains(todoItemEntity)) || viewModel.selectedItem.value == todoItemEntity;
+            val selected = (multi !== null && multi.contains(todoItemEntity)) || viewModel.selectedItem.value == todoItemEntity
             if (selected) {
                 containerView.setBackgroundColor(selectedBackground)
                 name.setTextColor(selectedText)

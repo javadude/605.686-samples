@@ -22,15 +22,15 @@ class ProjectAdapter(
     }
     fun createView(layoutId : Int, position: Int, convertView: View?, parent: ViewGroup?): View {
         var view = convertView
-        var textView : TextView? = null
+        val textView : TextView
         if (view === null) {
             view = LayoutInflater.from(parent!!.context).inflate(layoutId, parent, false)
             textView = view.findViewById(android.R.id.text1)
             view.tag = textView
         } else {
-            textView = view.tag as TextView?
+            textView = view.tag as TextView
         }
-        textView!!.text = items.value!![position].name
+        textView.text = items.value!![position].name
         return view!!
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View =

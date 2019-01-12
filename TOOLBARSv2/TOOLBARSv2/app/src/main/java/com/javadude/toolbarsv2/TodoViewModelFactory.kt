@@ -12,6 +12,7 @@ class TodoViewModelFactory(val application: Application) : ViewModelProvider.Fac
         if (todoViewModel === null) {
             todoViewModel = TodoViewModel(application)
         }
+        @Suppress("UNCHECKED_CAST")
         return todoViewModel as T
     }
 

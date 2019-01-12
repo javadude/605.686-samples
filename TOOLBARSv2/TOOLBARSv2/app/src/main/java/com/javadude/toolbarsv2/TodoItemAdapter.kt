@@ -38,20 +38,20 @@ class TodoItemAdapter(
     }
 
     @UiThread
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TodoItemViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.todo_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.todo_item, parent, false)
         return TodoItemViewHolder(view)
     }
 
     @UiThread
-    override fun onBindViewHolder(holder: TodoItemViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         val item = items.value!![position]
-        holder!!.bind(item)
+        holder.bind(item)
     }
 
     inner class TodoItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         init {
-            containerView.setOnLongClickListener({
+            containerView.setOnLongClickListener {
                 if (selectedItem.value !== null) {
                     selectedItem.value = null
                 }
@@ -75,8 +75,8 @@ class TodoItemAdapter(
                         }
 
                 true
-            })
-            containerView.setOnClickListener({
+            }
+            containerView.setOnClickListener {
                 val newItem = items.value!![adapterPosition]
                 val existingMultiSelects = multiSelects.value
                 if (existingMultiSelects === null) {
@@ -100,13 +100,13 @@ class TodoItemAdapter(
                                 newSet
                             }
                 }
-            })
+            }
         }
         fun bind(todoItemEntity: TodoItemEntity) {
             name.text = todoItemEntity.name
             priority.text = todoItemEntity.priority.toString()
             val multi = multiSelects.value
-            val selected = (multi !== null && multi.contains(todoItemEntity)) || selectedItem.value === todoItemEntity;
+            val selected = (multi !== null && multi.contains(todoItemEntity)) || selectedItem.value === todoItemEntity
             if (selected) {
                 containerView.setBackgroundColor(selectedBackground)
                 name.setTextColor(selectedText)

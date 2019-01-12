@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 23
-	buildToolsVersion "23.0.3"
+	compileSdkVersion versions.sdk.compile
 
 	defaultConfig {
 		applicationId "com.javadude.gradleandroidsample"
-		minSdkVersion 16
-		targetSdkVersion 23
+		minSdkVersion versions.sdk.min
+		targetSdkVersion versions.sdk.target
 		versionCode 1
 		versionName "1.0"
 	}
@@ -20,8 +19,7 @@ android {
 }
 
 dependencies {
-	compile fileTree(include: ['*.jar'], dir: 'libs')
-	testCompile 'junit:junit:4.12'
-	compile 'com.android.support:appcompat-v7:23.3.0'
-	compile project(':mylib')
+	testImplementation 'junit:junit:4.12'
+	implementation 'com.android.support:appcompat-v7:28.0.0'
+	implementation project(':mylib')
 }

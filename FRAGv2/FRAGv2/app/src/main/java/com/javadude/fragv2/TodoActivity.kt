@@ -45,24 +45,24 @@ class TodoActivity : AppCompatActivity() {
                         if (dualPane) {
                             editFragment = TodoEditFragment()
                             listFragment = TodoListFragment()
-                            tx.replace(R.id.fragment_container2, listFragment)
-                            tx.replace(R.id.fragment_container3, editFragment)
+                            tx.replace(R.id.fragment_container2, listFragment!!)
+                            tx.replace(R.id.fragment_container3, editFragment!!)
                         } else {
                             editFragment = null
                             listFragment = TodoListFragment()
-                            tx.replace(R.id.fragment_container1, listFragment)
+                            tx.replace(R.id.fragment_container1, listFragment!!)
                         }
                     }
                     TodoViewModel.State.Edit -> {
                         if (dualPane) {
                             editFragment = TodoEditFragment()
                             listFragment = TodoListFragment()
-                            tx.replace(R.id.fragment_container2, listFragment)
-                            tx.replace(R.id.fragment_container3, editFragment)
+                            tx.replace(R.id.fragment_container2, listFragment!!)
+                            tx.replace(R.id.fragment_container3, editFragment!!)
                         } else {
                             listFragment = null
                             editFragment = TodoEditFragment()
-                            tx.replace(R.id.fragment_container1, editFragment)
+                            tx.replace(R.id.fragment_container1, editFragment!!)
                         }
                     }
                     TodoViewModel.State.Exit -> finish()

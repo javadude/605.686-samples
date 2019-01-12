@@ -1,11 +1,11 @@
-apply plugin: 'war'
-apply plugin: 'jetty'
+plugins {
+	id "war"
+	id "org.gretty" version "2.3.1"
+}
+
 
 dependencies {
 	compile 'org.json:json:20160212'
-	compile 'javax.servlet:javax.servlet-api:4.0.0-b01'
+	compile 'javax.servlet:javax.servlet-api:4.0.1'
 }
 
-httpPort = 8080
-stopPort = 9080
-stopKey = "stopKey"
