@@ -18,11 +18,10 @@ android {
 }
 
 dependencies {
-	implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0-alpha01'
-	implementation 'androidx.mediarouter:mediarouter:1.1.0-alpha01'
-	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-	implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-	implementation 'com.google.android.gms:play-services-maps:16.0.0'
-	//noinspection GradleDynamicVersion
-	implementation 'com.google.maps.android:android-maps-utils:0.4+'
+	implementation deps.vectordrawable
+	implementation deps.mediarouter
+	implementation deps.legacy
+	implementation deps.appcompat
+	implementation deps.maps
+	implementation deps.maputils
 }

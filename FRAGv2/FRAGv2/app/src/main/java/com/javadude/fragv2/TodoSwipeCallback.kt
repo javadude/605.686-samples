@@ -36,7 +36,7 @@ class TodoSwipeCallback(
     }
 
     override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, direction: Int) {
-        val item = viewModel.todoItems.value!![viewHolder!!.adapterPosition]
+        val item = viewModel.todoItems.value!![viewHolder.adapterPosition]
         executor.execute {
             viewModel.delete(item)
         }

@@ -23,11 +23,11 @@ android {
 }
 
 dependencies {
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
-    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01"
-    implementation "androidx.room:room-runtime:2.1.0-alpha03"
-    kapt "androidx.room:room-compiler:2.1.0-alpha03"
+    kapt deps.room.compiler
+    implementation deps.room.runtime
+    implementation deps.kotlin.stdlib
+    implementation deps.appcompat
+    implementation deps.constraintlayout
+    implementation deps.material
+    implementation deps.lifecycle.extensions
 }

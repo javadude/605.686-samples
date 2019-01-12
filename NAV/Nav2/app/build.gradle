@@ -20,14 +20,14 @@ android {
 
 
 dependencies {
-	implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-	implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0-alpha01'
-	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-	implementation 'com.google.android.material:material:1.1.0-alpha02'
-	implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+	implementation deps.appcompat
+	implementation deps.vectordrawable
+	implementation deps.legacy
+	implementation deps.material
+	implementation deps.viewpagerindicator
 
-	// force versioned parcelable version - transitive dep
-    implementation('androidx.versionedparcelable:versionedparcelable:1.1.0-alpha01') {
+	// force versioned parcelable version - transitive dep from view pager indicator
+    implementation(deps.versionedparcelable) {
         force = true
     }
 }

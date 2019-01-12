@@ -26,9 +26,8 @@ android {
 }
 
 dependencies {
-    // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01"
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation deps.lifecycle.extensions
+    implementation deps.kotlin.stdlib
+    implementation deps.appcompat
+    implementation deps.constraintlayout
 }
