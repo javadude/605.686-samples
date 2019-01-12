@@ -1,13 +1,13 @@
 package com.javadude.databinding2.example08
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,11 +33,11 @@ class ListActivity : AppCompatActivity() {
         })
         setContentView(layout)
         adapter = PersonListAdapter()
-        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recycler.adapter = adapter
     }
 
-    inner class PersonListAdapter : RecyclerView.Adapter<PersonViewHolder>() {
+    inner class PersonListAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<PersonViewHolder>() {
         override fun getItemCount() = items?.size ?: 0
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : PersonViewHolder {
@@ -50,7 +50,7 @@ class ListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: PersonViewHolder, position: Int) = holder.bind(items!![position])
     }
 
-    inner class PersonViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class PersonViewHolder(view : View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val binding : ListItem08Binding = DataBindingUtil.bind(view)!!
         var personId : String? = null
 

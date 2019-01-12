@@ -1,10 +1,10 @@
 package com.javadude.roomv2
 
 import android.app.Application
-import android.arch.lifecycle.*
-import android.arch.lifecycle.Observer
-import android.support.annotation.MainThread
-import android.support.annotation.WorkerThread
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import java.util.*
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {

@@ -1,6 +1,6 @@
 package com.javadude.widgetsv2
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews

@@ -1,7 +1,7 @@
 package com.javadude.intents;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 // A simple target activity that will just display its user interface
 public class MainActivity4 extends AppCompatActivity {

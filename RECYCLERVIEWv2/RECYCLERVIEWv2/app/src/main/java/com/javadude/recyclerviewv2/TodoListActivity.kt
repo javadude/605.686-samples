@@ -1,12 +1,12 @@
 package com.javadude.recyclerviewv2
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
 import android.widget.AdapterView
 import kotlinx.android.synthetic.main.activity_list.*
@@ -49,7 +49,7 @@ class TodoListActivity : AppCompatActivity() {
 //
         todo_recycler_view.adapter = TodoItemAdapter(this,
                 viewModel.selectedItem, viewModel.todoItems)
-        todo_recycler_view.layoutManager = LinearLayoutManager(this)
+        todo_recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
 
         ItemTouchHelper(TodoSwipeCallback(viewModel, this)).attachToRecyclerView(todo_recycler_view)
 

@@ -4,8 +4,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -13,12 +13,12 @@ import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.UiThread
-import android.support.annotation.WorkerThread
-import android.support.design.widget.Snackbar
-import android.support.v4.app.NotificationCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.NotificationCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab.setOnClickListener {
-            Snackbar.make(it, "I am a snackbar!", Snackbar.LENGTH_SHORT)
+            com.google.android.material.snackbar.Snackbar.make(it, "I am a snackbar!", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT)
                     .setAction("Show Dialog", {
                         AlertDialog.Builder(this)
                                 .setTitle("Dialog!!!")

@@ -1,10 +1,10 @@
 package com.javadude.toolbarsv2
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Room
-import android.support.annotation.UiThread
-import android.support.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.room.Room
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
 
 class RoomRepository(application: Application) {
     private val db = Room.databaseBuilder(application,

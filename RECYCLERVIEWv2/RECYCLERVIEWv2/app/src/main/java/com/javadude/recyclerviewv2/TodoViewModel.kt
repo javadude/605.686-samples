@@ -1,11 +1,11 @@
 package com.javadude.recyclerviewv2
 
 import android.app.Application
-import android.arch.lifecycle.*
-import android.arch.lifecycle.Observer
-import android.support.annotation.MainThread
-import android.support.annotation.UiThread
-import android.support.annotation.WorkerThread
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.annotation.MainThread
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
 import kotlinx.android.synthetic.main.activity_edit.*
 import java.util.*
 import java.util.concurrent.Executors

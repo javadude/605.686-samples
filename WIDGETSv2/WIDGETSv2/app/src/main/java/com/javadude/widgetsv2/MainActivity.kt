@@ -1,12 +1,12 @@
 package com.javadude.widgetsv2
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         })
         setSupportActionBar(toolbar)
         recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    inner class NamesAdapter : RecyclerView.Adapter<NamesViewHolder>() {
+    inner class NamesAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<NamesViewHolder>() {
         override fun getItemCount() = people?.size ?: 0
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NamesViewHolder {
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    inner class NamesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class NamesViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val nameView : TextView = itemView.findViewById(android.R.id.text1)
         init {
             itemView.setOnClickListener {

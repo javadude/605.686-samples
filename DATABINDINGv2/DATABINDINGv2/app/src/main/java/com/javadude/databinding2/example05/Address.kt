@@ -1,6 +1,6 @@
 package com.javadude.databinding2.example05
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 
 class Address(
         street : String,

@@ -1,7 +1,7 @@
 package com.javadude.databinding2.example09
 
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
 
 class BindingAdapters {
     companion object {

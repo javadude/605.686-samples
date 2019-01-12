@@ -1,10 +1,10 @@
 package com.javadude.recyclerviewv2
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.annotation.UiThread
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.UiThread
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_edit.*
 import kotlinx.android.synthetic.main.activity_edit.view.*
 import java.util.concurrent.Executors

@@ -1,20 +1,20 @@
 package com.javadude.fragv2
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.fragment.app.Fragment
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.*
 import android.widget.AdapterView
 import kotlinx.android.synthetic.main.activity_todo.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import java.util.concurrent.Executors
 
-class TodoListFragment : Fragment() {
+class TodoListFragment : androidx.fragment.app.Fragment() {
     lateinit var viewModel: TodoViewModel
     var nextProjectNumber = 1
     private val executor = Executors.newSingleThreadExecutor()
@@ -43,7 +43,7 @@ class TodoListFragment : Fragment() {
                 ResourcesCompat.getColor(resources, R.color.unselectedText, null),
                 ResourcesCompat.getColor(resources, R.color.selectedBackground, null),
                 ResourcesCompat.getColor(resources, R.color.selectedText, null))
-        view.todo_recycler_view.layoutManager = LinearLayoutManager(activity!!)
+        view.todo_recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity!!)
 
         ItemTouchHelper(TodoSwipeCallback(viewModel, activity!!)).attachToRecyclerView(view.todo_recycler_view)
 

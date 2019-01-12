@@ -1,8 +1,8 @@
 package com.javadude.notificationsv2
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.os.AsyncTask
 import android.util.Log
 import kotlinx.coroutines.*

@@ -1,14 +1,14 @@
 package com.javadude.databinding2.example09
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import com.javadude.databinding2.R
 
 class BindingRecyclerView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : RecyclerView(context, attrs, defStyleAttr) {
+) : androidx.recyclerview.widget.RecyclerView(context, attrs, defStyleAttr) {
     private val rowLayout: Int
     private val adapter: GeneralBindingAdapter
 
@@ -27,7 +27,7 @@ class BindingRecyclerView @JvmOverloads constructor(
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.BindingRecyclerView, 0, 0)
         try {
             rowLayout = a.getResourceId(R.styleable.BindingRecyclerView_row_layout, -1)
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             adapter = GeneralBindingAdapter(rowLayout)
             setAdapter(adapter)
         } finally {

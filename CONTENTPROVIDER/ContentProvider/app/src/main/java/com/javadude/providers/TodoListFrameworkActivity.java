@@ -1,7 +1,7 @@
 package com.javadude.providers;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 // New version of the TodoListActivity that has a Toolbar
 public class TodoListFrameworkActivity extends FragmentFrameworkActivity<TodoListFrameworkActivity.State, TodoListFrameworkActivity.Event, Long>

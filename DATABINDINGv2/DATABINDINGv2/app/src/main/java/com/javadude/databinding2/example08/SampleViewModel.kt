@@ -1,7 +1,7 @@
 package com.javadude.databinding2.example08
 
 import android.app.Application
-import android.arch.lifecycle.*
+import androidx.lifecycle.*
 import java.util.concurrent.Executors
 import kotlin.reflect.KMutableProperty
 

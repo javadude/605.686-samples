@@ -2,9 +2,9 @@ package com.javadude.widgetsv2
 
 import android.app.Application
 import android.appwidget.AppWidgetManager
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.MutableLiveData
-import android.arch.persistence.room.Room
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import android.content.ComponentName
 import java.util.concurrent.Executors
 

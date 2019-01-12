@@ -1,15 +1,15 @@
 package com.javadude.databinding2.example09
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import java.lang.reflect.Method
 
 class GeneralBindingAdapter(private val rowLayout: Int)
-        : RecyclerView.Adapter<GeneralBindingAdapter.BindingHolder>() {
+        : androidx.recyclerview.widget.RecyclerView.Adapter<GeneralBindingAdapter.BindingHolder>() {
     var items: List<*>? = null
         set(value) {
             field = value
@@ -33,7 +33,7 @@ class GeneralBindingAdapter(private val rowLayout: Int)
         return items?.size ?: 0
     }
 
-    class BindingHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BindingHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         private val binding: ViewDataBinding = DataBindingUtil.bind(itemView)!!
         private var itemSetter : Method? = null
         private var modelSetter : Method? = null

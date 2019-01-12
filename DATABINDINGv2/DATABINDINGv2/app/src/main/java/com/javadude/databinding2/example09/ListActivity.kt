@@ -1,9 +1,9 @@
 package com.javadude.databinding2.example09
 
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.facebook.stetho.Stetho
 import com.javadude.databinding2.R
 import com.javadude.databinding2.databinding.ActivityList09Binding

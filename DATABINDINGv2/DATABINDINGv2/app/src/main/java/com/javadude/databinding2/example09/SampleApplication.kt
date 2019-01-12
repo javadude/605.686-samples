@@ -1,9 +1,9 @@
 package com.javadude.databinding2.example09
 
 import android.app.Application
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
 class SampleApplication : Application() {
     val db = Room.databaseBuilder(this, Database::class.java, "PEOPLE")

@@ -1,7 +1,7 @@
 package com.javadude.databinding2.example04
 
-import android.databinding.BaseObservable
-import android.databinding.Bindable
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.javadude.databinding2.BR
 
 class Address(

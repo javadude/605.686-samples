@@ -1,8 +1,8 @@
 package com.javadude.databinding2.example05
 
 import android.content.Context
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingListener
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingListener
 import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView

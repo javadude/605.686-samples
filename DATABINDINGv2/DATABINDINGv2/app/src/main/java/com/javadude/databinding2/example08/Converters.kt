@@ -1,6 +1,6 @@
 package com.javadude.databinding2.example08
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 
 class Converters {
     companion object {

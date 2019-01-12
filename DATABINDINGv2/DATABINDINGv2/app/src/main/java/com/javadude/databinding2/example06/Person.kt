@@ -1,6 +1,6 @@
 package com.javadude.databinding2.example06
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 
 class Person(
         name : String,

@@ -1,9 +1,9 @@
 package com.javadude.fragv2
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
-import android.support.annotation.UiThread
-import android.support.v7.widget.RecyclerView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.annotation.UiThread
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ class TodoItemAdapter(
         val unselectedText : Int,
         val selectedBackground : Int,
         val selectedText : Int
-) : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
 
     init {
         viewModel.todoItems.observe(lifecycleOwner, Observer {
@@ -45,7 +45,7 @@ class TodoItemAdapter(
         holder.bind(item)
     }
 
-    inner class TodoItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    inner class TodoItemViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer {
         init {
             containerView.setOnLongClickListener {
                 if (viewModel.selectedItem.value !== null) {

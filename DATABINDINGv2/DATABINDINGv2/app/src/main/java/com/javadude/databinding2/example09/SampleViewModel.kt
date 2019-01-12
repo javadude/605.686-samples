@@ -1,7 +1,7 @@
 package com.javadude.databinding2.example09
 
 import android.app.Application
-import android.arch.lifecycle.*
+import androidx.lifecycle.*
 import android.content.Intent
 import android.widget.Toast
 import java.util.concurrent.Executors

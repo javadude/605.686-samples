@@ -1,10 +1,10 @@
 package com.javadude.livedatav2
 
-import android.arch.lifecycle.*
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.Transformations.switchMap
-import android.support.annotation.MainThread
-import android.support.annotation.WorkerThread
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations.switchMap
+import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import java.util.*
 
 class TodoViewModel : ViewModel() {

@@ -1,13 +1,13 @@
 package com.javadude.roomv2
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
-import android.support.annotation.UiThread
-import android.support.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
 
 class RoomRepository(application: Application) {
     private val db = Room.databaseBuilder(application,
