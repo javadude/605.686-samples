@@ -23,14 +23,13 @@ android {
 }
 
 dependencies {
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation "androidx.appcompat:appcompat:${versions.androidx.appcompat}"
-    implementation "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}"
-    kapt "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycle}"
-    implementation "androidx.core:core-ktx:${versions.androidx.ktx}"
-    implementation "androidx.constraintlayout:constraintlayout:${versions.androidx.constraintlayout}"
-    implementation "com.google.android.material:material:${versions.androidx.design}"
-    implementation "androidx.cardview:cardview:${versions.androidx.cardview}"
-    implementation "androidx.recyclerview:recyclerview:${versions.androidx.recyclerview}"
-
+    implementation deps.kotlin.stdlib
+    implementation deps.appcompat
+    implementation deps.lifecycle.extensions
+    kapt deps.lifecycle.compiler
+    implementation deps.ktx
+    implementation deps.constraintlayout
+    implementation deps.material
+    implementation deps.cardview
+    implementation deps.recyclerview
 }
