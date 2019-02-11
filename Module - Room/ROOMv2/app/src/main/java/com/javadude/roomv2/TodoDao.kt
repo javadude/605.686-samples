@@ -8,10 +8,10 @@ interface TodoDao {
     @Query("SELECT * FROM TodoItemEntity")
     fun getAll() : LiveData<List<TodoItemEntity>>
 
-    @Query("SELECT * FROM TodoItemEntity WHERE id = :arg0")
+    @Query("SELECT * FROM TodoItemEntity WHERE id = :id")
     fun getById(id : String) : LiveData<TodoItemEntity>
 
-    @Query("SELECT * FROM TodoItemEntity WHERE projectId = :arg0")
+    @Query("SELECT * FROM TodoItemEntity WHERE projectId = :projectId")
     fun getByProjectId(projectId : String) : LiveData<List<TodoItemEntity>>
 
     @Insert

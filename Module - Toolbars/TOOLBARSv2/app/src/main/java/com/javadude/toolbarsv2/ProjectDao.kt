@@ -8,7 +8,7 @@ interface ProjectDao {
     @Query("SELECT * FROM ProjectEntity ORDER BY name")
     fun getAll() : LiveData<List<ProjectEntity>>
 
-    @Query("SELECT * FROM ProjectEntity WHERE id = :arg0")
+    @Query("SELECT * FROM ProjectEntity WHERE id = :id")
     fun getById(id : String) : LiveData<ProjectEntity>
 
     @Insert
