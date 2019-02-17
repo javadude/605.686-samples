@@ -8,12 +8,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
-    val executor = Executors.newSingleThreadExecutor()
-    var nextItem = 0
-    var project1 : ProjectEntity? = null
-    var project2 : ProjectEntity? = null
+    private val executor = Executors.newSingleThreadExecutor()
+    private var nextItem = 0
+    private var project1 : ProjectEntity? = null
+    private var project2 : ProjectEntity? = null
 
-    lateinit var viewModel: TodoViewModel
+    private lateinit var viewModel: TodoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             val builder = StringBuilder()
-            it?.forEach {
-                builder.append(it.name)
+            it?.forEach {item ->
+                builder.append(item.name)
                 builder.append("\n")
             }
             item_dump.text = builder.toString()
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        create_projects_button.setOnClickListener({
+        create_projects_button.setOnClickListener {
             executor.execute {
                 val project1 = ProjectEntity()
                 val project2 = ProjectEntity()
@@ -63,14 +63,14 @@ class MainActivity : AppCompatActivity() {
                 viewModel.save(project1)
                 viewModel.save(project2)
             }
-        })
-        show_project1_button.setOnClickListener({
+        }
+        show_project1_button.setOnClickListener {
             viewModel.selectedProject.value = project1
-        })
-        show_project2_button.setOnClickListener({
+        }
+        show_project2_button.setOnClickListener {
             viewModel.selectedProject.value = project2
-        })
-        add_item_button.setOnClickListener({
+        }
+        add_item_button.setOnClickListener {
             val project = viewModel.selectedProject.value
             project?.let {
                 val item = TodoItemEntity()
@@ -78,10 +78,10 @@ class MainActivity : AppCompatActivity() {
                 item.name = "Name $n"
                 item.description = "Description $n"
                 item.priority = n
-                executor.execute({
+                executor.execute {
                     viewModel.save(project, item)
-                })
+                }
             }
-        })
+        }
     }
 }

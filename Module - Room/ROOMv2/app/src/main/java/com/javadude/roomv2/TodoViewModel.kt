@@ -16,12 +16,12 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         repository.getProjects()
     }
 
-    val todoItems = switchMap(selectedProject, Collections.emptyList<TodoItemEntity>(), {
+    val todoItems = switchMap(selectedProject, Collections.emptyList<TodoItemEntity>()) {
         if (it !== null)
             repository.getTodoItems(it)
         else
             null
-    })
+    }
 
     @WorkerThread
     fun save(project: ProjectEntity, todoItem: TodoItemEntity) {
@@ -38,7 +38,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
                          func: (X?) -> LiveData<Y>?): LiveData<Y> {
         val result = MediatorLiveData<Y>()
         result.addSource(trigger, object : Observer<X> {
-            internal var mSource: LiveData<Y>? = null
+            var mSource: LiveData<Y>? = null
 
             override fun onChanged(x: X?) {
                 val newLiveData = func(x)
