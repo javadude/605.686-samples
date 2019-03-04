@@ -1,11 +1,11 @@
 package com.javadude.fragv2
 
 import android.app.Application
-import androidx.lifecycle.*
-import androidx.lifecycle.Observer
 import androidx.annotation.MainThread
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -34,17 +34,17 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         repository.getProjects()
     }
 
-    val todoItems = switchMap(selectedProject, Collections.emptyList<TodoItemEntity>(), {
+    val todoItems = switchMap(selectedProject, Collections.emptyList<TodoItemEntity>()) {
         if (it !== null)
             repository.getTodoItems(it)
         else
             null
-    })
+    }
 
     @UiThread
     fun deleteMulti() {
-        executor.execute {
-            multiSelects.value?.let {
+        multiSelects.value?.let {
+            executor.execute {
                 it.forEach {
                     delete(it)
                 }
@@ -76,7 +76,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
                          func: (X?) -> LiveData<Y>?): LiveData<Y> {
         val result = MediatorLiveData<Y>()
         result.addSource(trigger, object : Observer<X> {
-            internal var mSource: LiveData<Y>? = null
+            var mSource: LiveData<Y>? = null
 
             override fun onChanged(x: X?) {
                 val newLiveData = func(x)
