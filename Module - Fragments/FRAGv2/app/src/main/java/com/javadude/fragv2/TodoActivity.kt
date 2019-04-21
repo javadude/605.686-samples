@@ -1,19 +1,20 @@
 package com.javadude.fragv2
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_todo.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import kotlinx.android.synthetic.main.activity_todo.fragment_container2
+import kotlinx.android.synthetic.main.activity_todo.toolbar
 
 class TodoActivity : AppCompatActivity() {
-    lateinit var viewModel: TodoViewModel
+    private lateinit var viewModel: TodoViewModel
 
-    var editFragment : TodoEditFragment? = null
-    var listFragment : TodoListFragment? = null
-    var dualPane: Boolean = false
+    private var editFragment : TodoEditFragment? = null
+    private var listFragment : TodoListFragment? = null
+    private var dualPane: Boolean = false
 
     override fun onPause() {
         val tx = supportFragmentManager.beginTransaction()
@@ -37,6 +38,10 @@ class TodoActivity : AppCompatActivity() {
 
         dualPane = (fragment_container2 !== null)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.currentState.observe(this, Observer {
             val tx = supportFragmentManager.beginTransaction()
             try {
