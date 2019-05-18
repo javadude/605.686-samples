@@ -1,7 +1,11 @@
+plugins {
+    id "com.github.ben-manes.versions" version "0.21.0"
+}
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -23,13 +27,29 @@ android {
 }
 
 dependencies {
+    // include all the dependencies so we can run the dependency updater
+    kapt deps.lifecycle.compiler
+    kapt deps.room.compiler
+
     implementation deps.kotlin.stdlib
+    implementation deps.quickpermissions
+    implementation deps.stetho
     implementation deps.appcompat
     implementation deps.lifecycle.extensions
-    kapt deps.lifecycle.compiler
+    implementation deps.room.runtime
+    implementation deps.androidxcore
     implementation deps.ktx
     implementation deps.constraintlayout
-    implementation deps.material
     implementation deps.cardview
     implementation deps.recyclerview
+    implementation deps.material
+    implementation deps.vectordrawable
+    implementation deps.mediarouter
+    implementation deps.legacy
+    implementation deps.maps
+    implementation deps.maputils
+    implementation deps.viewpagerindicator
+    implementation deps.versionedparcelable
+    implementation deps.antlr
+    implementation deps.json
 }

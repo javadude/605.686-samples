@@ -1,6 +1,5 @@
 package com.javadude.templateapp1
 
-import com.javadude.templateapp1.SampleUpdater.Companion.update
 import java.io.File
 
 class SampleUpdater {
@@ -71,6 +70,4 @@ class SampleUpdater {
             }
         }
     }
-
-
 }
