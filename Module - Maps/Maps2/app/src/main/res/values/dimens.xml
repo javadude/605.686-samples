@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="lat_lng_bounds_padding">24dp</dimen>
+</resources>

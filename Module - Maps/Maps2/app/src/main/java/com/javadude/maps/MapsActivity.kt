@@ -18,6 +18,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -60,9 +61,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map!!.isMyLocationEnabled = true
     }
 
+    var latLngBoundsPadding = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
+        latLngBoundsPadding = resources.getDimension(R.dimen.lat_lng_bounds_padding).toInt()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -88,6 +92,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val latitudeString = preferences.getString("latitude", null)
         val longitudeString = preferences.getString("longitude", null)
 
+        val p1 = LatLng(39.163742, -76.900235)
+        val p2 = LatLng(39.163467, -76.897381)
+        val p3 = LatLng(39.162610, -76.899500)
+
+        var latLngBounds : LatLngBounds? = null
+
+        fun addPoint(latLng : LatLng) {
+            latLngBounds = latLngBounds?.including(latLng) ?: LatLngBounds(latLng, latLng)
+        }
+
+        addPoint(p1)
+        addPoint(p2)
+        addPoint(p3)
+
         if (latitudeString != null && longitudeString != null) {
             LatLng(latitudeString.toDouble(), longitudeString.toDouble()).let {
                 savedPosition = it
@@ -100,7 +118,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         .snippet("Lat/Lng: " + it.latitude + ", " + it.longitude)
                         .position(it)
                 )
+//                map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 18f))
             }
+        }
+
+        map!!.setOnMapLoadedCallback {
+            map!!.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, latLngBoundsPadding))
         }
 
         googleMap.setOnMapLongClickListener {

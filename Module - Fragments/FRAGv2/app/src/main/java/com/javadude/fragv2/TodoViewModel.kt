@@ -28,6 +28,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     val selectedProject = MutableLiveData<ProjectEntity?>()
     val selectedItem = MutableLiveData<TodoItemEntity>()
     val multiSelects = MutableLiveData<Set<TodoItemEntity>>()
+
     private val currentState0 = MutableLiveData<State>().apply { value = State.List }
     val currentState : LiveData<State>
         get() = currentState0

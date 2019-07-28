@@ -1,21 +1,25 @@
 ext {
 	versions = [
 		kotlin      : '1.3.31',
-		build_tools : '3.4.1',
+		build_tools : '3.4.2',
 		sdk : [
 			min     : 21,
-			compile : 28,
-			target  : 28
+			compile : 29,
+			target  : 29
 		],
 	]
 	deps = [
 		kotlin : [
 		    plugin : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
 			stdlib : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+			serialization : [
+				plugin : "org.jetbrains.kotlin:kotlin-serialization:${versions.kotlin}",
+				runtime : "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1"
+			],
 			reflect : "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
 			coroutines : [
-				core : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0',
-				android : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0"
+				core : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC',
+				android : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-RC"
 			]
 		],
 		quickpermissions : 'com.github.quickpermissions:quickpermissions-kotlin:0.4.1',
