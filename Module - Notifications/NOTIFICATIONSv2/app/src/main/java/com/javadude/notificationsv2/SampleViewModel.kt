@@ -1,31 +1,25 @@
 package com.javadude.notificationsv2
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import android.os.AsyncTask
 import android.util.Log
-import kotlinx.coroutines.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.PrintWriter
 import java.io.StringWriter
-import kotlin.coroutines.CoroutineContext
 
-class SampleViewModel : ViewModel(), CoroutineScope {
+class SampleViewModel : ViewModel() {
     val progressLiveData = MutableLiveData<Int>().apply { value = 0 }
     val messageLiveData = MutableLiveData<String>().apply { value = null }
     val isActiveLiveData = MutableLiveData<Boolean>().apply { value = false }
 
     var throwException = false
 
-    override val coroutineContext: CoroutineContext =
-        Dispatchers.Main + SupervisorJob()
-
-    override fun onCleared() {
-        super.onCleared()
-        coroutineContext[Job]!!.cancel()
-    }
-
-    fun runCoroutine1() = launch {
+    fun runCoroutine1() = viewModelScope.launch {
         var caughtException = false
         try {
             // UI setup goes here
@@ -63,7 +57,7 @@ class SampleViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    fun runCoroutine2(task : (progress : (Int) -> Unit) -> Unit) = launch {
+    fun runCoroutine2(task : (progress : (Int) -> Unit) -> Unit) = viewModelScope.launch {
         var caughtException = false
         try {
             // UI setup goes here

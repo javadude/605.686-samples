@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NFC2</string>
+    <string name="tap_to_write_text">Please tap a tag to write the text</string>
+    <string name="tap_to_write_uri">Please tap a tag to write the uri</string>
+    <string name="write_text">Write Text</string>
+    <string name="write_uri">Write URI</string>
+</resources>

@@ -1,0 +1,13 @@
+apply plugin: 'antlr'
+apply plugin: 'kotlin'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    antlr deps.antlr
+    compile deps.json
+    compile deps.kotlin.stdlib
+}

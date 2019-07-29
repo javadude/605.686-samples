@@ -4,24 +4,22 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.UiThread
-import androidx.annotation.WorkerThread
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.app.NotificationCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -69,22 +67,22 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             com.google.android.material.snackbar.Snackbar.make(it, "I am a snackbar!", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT)
-                    .setAction("Show Dialog", {
+                    .setAction("Show Dialog") {
                         AlertDialog.Builder(this)
-                                .setTitle("Dialog!!!")
-//                                .setMessage("Do you want to exit?")
-                                .setItems(arrayOf("A", "B", "C"), { _, which ->
-                                    Toast.makeText(this, "You selected $which", Toast.LENGTH_SHORT).show()
-                                })
-                                .setPositiveButton("Yes", { _, _ ->
-                                    Toast.makeText(this, "You pressed 'yes'", Toast.LENGTH_SHORT).show()
-                                })
-                                .setNegativeButton("No", { _, _ ->
-                                    Toast.makeText(this, "You pressed 'no'", Toast.LENGTH_SHORT).show()
-                                })
-                                .show()
-                    })
-                    .show()
+                            .setTitle("Dialog!!!")
+                //                                .setMessage("Do you want to exit?")
+                            .setItems(arrayOf("A", "B", "C")) { _, which ->
+                                Toast.makeText(this, "You selected $which", Toast.LENGTH_SHORT).show()
+                            }
+                            .setPositiveButton("Yes") { _, _ ->
+                                Toast.makeText(this, "You pressed 'yes'", Toast.LENGTH_SHORT).show()
+                            }
+                            .setNegativeButton("No") { _, _ ->
+                                Toast.makeText(this, "You pressed 'no'", Toast.LENGTH_SHORT).show()
+                            }
+                            .show()
+                    }
+                .show()
         }
 
         asynctask1_button.setOnClickListener {
@@ -161,12 +159,12 @@ class MainActivity : AppCompatActivity() {
         @UiThread
         override fun onPostExecute(result: Void?) {
             progressBar2.progress = 0
-            text.text = "Done!"
+            text.text = getString(R.string.done)
         }
     }
 
     // THIS IS OK - NO IMPLICIT POINTER TO ACTIVITY!
-    class MyTask2(val viewModel: SampleViewModel) : AsyncTask<Void, Int, Void?>() {
+    class MyTask2(private val viewModel: SampleViewModel) : AsyncTask<Void, Int, Void?>() {
         @UiThread
         override fun onPreExecute() {
             viewModel.messageLiveData.value = "Running task 2"
@@ -196,7 +194,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun createNotification(id : Int) {
+    private fun createNotification(id : Int) {
         val style = NotificationCompat.InboxStyle()
                 .setBigContentTitle("Details")
                 .setSummaryText("You've got mail")

@@ -14,5 +14,6 @@
     <string name="cancel_all">Cancel All</string>
     <string name="channel_name">JavaDude</string>
     <string name="channel_description">This represents JavaDude application notifications</string>
+    <string name="done">Done!</string>
 
 </resources>

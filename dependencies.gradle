@@ -30,7 +30,8 @@ ext {
 		appcompat : "androidx.appcompat:appcompat:1.1.0-alpha05",
 		lifecycle : [
 			extensions : "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01",
-			compiler : "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01"
+			compiler : "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01",
+			viewModelKtx : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01"
 		],
 		room : [
 			runtime : 'androidx.room:room-runtime:2.1.0-beta01',
