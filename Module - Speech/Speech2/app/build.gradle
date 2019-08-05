@@ -22,6 +22,8 @@ android {
 }
 
 dependencies {
+    implementation project(":language")
+    implementation deps.quickpermissions
     implementation deps.kotlin.stdlib
     implementation deps.appcompat
     implementation deps.constraintlayout

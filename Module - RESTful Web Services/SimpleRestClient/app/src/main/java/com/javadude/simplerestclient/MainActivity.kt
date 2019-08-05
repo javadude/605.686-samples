@@ -29,6 +29,11 @@ class MainActivity : AppCompatActivity() {
         httpRequest(Method.GET, "http://10.0.2.2:8080/restserver/todo")
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val item = TodoItem()
+        outState.putParcelable("item", item)
+    }
     private fun httpRequest(method: Method, uriString: String) {
         GlobalScope.launch(Dispatchers.Main) {
             val jsonText = withContext(Dispatchers.IO) {

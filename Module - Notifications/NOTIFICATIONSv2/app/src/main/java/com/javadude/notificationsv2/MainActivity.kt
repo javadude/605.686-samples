@@ -18,6 +18,7 @@ import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel::class.java)
 
         viewModel.isActiveLiveData.observe(this, Observer {
-            progressBar2.visibility = if (it == true) View.VISIBLE else View.INVISIBLE
+            progressBar2.visibility = if (it == true) View.VISIBLE else View.GONE
             coroutine_task1_button.isEnabled = it != true
             coroutine_task2_button.isEnabled = it != true
             throw_exception_button.isEnabled = it == true
@@ -66,11 +67,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab.setOnClickListener {
-            com.google.android.material.snackbar.Snackbar.make(it, "I am a snackbar!", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT)
+            com.google.android.material.snackbar.Snackbar.make(it, "I am a snackbar!", com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
                     .setAction("Show Dialog") {
                         AlertDialog.Builder(this)
                             .setTitle("Dialog!!!")
-                //                                .setMessage("Do you want to exit?")
+//                                                .setMessage("Do you want to exit?")
                             .setItems(arrayOf("A", "B", "C")) { _, which ->
                                 Toast.makeText(this, "You selected $which", Toast.LENGTH_SHORT).show()
                             }
@@ -103,9 +104,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         coroutine_task2_button.setOnClickListener {
-            viewModel.runCoroutine2 {progress ->
+            viewModel.runCoroutine2 {setProgress ->
                 for (i in 0..99) {
-                    progress(i)
+                    setProgress(i)
                     Log.d("MY COROUTINE 2", "Count = $i")
                     Thread.sleep(25)
                 }

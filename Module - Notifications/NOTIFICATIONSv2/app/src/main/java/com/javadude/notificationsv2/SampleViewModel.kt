@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.PrintWriter
@@ -15,11 +16,11 @@ import java.io.StringWriter
 class SampleViewModel : ViewModel() {
     val progressLiveData = MutableLiveData<Int>().apply { value = 0 }
     val messageLiveData = MutableLiveData<String>().apply { value = null }
-    val isActiveLiveData = MutableLiveData<Boolean>().apply { value = false }
+    val isActiveLiveData = MutableLiveData<Boolean>().apply { value = true }
 
     var throwException = false
 
-    fun runCoroutine1() = viewModelScope.launch {
+    fun runCoroutine1() = viewModelScope.launch(Dispatchers.Main) {
         var caughtException = false
         try {
             // UI setup goes here
@@ -27,15 +28,19 @@ class SampleViewModel : ViewModel() {
             isActiveLiveData.value = true
             progressLiveData.value = 0
 
-            withContext(Dispatchers.Default) {
+            withContext(Dispatchers.IO) {
                 for (i in 0..99) {
                     if (throwException) {
                         throwException = false
                         throw RuntimeException("You asked to throw an exception!")
                     }
-                    progressLiveData.postValue(i)
+                    withContext(Dispatchers.Main) {
+                        progressLiveData.value = i
+                    }
+                    // OR
+                    //     progressLiveData.postValue(i)
                     Log.d("MY COROUTINE 1", "Count = $i")
-                    Thread.sleep(25)
+                    delay(25)
                 }
             }
 
@@ -57,16 +62,19 @@ class SampleViewModel : ViewModel() {
         }
     }
 
-    fun runCoroutine2(task : (progress : (Int) -> Unit) -> Unit) = viewModelScope.launch {
+    fun runCoroutine2(task : (setProgress : (Int) -> Unit) -> Unit) = viewModelScope.launch {
         var caughtException = false
         try {
             // UI setup goes here
-            messageLiveData.value = "Running coroutine task 1"
+            messageLiveData.value = "Running coroutine task 2"
             isActiveLiveData.value = true
             progressLiveData.value = 0
 
             withContext(Dispatchers.Default) {
-                task(progressLiveData::postValue)
+                task {progress ->
+                    progressLiveData.postValue(progress)
+                }
+//                task(progressLiveData::postValue) // SORT-HAND METHOD REREFERENCE
             }
 
         } catch (t : Throwable) {

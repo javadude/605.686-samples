@@ -1,0 +1,63 @@
+{
+  "items" : {
+    "key" : {
+      "description" : "It is a shiny brass key",
+      "canPickUp": true
+    },
+    "letter" : {
+      "description" : "It reads You win!",
+      "canPickUp": true
+    },
+    "safe": {
+      "description" : "It is a very heavy locked box. There is a keyhole on it",
+      "canPickUp": false,
+      "locked" : true,
+      "open" : false,
+      "keyName" : "key",
+      "items" : ["letter"]
+    }
+  },
+
+  "rooms" : {
+    "porch": {
+      "description":"This is the front porch of your house",
+      "items": [],
+      "directions" : {
+        "north":"hall"
+      }
+    },
+    "hall": {
+      "description":"This is the main hall of your house",
+      "items": [],
+      "directions" : {
+        "south":"porch",
+        "north":"study",
+        "east":"bedroom",
+        "west":"kitchen"
+      }
+    },
+    "bedroom": {
+      "description":"This is where you sleep",
+      "items": ["key"],
+      "directions" : {
+        "west":"hall"
+      }
+    },
+    "study": {
+      "description":"This is where you pretend to work",
+      "items": ["safe"],
+      "directions" : {
+        "south":"hall"
+      }
+    },
+    "kitchen": {
+      "description":"This is a room you never use and aren't really certain why you even have it.",
+      "items": [],
+      "directions" : {
+        "east":"hall"
+      }
+    }
+  },
+
+  "startRoom":"porch"
+}

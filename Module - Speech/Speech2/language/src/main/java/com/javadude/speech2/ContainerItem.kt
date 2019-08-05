@@ -31,7 +31,7 @@ class ContainerItem(
     }
 
     override fun open(game: Game): Boolean {
-        val command = "open " + name
+        val command = "open $name"
         if (open)
             return game.report(command, "The $name is already open")
         if (locked)
@@ -41,7 +41,7 @@ class ContainerItem(
     }
 
     override fun close(game: Game): Boolean {
-        val command = "close " + name
+        val command = "close $name"
         if (!open)
             return game.report(command, "The $name is already closed")
         open = false

@@ -40,7 +40,7 @@ command[Game game]
 
 
 Word :
-  Letter Letter*;
+  Letter+;
 
 fragment
 Letter :
