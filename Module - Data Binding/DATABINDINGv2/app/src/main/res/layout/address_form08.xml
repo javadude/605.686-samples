@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="address" type="com.javadude.databinding2.example08.SampleViewModel.AddressWrapper"/>
+        <variable name="address" type="com.javadude.databinding2.example08.SampleViewModel.AddressWrapper3"/>
     </data>
 
     <LinearLayout

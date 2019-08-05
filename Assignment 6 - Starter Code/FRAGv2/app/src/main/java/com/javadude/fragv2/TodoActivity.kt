@@ -1,5 +1,6 @@
 package com.javadude.fragv2
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,8 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_todo.fragment_container2
 import kotlinx.android.synthetic.main.activity_todo.toolbar
-
-import android.content.Intent
 
 class TodoActivity : AppCompatActivity() {
     private lateinit var viewModel: TodoViewModel
@@ -50,26 +49,32 @@ class TodoActivity : AppCompatActivity() {
                 when (it) {
                     TodoViewModel.State.List -> {
                         if (dualPane) {
-                            editFragment = TodoEditFragment()
-                            listFragment = TodoListFragment()
-                            tx.replace(R.id.fragment_container2, listFragment!!)
-                            tx.replace(R.id.fragment_container3, editFragment!!)
+                            val newEditFragment = TodoEditFragment()
+                            val newListFragment = TodoListFragment()
+                            tx.replace(R.id.fragment_container2, newListFragment)
+                            tx.replace(R.id.fragment_container3, newEditFragment)
+                            editFragment = newEditFragment
+                            listFragment = newListFragment
                         } else {
                             editFragment = null
-                            listFragment = TodoListFragment()
-                            tx.replace(R.id.fragment_container1, listFragment!!)
+                            val newListFragment = TodoListFragment()
+                            tx.replace(R.id.fragment_container1, newListFragment)
+                            listFragment = newListFragment
                         }
                     }
                     TodoViewModel.State.Edit -> {
                         if (dualPane) {
-                            editFragment = TodoEditFragment()
-                            listFragment = TodoListFragment()
-                            tx.replace(R.id.fragment_container2, listFragment!!)
-                            tx.replace(R.id.fragment_container3, editFragment!!)
+                            val newEditFragment = TodoEditFragment()
+                            val newListFragment = TodoListFragment()
+                            tx.replace(R.id.fragment_container2, newListFragment)
+                            tx.replace(R.id.fragment_container3, newEditFragment)
+                            editFragment = newEditFragment
+                            listFragment = newListFragment
                         } else {
                             listFragment = null
-                            editFragment = TodoEditFragment()
-                            tx.replace(R.id.fragment_container1, editFragment!!)
+                            val newEditFragment = TodoEditFragment()
+                            tx.replace(R.id.fragment_container1, newEditFragment)
+                            editFragment = newEditFragment
                         }
                     }
                     TodoViewModel.State.Exit -> finish()

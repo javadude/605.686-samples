@@ -18,14 +18,14 @@
             android:layout_height="wrap_content">
             <TextView
                 android:text="@{item.name}"
-                android:onClick="@{() -> model.onItemNameSelected(item, position)}"
+                android:onClick="@{() -> model.onItemNameSelected(context, item, position)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
             <TextView
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:onClick="@{() -> model.onItemAgeSelected(item, position)}"
+                android:onClick="@{() -> model.onItemAgeSelected(context, item, position)}"
                 android:text="@{item.age + ``}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

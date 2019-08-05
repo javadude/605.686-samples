@@ -1,17 +1,13 @@
 package com.javadude.databinding2.example07
 
-import android.annotation.SuppressLint
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import com.facebook.stetho.Stetho
 import com.javadude.databinding2.R
-import com.javadude.databinding2.R.id.dump
 import com.javadude.databinding2.databinding.ActivityMain07Binding
 import kotlinx.android.synthetic.main.activity_main01.*
 
@@ -31,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         Stetho.initializeWithDefaults(this)
         viewModel = ViewModelProviders.of(this).get(SampleViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, layout)
-        binding.setLifecycleOwner(this)
-        binding.person = viewModel.person
+        binding.lifecycleOwner = this
+        binding.model = viewModel
         setSupportActionBar(toolbar)
 
         viewModel.personId.value = personId1

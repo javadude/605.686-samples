@@ -1,90 +1,62 @@
 package com.javadude.databinding2.example08
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.databinding.BaseObservable
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import java.util.concurrent.Executors
-import kotlin.reflect.KMutableProperty
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KMutableProperty1
+import kotlin.reflect.KProperty
 
+private val executor = Executors.newSingleThreadExecutor()
 
 class SampleViewModel(application: Application) : AndroidViewModel(application) {
     val db = getApplication<SampleApplication>().db
     val personId = MutableLiveData<String>()
-    val person = PersonWrapper(switch(personId, {db.personDao.getById(it)}))
+    val person = MediatorLiveData<PersonWrapper3>().apply {
+        addSource(personId) {
+            executor.execute {
+                postValue(PersonWrapper3(
+                    db.personDao.getByIdSync(it),
+                    AddressWrapper3(db.addressDao.getForOwnerIdSync(it))
+                ))
+            }
+        }
+    }
+
     val people = db.personDao.getAll()
 
-    open inner class Wrapper<S :Any>(private val sourceLD : LiveData<S?>,
-                                     private val dao : IDao<S>) {
-        fun <T> property(propertyRef : KMutableProperty<T>, defaultValue : T? = null) =
-            AutoSaveTwoWayMediatorLiveData(sourceLD, propertyRef, dao, defaultValue)
-    }
+    abstract inner class Wrapper3<WRAPPER_TYPE, REAL_TYPE>(
+        private val obj : REAL_TYPE) : BaseObservable() {
+        abstract val dao : IDao<REAL_TYPE>
 
-    inner class PersonWrapper(personLD : LiveData<Person?>) : Wrapper<Person>(personLD, db.personDao) {
-        val name = property(Person::name)
-        val age = property(Person::age, 0)
-        val address : AddressWrapper by lazy {
-            AddressWrapper(switch(personLD, { db.addressDao.getForOwnerId(it.id) }))
-        }
-        override fun toString(): String {
-            return "PersonWrapper(name=${name.value}, age=${age.value}, address=$address)"
-        }
-    }
-
-    inner class AddressWrapper(addressLD : LiveData<Address?>) : Wrapper<Address>(addressLD, db.addressDao) {
-        val street = property(Address::street)
-        val city = property(Address::city)
-        val state = property(Address::state)
-        val zip = property(Address::zip)
-        override fun toString(): String {
-            return "AddressWrapper(street=${street.value}, city=${city.value}, state=${state.value}, zip=${zip.value})"
-        }
-    }
-}
-
-
-
-fun <T, S> switch(source : LiveData<S?>,
-                  get: (S) -> LiveData<T>) : LiveData<T?> =
-    Transformations.switchMap(source, {
-        if (it == null) {
-            null
-        } else {
-            get(it)
-        }
-    })
-
-class AutoSaveTwoWayMediatorLiveData<S: Any, T>(
-        private val source: LiveData<S?>,
-        private val property : KMutableProperty<T>,
-        private val dao : IDao<S>,
-        private val defaultValue : T? = null
-        ) : MediatorLiveData<T?>() {
-
-    companion object {
-        private val executor = Executors.newSingleThreadExecutor()
-    }
-    init {
-        addSource(source, {
-            val newValue : T? = if (it == null) {
-                null
-            } else {
-                property.getter.call(it)
-            }
-            if (value != newValue) {
-                value = newValue
-            }
-        })
-    }
-
-    override fun setValue(newValue: T?) {
-        if (value != newValue) {
-            source.value?.let { sourceValue ->
-                val toSet = newValue ?: defaultValue
-                super.setValue(toSet)
-                property.setter.call(sourceValue, toSet)
+        inner class Property<PROPERTY_TYPE>(private val baseProperty : KMutableProperty1<REAL_TYPE, PROPERTY_TYPE>) : ReadWriteProperty<WRAPPER_TYPE, PROPERTY_TYPE> {
+            override fun getValue(thisRef: WRAPPER_TYPE, property: KProperty<*>) = baseProperty.get(obj)
+            override fun setValue(thisRef: WRAPPER_TYPE, property: KProperty<*>, value: PROPERTY_TYPE) {
+                baseProperty.set(obj, value)
                 executor.execute {
-                    dao.insert(sourceValue)
+                    dao.insert(obj)
+                    notifyChange()
                 }
             }
         }
+        fun <PROPERTY_TYPE> property(baseProperty : KMutableProperty1<REAL_TYPE, PROPERTY_TYPE>) = Property(baseProperty)
+    }
+    inner class PersonWrapper3(person: Person, val address: AddressWrapper3) : Wrapper3<PersonWrapper3, Person>(person) {
+        override val dao = db.personDao
+        var id by property(Person::id)
+        var name by property(Person::name)
+        var age by property(Person::age)
+    }
+    inner class AddressWrapper3(val address: Address) : Wrapper3<AddressWrapper3, Address>(address) {
+        override val dao = db.addressDao
+        var id by property(Address::id)
+        var ownerId by property(Address::ownerId)
+        var street by property(Address::street)
+        var city by property(Address::city)
+        var state by property(Address::state)
+        var zip by property(Address::zip)
     }
 }

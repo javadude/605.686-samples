@@ -5,6 +5,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
 
+
+
 android {
     compileSdkVersion versions.sdk.compile
     defaultConfig {
@@ -30,8 +32,6 @@ androidExtensions {
     experimental = true
 }
 dependencies {
-    kapt deps.room.compiler
-    implementation deps.room.runtime
     implementation deps.stetho
     implementation deps.lifecycle.extensions
     implementation deps.kotlin.stdlib
@@ -39,4 +39,6 @@ dependencies {
     implementation deps.constraintlayout
     implementation deps.recyclerview
     implementation deps.cardview
+    implementation deps.room.runtime
+    kapt deps.room.compiler
 }

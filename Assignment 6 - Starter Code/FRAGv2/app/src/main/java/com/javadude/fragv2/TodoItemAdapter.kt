@@ -4,35 +4,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.UiThread
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.todo_item.name
 import kotlinx.android.synthetic.main.todo_item.priority
 
 class TodoItemAdapter(
-        lifecycleOwner: LifecycleOwner,
-        val viewModel: TodoViewModel,
         val unselectedBackground : Int,
         val unselectedText : Int,
         val selectedBackground : Int,
-        val selectedText : Int
+        val selectedText : Int,
+        val onItemSelected : (TodoItemEntity?) -> Unit,
+        val onMultiSelectChanged : (Set<TodoItemEntity>) -> Unit
 ) : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
 
-    init {
-        viewModel.todoItems.observe(lifecycleOwner, Observer {
+    var items : List<TodoItemEntity> = emptyList()
+        set(value) {
+            field = value
             notifyDataSetChanged()
-        })
-        viewModel.multiSelects.observe(lifecycleOwner, Observer {
+        }
+
+    var selectedItem : TodoItemEntity? = null
+        set(value) {
+            field = value
             notifyDataSetChanged()
-        })
-    }
+        }
+
+    var multiSelects : Set<TodoItemEntity> = emptySet()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     @UiThread
-    override fun getItemCount(): Int {
-        return viewModel.todoItems.value?.size ?: 0
-    }
+    override fun getItemCount() = items.size
 
     @UiThread
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
@@ -42,69 +47,44 @@ class TodoItemAdapter(
 
     @UiThread
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
-        val item = viewModel.todoItems.value!![position]
+        val item = items[position]
         holder.bind(item)
     }
 
     inner class TodoItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         init {
             containerView.setOnLongClickListener {
-                if (viewModel.selectedItem.value !== null) {
-                    viewModel.selectedItem.value = null
+                val clickedItem = items[adapterPosition]
+                if (clickedItem in multiSelects) {
+                    onMultiSelectChanged(multiSelects - clickedItem)
+                } else {
+                    onMultiSelectChanged(multiSelects + clickedItem)
                 }
-                val newItem = viewModel.todoItems.value!![adapterPosition]
-                val existingMultiSelects = viewModel.multiSelects.value
-                val newSet =
-                    if (existingMultiSelects !== null) {
-                        if (existingMultiSelects.contains(newItem)) {
-                            existingMultiSelects - newItem
-                        } else {
-                            existingMultiSelects + newItem
-                        }
-                    } else {
-                        setOf(newItem)
-                    }
-                viewModel.multiSelects.value =
-                        if (newSet.isEmpty()) {
-                            null
-                        } else {
-                            newSet
-                        }
 
                 true
             }
             containerView.setOnClickListener {
-                val newItem = viewModel.todoItems.value!![adapterPosition]
-                val existingMultiSelects = viewModel.multiSelects.value
-                if (existingMultiSelects === null) {
-                    if (viewModel.selectedItem.value === newItem) {
-                        viewModel.selectedItem.value = null
+                val clickedItem = items[adapterPosition]
+                if (multiSelects.isEmpty()) {
+                    if (selectedItem === clickedItem) {
+                        onItemSelected(null)
                     } else {
-                        viewModel.selectedItem.value = newItem
-                        viewModel.handleEvent(TodoViewModel.Event.SelectTodoItem)
+                        onItemSelected(clickedItem)
                     }
 
                 } else {
-                    val newSet =
-                        if (existingMultiSelects.contains(newItem)) {
-                            existingMultiSelects - newItem
-                        } else {
-                            existingMultiSelects + newItem
-                        }
-                    viewModel.multiSelects.value =
-                            if (newSet.isEmpty()) {
-                                null
-                            } else {
-                                newSet
-                            }
+                    if (clickedItem in multiSelects) {
+                        onMultiSelectChanged(multiSelects - clickedItem)
+                    } else {
+                        onMultiSelectChanged(multiSelects + clickedItem)
+                    }
                 }
             }
         }
         fun bind(todoItemEntity: TodoItemEntity) {
             name.text = todoItemEntity.name
             priority.text = todoItemEntity.priority.toString()
-            val multi = viewModel.multiSelects.value
-            val selected = (multi !== null && multi.contains(todoItemEntity)) || viewModel.selectedItem.value == todoItemEntity
+            val selected = (todoItemEntity in multiSelects) || selectedItem == todoItemEntity
             if (selected) {
                 containerView.setBackgroundColor(selectedBackground)
                 name.setTextColor(selectedText)

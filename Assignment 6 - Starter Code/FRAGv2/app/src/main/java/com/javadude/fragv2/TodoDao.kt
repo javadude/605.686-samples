@@ -1,3 +1,4 @@
+
 package com.javadude.fragv2
 
 import androidx.lifecycle.LiveData
@@ -8,8 +9,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 
-@Suppress("unused")
 @Dao
+@Suppress("unused")
 interface TodoDao {
     @Query("SELECT * FROM TodoItemEntity ORDER BY name")
     fun getAll() : LiveData<List<TodoItemEntity>>

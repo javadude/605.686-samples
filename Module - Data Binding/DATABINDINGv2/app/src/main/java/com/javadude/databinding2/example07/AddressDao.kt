@@ -13,6 +13,8 @@ interface AddressDao : IDao<Address> {
 
     @Query("SELECT * FROM Address WHERE ownerId = :ownerId")
     fun getForOwnerId(ownerId : String) : LiveData<Address>
+    @Query("SELECT * FROM Address WHERE ownerId = :ownerId")
+    fun getForOwnerIdSync(ownerId : String) : Address
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override fun insert(item : Address)

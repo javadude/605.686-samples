@@ -7,8 +7,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 
-@Suppress("unused")
 @Dao
+@Suppress("unused")
 interface ProjectDao {
     @Query("SELECT * FROM ProjectEntity ORDER BY name")
     fun getAll() : LiveData<List<ProjectEntity>>

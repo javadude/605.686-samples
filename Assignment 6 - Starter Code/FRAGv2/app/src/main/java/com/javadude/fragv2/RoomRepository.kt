@@ -22,13 +22,6 @@ class RoomRepository(application: Application) {
     fun delete(todoItemEntity: TodoItemEntity) =
         db.getTodoDao().delete(todoItemEntity)
 
-//    fun save(project: Project) {
-//        val projectEntity = ProjectEntity()
-//        projectEntity.id = project.id
-//        projectEntity.name = project.name
-//        db.getProjectDao().insert(projectEntity)
-//    }
-
     @WorkerThread
     fun save(projectEntity: ProjectEntity, todoItemEntity: TodoItemEntity) {
         todoItemEntity.projectId = projectEntity.id
@@ -42,5 +35,4 @@ class RoomRepository(application: Application) {
     @UiThread
     fun getProjects() : LiveData<List<ProjectEntity>> =
         db.getProjectDao().getAll()
-
 }

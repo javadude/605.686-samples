@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         Stetho.initializeWithDefaults(this)
         viewModel = ViewModelProviders.of(this).get(SampleViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, layout)
-        binding.setLifecycleOwner(this)
-        binding.person = viewModel.person
+        binding.lifecycleOwner = this
+        binding.model = viewModel
         setSupportActionBar(toolbar)
 
         viewModel.personId.value = personId1

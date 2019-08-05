@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -23,33 +20,33 @@ class TodoEditFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity!!).get(TodoViewModel::class.java)
     }
 
-    inner class Saver : TextWatcher {
+    inner class TextChangeListener : TextWatcher {
         override fun afterTextChanged(s: Editable?) = save()
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
-    private val saver = Saver()
+    private val textChangeListener = TextChangeListener()
     private var loading = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit, container, false)
 
         viewModel.selectedItem.observe(this, Observer {
-            it?.let {item ->
+            it?.let {
                 try {
                     loading = true
-                    (activity as TodoActivity).supportActionBar!!.title = item.name
-                    view.name.setText(item.name)
-                    view.description.setText(item.description)
-                    view.priority.setText(item.priority.toString())
+                    (activity as TodoActivity).supportActionBar!!.title = it.name
+                    view.name.setText(it.name)
+                    view.description.setText(it.description)
+                    view.priority.setText(it.priority.toString())
                 } finally {
                     loading = false
                 }
             }
         })
 
-        view.name.addTextChangedListener(saver)
-        view.priority.addTextChangedListener(saver)
-        view.description.addTextChangedListener(saver)
+        view.name.addTextChangedListener(textChangeListener)
+        view.priority.addTextChangedListener(textChangeListener)
+        view.description.addTextChangedListener(textChangeListener)
         return view
     }
 

@@ -1,15 +1,14 @@
+
 package com.javadude.fragv2
 
 import android.app.Application
-import androidx.annotation.MainThread
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import java.util.Collections
+import androidx.lifecycle.Transformations
 import java.util.concurrent.Executors
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
@@ -26,81 +25,58 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     private val executor = Executors.newSingleThreadExecutor()
     private val repository = RoomRepository(application)
     val selectedProject = MutableLiveData<ProjectEntity?>()
-    val selectedItem = MutableLiveData<TodoItemEntity>()
     val multiSelects = MutableLiveData<Set<TodoItemEntity>>()
+    val selectedItem = MediatorLiveData<TodoItemEntity>().apply {
+        // if there are any multi-selects, clear the "single selection"
+        addSource(multiSelects) {
+            if (it?.isNotEmpty() == true) {
+                value = null
+            }
+        }
+    }
     private val currentState0 = MutableLiveData<State>().apply { value = State.List }
     val currentState : LiveData<State>
         get() = currentState0
-
 
     val projects : LiveData<List<ProjectEntity>> by lazy {
         repository.getProjects()
     }
 
-    val todoItems = switchMap(selectedProject, Collections.emptyList<TodoItemEntity>()) {
-        if (it !== null)
-            repository.getTodoItems(it)
-        else
-            null
-    }
+    private val emptyItemListLiveData = MutableLiveData<List<TodoItemEntity>>().apply { value = emptyList() }
+    val todoItems: LiveData<List<TodoItemEntity>> =
+            Transformations.switchMap(selectedProject) {
+                if (it !== null)
+                    repository.getTodoItems(it)
+                else
+                    emptyItemListLiveData
+            }
 
     @UiThread
     fun deleteMulti() {
-        multiSelects.value?.let {
+        multiSelects.value?.let {items ->
             executor.execute {
-                it.forEach {
-                    delete(it)
+                items.forEach { item ->
+                    delete(item)
                 }
             }
         }
     }
     @WorkerThread
-    fun save(project: ProjectEntity, todoItem: TodoItemEntity) {
+    private fun save(project: ProjectEntity, todoItem: TodoItemEntity) =
         repository.save(project, todoItem)
-    }
+
     @WorkerThread
-    fun save(project: ProjectEntity) {
+    fun save(project: ProjectEntity) =
         repository.save(project)
-    }
 
+    @WorkerThread
     @Suppress("unused")
-    @WorkerThread
-    fun delete(project: ProjectEntity) {
+    fun delete(project: ProjectEntity) =
         repository.delete(project)
-    }
 
     @WorkerThread
-    fun delete(todoItem: TodoItemEntity) {
+    fun delete(todoItem: TodoItemEntity) =
         repository.delete(todoItem)
-    }
-
-    @MainThread
-    fun <X, Y> switchMap(trigger: LiveData<X>,
-                         defaultValue : Y,
-                         func: (X?) -> LiveData<Y>?): LiveData<Y> {
-        val result = MediatorLiveData<Y>()
-        result.addSource(trigger, object : Observer<X> {
-            var mSource: LiveData<Y>? = null
-
-            override fun onChanged(x: X?) {
-                val newLiveData = func(x)
-                if (mSource === newLiveData) {
-                    return
-                }
-                if (mSource != null) {
-                    result.removeSource(mSource!!)
-                }
-                mSource = newLiveData
-                if (mSource != null) {
-                    result.addSource(mSource!!) { y -> result.value = y }
-                } else {
-                    result.value = defaultValue
-                }
-            }
-        })
-        return result
-    }
-
 
     @UiThread
     fun updateSelectedItem(name : String,
@@ -110,33 +86,28 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
             selectedItem.value?.let {
                 it.name = name
                 it.description = description
-                try {
-                    it.priority = priority.toInt()
-                } catch (e : NumberFormatException) {
-                    it.priority = 0
-                }
+                it.priority = priority.toIntOrNull() ?: 0
                 save(selectedProject.value!!, it)
             }
         }
-
     }
 
     fun handleEvent(event: Event) {
         currentState0.value =
             when (currentState0.value) {
-                TodoViewModel.State.List -> when (event) {
-                    TodoViewModel.Event.CreateNewTodoItem -> State.Edit
-                    TodoViewModel.Event.SelectTodoItem -> State.Edit
-                    TodoViewModel.Event.BackSinglePane -> State.Exit
-                    TodoViewModel.Event.BackDualPane -> State.Exit
+                State.List -> when (event) {
+                    Event.CreateNewTodoItem -> State.Edit
+                    Event.SelectTodoItem -> State.Edit
+                    Event.BackSinglePane -> State.Exit
+                    Event.BackDualPane -> State.Exit
                 }
-                TodoViewModel.State.Edit -> when (event) {
-                    TodoViewModel.Event.CreateNewTodoItem -> State.Edit
-                    TodoViewModel.Event.SelectTodoItem -> State.Edit
-                    TodoViewModel.Event.BackSinglePane -> State.List
-                    TodoViewModel.Event.BackDualPane -> State.Exit
+                State.Edit -> when (event) {
+                    Event.CreateNewTodoItem -> State.Edit
+                    Event.SelectTodoItem -> State.Edit
+                    Event.BackSinglePane -> State.List
+                    Event.BackDualPane -> State.Exit
                 }
-                TodoViewModel.State.Exit -> State.Exit
+                State.Exit -> State.Exit
                 else -> throw IllegalStateException()
             }
     }
