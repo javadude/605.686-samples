@@ -13,7 +13,7 @@ class GeneralBindingAdapter(private val rowLayout: Int)
     var items: List<*>? = null
         set(value) {
             field = value
-            notifyDataSetChanged()
+            notifyDataSetChanged() // DiffUtil
         }
     var model: Any? = null
 
@@ -58,7 +58,6 @@ class GeneralBindingAdapter(private val rowLayout: Int)
         }
         var item : Any? = null
             set(value) {
-                field = value
                 itemSetter!!.invoke(binding, value)
             }
         var model : Any? = null

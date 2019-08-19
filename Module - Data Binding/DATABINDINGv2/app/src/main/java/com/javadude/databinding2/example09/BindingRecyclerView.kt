@@ -17,7 +17,7 @@ class BindingRecyclerView @JvmOverloads constructor(
             field = value
             adapter.items = value
         }
-    var model : SampleViewModel? = null
+    var model : Any? = null
         set(value) {
             field = value
             adapter.model = value
