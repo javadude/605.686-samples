@@ -22,8 +22,9 @@ ext {
 				android : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-RC"
 			]
 		],
-		cameraCore : 'androidx.camera:camera-core:1.0.0-alpha01',
-		camera2 : 'androidx.camera:camera-camera2:1.0.0-alpha01',
+		navSafeArgsPlugin: 'androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-rc01',
+  		navFragment : 'androidx.navigation:navigation-fragment-ktx:2.1.0-rc01',
+  		navUi : 'androidx.navigation:navigation-ui-ktx:2.1.0-rc01',
 		quickpermissions : 'com.github.quickpermissions:quickpermissions-kotlin:0.4.1',
 		stetho : 'com.facebook.stetho:stetho:1.5.1',
 		android : [
