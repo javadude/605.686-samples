@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/sensor_spinner"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+        <TableRow>
+            <TextView
+                    style="@style/table_item"
+                    android:text="@string/x" />
+            <TextView
+                    style="@style/table_item"
+                    android:id="@+id/x"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    style="@style/table_item"
+                    android:text="@string/y" />
+            <TextView
+                    style="@style/table_item"
+                    android:id="@+id/y" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                    style="@style/table_item"
+                    android:text="@string/z" />
+            <TextView
+                    style="@style/table_item"
+                    android:id="@+id/z" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
         <variable name="position" type="int"/>
+        <variable name="selected" type="boolean"/>
+        <variable name="visible" type="boolean"/>
         <variable name="item" type="com.javadude.databinding2.example09.Person"/>
         <variable name="model" type="com.javadude.databinding2.example09.SampleViewModel"/>
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_margin="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_margin="8dp"
+            android:visibility="@{visible ? View.VISIBLE : View.GONE}"
+            app:cardBackgroundColor="@{selected ? @color/selected : @color/unselected}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="horizontal"

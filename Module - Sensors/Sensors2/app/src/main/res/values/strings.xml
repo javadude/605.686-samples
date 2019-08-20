@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Sensors2</string>
+    <string name="x">X</string>
+    <string name="y">Y</string>
+    <string name="z">Z</string>
+    <string name="name">Name</string>
+    <string name="type">Type</string>
+    <string name="power">Power</string>
+    <string name="resolution">Resolution</string>
+    <string name="max_range">Max Range</string>
+</resources>
