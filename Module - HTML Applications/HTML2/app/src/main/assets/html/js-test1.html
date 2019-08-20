@@ -1,0 +1,15 @@
+<html>
+	<body>
+		<p>This is some sample HTML!</p>
+		<input type="button" value="Say Hello" onclick="Android.toast('Hello!!!!!'); return true" />
+		<p id="message">Message goes here</p>
+		<script type="text/javascript">
+			function setMessage(text) {
+				var message = document.getElementById("message");
+				message.innerHTML = text;
+				console.warn('this is a console message from JS');
+				alert('this is an alert');
+			}
+		</script>
+	</body>
+</html>
