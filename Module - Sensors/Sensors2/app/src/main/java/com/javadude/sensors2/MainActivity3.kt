@@ -40,35 +40,28 @@ class MainActivity3 : AppCompatActivity() {
 
     private val listener = object : SensorEventListener {
         override fun onSensorChanged(event: SensorEvent) {
-            if (event.values.size == 1) {
-                x.text = event.values[0].toString()
-                y.text = ""
-                z.text = ""
-
-            } else {
-                var xValue = 0f
-                var yValue = 0f
-                when (defaultDisplay.rotation) {
-                    Surface.ROTATION_0 -> {
-                        xValue = event.values[0]
-                        yValue = event.values[1]
-                    }
-                    Surface.ROTATION_90 -> {
-                        xValue = -event.values[1]
-                        yValue = event.values[0]
-                    }
-                    Surface.ROTATION_180 -> {
-                        xValue = -event.values[0]
-                        yValue = -event.values[1]
-                    }
-                    Surface.ROTATION_270 -> {
-                        xValue = event.values[1]
-                        yValue = -event.values[0]
-                    }
+            var xValue = 0f
+            var yValue = 0f
+            when (defaultDisplay.rotation) {
+                Surface.ROTATION_0 -> {
+                    xValue = event.values[0]
+                    yValue = event.values[1]
                 }
-                puckView.ax = -xValue.toInt() * 5
-                puckView.ay = yValue.toInt() * 5
+                Surface.ROTATION_90 -> {
+                    xValue = -event.values[1]
+                    yValue = event.values[0]
+                }
+                Surface.ROTATION_180 -> {
+                    xValue = -event.values[0]
+                    yValue = -event.values[1]
+                }
+                Surface.ROTATION_270 -> {
+                    xValue = event.values[1]
+                    yValue = -event.values[0]
+                }
             }
+            puckView.ax = -xValue.toInt() * 5
+            puckView.ay = yValue.toInt() * 5
         }
 
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
