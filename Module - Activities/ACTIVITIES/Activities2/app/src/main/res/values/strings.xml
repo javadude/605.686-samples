@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Activities2</string>
+    <string name="title">Title</string>
+    <string name="year">Year</string>
+    <string name="genres">Genres</string>
+    <string name="cast">Cast</string>
+</resources>
