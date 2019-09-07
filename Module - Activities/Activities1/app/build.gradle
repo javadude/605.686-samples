@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion versions.sdk.compile
     defaultConfig {
-        applicationId "com.javadude.movies"
+        applicationId "com.javadude.activities1"
         minSdkVersion versions.sdk.min
         targetSdkVersion versions.sdk.target
         versionCode 1
@@ -24,7 +24,6 @@ android {
 dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.appcompat
-    implementation deps.ktx
     implementation deps.constraintlayout
-    implementation deps.lifecycle.extensions
+    implementation deps.ktx
 }
