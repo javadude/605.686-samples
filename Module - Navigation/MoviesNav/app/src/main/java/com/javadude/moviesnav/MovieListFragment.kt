@@ -13,36 +13,37 @@ class MovieListFragment : BaseFragment(R.layout.fragment_movie_list) {
         super.onViewCreated(view, savedInstanceState)
         val movieList = view.findViewById<RecyclerView>(R.id.movie_list)
 
-        val adapter = MovieAdapter2(
+        val adapter = GenericAdapter<Movie>(
+            rowLayoutRes = R.layout.movie,
             onClicked = {
-                viewModel.onClicked(it, singleSelectAction = {
+                viewModel.movieSelectionManager.onClicked(it, singleSelectAction = {
                     navigate(R.id.action_display_movie)
                 })
             },
-            onIconClicked = { viewModel.onIconClicked(it) },
-            onLongClicked = { viewModel.onLongClicked(it) }
+            onLongClicked = { viewModel.movieSelectionManager.onLongClicked(it) },
+            getText1 = { it.title }
         )
 
         movieList.adapter = adapter
 
-        viewModel.allMovies.observe(this, Observer {
-            adapter.movies = it ?: emptyList()
-        })
+        viewModel.allMovies.observe(this) {
+            adapter.items = it ?: emptyList()
+        }
 
         // selection support
-        viewModel.selectedMovies.observe(this, Observer {
-            adapter.selectedMovies = it ?: emptySet()
+        viewModel.movieSelectionManager.selections.observe(this) {
+            adapter.selections = it ?: emptySet()
             invalidateActionMode()
-        })
+        }
 
         // adding contextual action mode when multiple items selected
-        viewModel.multiMovieSelectMode.observe(this, Observer {
+        viewModel.movieSelectionManager.multiSelectMode.observe(this) {
             if (it == true) { // handles null as false...
                 startMovieDeleteMode()
             } else {
                 dismissActionMode()
             }
-        })
+        }
 
         movieList.swipeLeft {
             viewModel.deleteMovieAt(it)
@@ -57,7 +58,7 @@ class MovieListFragment : BaseFragment(R.layout.fragment_movie_list) {
             R.id.action_create_movie -> {
                 val newMovie = Movie()
                 viewModel.addMovie(newMovie)
-                viewModel.selectedMovies.value = setOf(newMovie)
+                viewModel.movieSelectionManager.selections.value = setOf(newMovie)
                 navigate(R.id.action_create_movie)
                 true
             }

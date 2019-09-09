@@ -13,10 +13,10 @@ class MovieDisplayFragment : BaseFragment(R.layout.fragment_movie_display) {
         val title = view.findViewById<TextView>(R.id.title)
         val description = view.findViewById<TextView>(R.id.description)
 
-        viewModel.selectedMovies.observe(viewLifecycleOwner, Observer {
-            val movie = it.singleOrNull()
+        viewModel.movieSelectionManager.selections.observe(viewLifecycleOwner) {
+            val movie = it?.singleOrNull()
             title.text = movie?.title ?: "(no single movie selected)"
             description.text = movie?.description ?: "(no single movie selected)"
-        })
+        }
     }
 }

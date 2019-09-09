@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/role"
+            android:id="@+id/text1"
             tools:text="Role Name"
             android:textColor="@color/selection_foreground"
             android:layout_margin="8dp"
@@ -24,7 +24,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <TextView
-            android:id="@+id/actor"
+            android:id="@+id/text2"
             tools:text="Actor Name"
             android:textColor="@color/selection_foreground"
             android:layout_margin="8dp"
@@ -36,6 +36,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/delete_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp"

@@ -22,7 +22,7 @@
             app:srcCompat="@drawable/ic_movie_black_24dp"/>
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/text1"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_margin="8dp"

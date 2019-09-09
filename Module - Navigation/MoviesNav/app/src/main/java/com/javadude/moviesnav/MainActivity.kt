@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         override fun onPrepareActionMode(mode: ActionMode, menu: Menu) : Boolean {
-            val numSelections = viewModel.selectedMovies.value?.size ?: 0
+            val numSelections = viewModel.movieSelectionManager.selections.value?.size ?: 0
             mode.title = "$numSelections selected"
             return true
         }

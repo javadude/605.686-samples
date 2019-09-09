@@ -14,6 +14,11 @@ fun <X, Y> LiveData<X>.switchMap(defaultValue : Y?, function : (X?) -> LiveData<
         function(it) ?: MutableLiveData<Y>().apply { this.value = defaultValue }
     }
 
+fun <T> LiveData<T>.observe(lifecycleOwner: LifecycleOwner, observer : (T?) -> Unit) =
+    observe(lifecycleOwner, Observer {
+        observer(it)
+    })
+
 open class MovieViewModel(application: Application) : AndroidViewModel(application) {
     private val executor = Executors.newSingleThreadExecutor()
     private val db = Room.databaseBuilder(application, Database::class.java, "MOVIES")
@@ -51,8 +56,8 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
     val allMovies = db.dao.allMoviesAsync()
     val allActors = db.dao.allActorsAsync()
 
-    val selectedMovies = MutableLiveData<Set<Movie>>()
-    val selectedActors = MutableLiveData<Set<Actor>>()
+    val movieSelectionManager = SelectionManager<Movie>()
+    val actorSelectionManager = SelectionManager<Actor>()
 
     // turns out that kotlin already defines a singleOrNull function...
     //    and here I thought I was being so original...
@@ -62,15 +67,16 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
 //        else
 //            first()
 //
-    val cast = selectedMovies.switchMap(emptyList()) {
+
+    val cast = movieSelectionManager.selections.switchMap(emptyList()) {
         it?.singleOrNull()?.let { movie -> db.dao.rolesForMovieAsync(movie.id) }
     }
 
-    val cast2 = selectedMovies.switchMap(emptyList()) {
+    val cast2 = movieSelectionManager.selections.switchMap(emptyList()) {
         it?.singleOrNull()?.let { actor -> db.dao.rolesForMovieAsync2(actor.id) }
     }
 
-    val filmography = selectedActors.switchMap(emptyList()) {
+    val filmography = actorSelectionManager.selections.switchMap(emptyList()) {
         it?.singleOrNull()?.let { actor -> db.dao.moviesForActorAsync(actor.id) }
     }
 
@@ -115,55 +121,21 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
         db.dao.insert(actor)
     }
 
-
-    val multiMovieSelectMode = MediatorLiveData<Boolean>().apply {
-        value = false
-        addSource(selectedMovies) {
-            value = (it?.size ?: 0) > 1
-        }
-    }
-
-    private fun getSelectedMovieSet() = selectedMovies.value ?: emptySet()
-
-    fun onClicked(movie: Movie, singleSelectAction : () -> Unit) {
-        if (multiMovieSelectMode.value == true) { // handles "null" possibility
-            onIconClicked(movie) // treat like tapping an icon
-        } else {
-            // if in single-select mode, always replace the entire selection
-            selectedMovies.value = setOf(movie)
-            singleSelectAction()
-        }
-    }
-
-    fun onIconClicked(movie: Movie) {
-        // always add/remove selected item from selection
-        var current = getSelectedMovieSet()
-        current = if (movie in current) {
-            current - movie
-        } else {
-            current + movie
-        }
-        multiMovieSelectMode.value = current.isNotEmpty()
-        selectedMovies.value = current
-    }
-
-    fun onLongClicked(movie: Movie) = onIconClicked(movie) // treat the same as clicking the icon
-
     fun deleteSelectedMovies() {
         executor.execute {
-            selectedMovies.value?.let {
+            movieSelectionManager.selections.value?.let {
                 db.dao.delete(*(it.toTypedArray()))
             }
-            selectedMovies.postValue(emptySet())
+            actorSelectionManager.clearSelections()
         }
     }
 
     fun deleteSelectedActors() {
         executor.execute {
-            selectedActors.value?.let {
+            actorSelectionManager.selections.value?.let {
                 db.dao.delete(*(it.toTypedArray()))
             }
-            selectedActors.postValue(emptySet())
+            actorSelectionManager.clearSelections()
         }
     }
 
@@ -173,7 +145,7 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
                 db.dao.delete(it[position])
             }
         }
-        selectedMovies.value = emptySet()
+        movieSelectionManager.clearSelections()
     }
     fun deleteActorAt(position: Int) {
         executor.execute {
@@ -183,3 +155,4 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 }
+
