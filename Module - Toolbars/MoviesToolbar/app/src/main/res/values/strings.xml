@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MoviesToolbar</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_movie">Add Movie</string>
+</resources>

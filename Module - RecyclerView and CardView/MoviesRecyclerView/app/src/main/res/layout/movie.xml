@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/selection_background"
+    android:layout_margin="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical"
+            android:tint="@color/selection_foreground"
+            app:srcCompat="@drawable/ic_movie_black_24dp"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/selection_foreground"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            tools:text="Movie Title" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
