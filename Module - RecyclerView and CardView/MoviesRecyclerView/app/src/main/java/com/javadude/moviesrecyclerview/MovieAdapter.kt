@@ -56,10 +56,8 @@ class MovieAdapter(
         }
         fun bind(movie : Movie) {
             title.text = movie.title
-            val selected = movie in selectedMovies
-            itemView.isSelected = selected
-            icon.isSelected = selected
-            title.isSelected = selected
+            // selection state is inherited by child views! nifty!
+            itemView.isSelected = movie in selectedMovies
         }
     }
 }
