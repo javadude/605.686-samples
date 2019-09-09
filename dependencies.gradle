@@ -23,9 +23,11 @@ ext {
 			]
 		],
 		versionsPlugin: 'com.github.ben-manes:gradle-versions-plugin:0.24.0',
-		navSafeArgsPlugin: 'androidx.navigation:navigation-safe-args-gradle-plugin:2.2.0-alpha01',
-  		navFragment : 'androidx.navigation:navigation-fragment-ktx:2.2.0-alpha01',
-  		navUi : 'androidx.navigation:navigation-ui-ktx:2.2.0-alpha01',
+		navigation : [
+			safeArgsPlugin: 'androidx.navigation:navigation-safe-args-gradle-plugin:2.2.0-alpha01',
+			fragment : 'androidx.navigation:navigation-fragment-ktx:2.2.0-alpha01',
+			ui : 'androidx.navigation:navigation-ui-ktx:2.2.0-alpha01'
+		],
 		quickpermissions : 'com.github.quickpermissions:quickpermissions-kotlin:0.4.1',
 		stetho : 'com.facebook.stetho:stetho:1.5.1',
 		android : [

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/movieListFragment">
+    <fragment
+        android:id="@+id/movieListFragment"
+        android:name="com.javadude.moviesnav.MovieListFragment"
+        android:label="fragment_movie_list"
+        tools:layout="@layout/fragment_movie_list" >
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/movieDisplayFragment" />
+        <action
+            android:id="@+id/action_view_all_actors"
+            app:destination="@id/actorListFragment" />
+        <action
+            android:id="@+id/action_create_movie"
+            app:destination="@id/movieEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/actorListFragment"
+        android:name="com.javadude.moviesnav.ActorListFragment"
+        android:label="fragment_actor_list"
+        tools:layout="@layout/fragment_actor_list" >
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/actorDisplayFragment" />
+        <action
+            android:id="@+id/action_view_movie_list"
+            app:destination="@id/movieListFragment" />
+        <action
+            android:id="@+id/action_create_actor"
+            app:destination="@id/actorEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDisplayFragment"
+        android:name="com.javadude.moviesnav.MovieDisplayFragment"
+        android:label="fragment_movie_display"
+        tools:layout="@layout/fragment_movie_display" >
+        <action
+            android:id="@+id/action_edit_movie"
+            app:destination="@id/movieEditFragment" />
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/actorDisplayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/actorDisplayFragment"
+        android:name="com.javadude.moviesnav.ActorDisplayFragment"
+        android:label="fragment_actor_display"
+        tools:layout="@layout/fragment_actor_display" >
+        <action
+            android:id="@+id/action_edit_actor"
+            app:destination="@id/actorEditFragment" />
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/movieDisplayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieEditFragment"
+        android:name="com.javadude.moviesnav.MovieEditFragment"
+        android:label="fragment_movie_edit"
+        tools:layout="@layout/fragment_movie_edit" />
+    <fragment
+        android:id="@+id/actorEditFragment"
+        android:name="com.javadude.moviesnav.ActorEditFragment"
+        android:label="fragment_actor_edit"
+        tools:layout="@layout/fragment_actor_edit" />
+</navigation>
