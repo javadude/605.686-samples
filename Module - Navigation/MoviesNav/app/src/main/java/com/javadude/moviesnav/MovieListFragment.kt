@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 
 class MovieListFragment : BaseFragment(R.layout.fragment_movie_list) {
@@ -13,14 +12,10 @@ class MovieListFragment : BaseFragment(R.layout.fragment_movie_list) {
         super.onViewCreated(view, savedInstanceState)
         val movieList = view.findViewById<RecyclerView>(R.id.movie_list)
 
-        val adapter = GenericAdapter<Movie>(
+        val adapter = GenericAdapter(
             rowLayoutRes = R.layout.movie,
-            onClicked = {
-                viewModel.movieSelectionManager.onClicked(it, singleSelectAction = {
-                    navigate(R.id.action_display_movie)
-                })
-            },
-            onLongClicked = { viewModel.movieSelectionManager.onLongClicked(it) },
+            selectionManager = viewModel.movieSelectionManager,
+            singleSelectAction = { navigate(R.id.action_display_movie) },
             getText1 = { it.title }
         )
 

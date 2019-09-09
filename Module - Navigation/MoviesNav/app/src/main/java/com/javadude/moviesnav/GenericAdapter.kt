@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class GenericAdapter<T:HasId>(
     @LayoutRes val rowLayoutRes: Int,
-    val onClicked : (T) -> Unit,
-    val onLongClicked : (T) -> Unit,
+    val selectionManager: SelectionManager<T>,
+    val singleSelectAction : () -> Unit,
     val getText1 : (T) -> String,
     val getText2 : (T) -> String = {""}
 ) : RecyclerView.Adapter<GenericAdapter<T>.GenericViewHolder>() {
@@ -53,13 +53,13 @@ class GenericAdapter<T:HasId>(
         private val icon = itemView.findViewById<ImageView>(R.id.icon)
         init {
             itemView.setOnClickListener {
-                onClicked(items[adapterPosition])
+                selectionManager.onClicked(items[adapterPosition], singleSelectAction)
             }
             icon?.setOnClickListener {
-                onLongClicked(items[adapterPosition])
+                selectionManager.onLongClicked(items[adapterPosition])
             }
             itemView.setOnLongClickListener {
-                onLongClicked(items[adapterPosition])
+                selectionManager.onLongClicked(items[adapterPosition])
                 true
             }
         }
