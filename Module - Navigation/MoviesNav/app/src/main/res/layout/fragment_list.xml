@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movie_list"
+    android:id="@+id/recycler_view"
     android:layout_margin="8dp"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     android:orientation="vertical"

@@ -23,11 +23,8 @@ abstract class MovieDao {
     @Query("SELECT * FROM Actor ORDER BY name")
     abstract fun allActorsAsync() : LiveData<List<Actor>>
 
-    @Query("SELECT a.id, a.name, r.roleName, r.`order` FROM Actor a, Role r WHERE r.movieId = :movieId AND r.actorId = a.id ORDER BY r.`order`")
+    @Query("SELECT r.id, a.name AS actorName, r.roleName, r.`order` FROM Actor a, Role r WHERE r.movieId = :movieId AND r.actorId = a.id ORDER BY r.`order`")
     abstract fun rolesForMovieAsync(movieId : String) : LiveData<List<RoleInfo>>
-
-    @Transaction @Query("SELECT * FROM Role WHERE movieId = :movieId ORDER BY `order`")
-    abstract fun rolesForMovieAsync2(movieId : String) : LiveData<List<RoleInfo2>>
 
     @Query("SELECT m.id, m.title, m.description FROM Movie m, Role r WHERE m.id = r.movieId AND r.actorId = :actorId")
     abstract fun moviesForActorAsync(actorId : String) : LiveData<List<Movie>>
@@ -59,4 +56,6 @@ abstract class MovieDao {
     abstract fun deleteMovie(id : String)
     @Query("DELETE FROM Actor WHERE id = :id")
     abstract fun deleteActor(id : String)
+    @Query("DELETE FROM Role WHERE id = :id")
+    abstract fun deleteRole(id : String)
 }

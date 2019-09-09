@@ -1,9 +1,8 @@
 package com.javadude.moviesnav
 
-import androidx.room.Embedded
-
 data class RoleInfo(
-    @Embedded val actor : Actor,
+    override val id : String,
+    val actorName : String,
     val roleName : String,
     val order : Int
-)
+) : HasId

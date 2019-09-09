@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.javadude.moviestoolbar.MainActivity">
     <item
-        android:id="@+id/action_add"
+        android:id="@+id/action_edit"
         android:orderInCategory="1"
-        android:title="@string/add"
-        android:icon="@drawable/ic_add_white_24dp"
+        android:title="@string/edit"
+        android:icon="@drawable/ic_edit_white_24dp"
         app:showAsAction="ifRoom" />
 </menu>

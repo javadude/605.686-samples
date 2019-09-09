@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 // Handler for LEFT-SWIPE = delete
 class Swiper(
     context : Context,
-    private val deleter : (Int) -> Unit) : ItemTouchHelper.SimpleCallback(0,
-    ItemTouchHelper.LEFT
-) {
+    private val deleter : (String) -> Unit)
+        : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
     private val deleteIcon = ContextCompat.getDrawable(
         context,
         R.drawable.ic_delete_sweep_white_24dp
@@ -28,7 +28,11 @@ class Swiper(
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = false // should never get called
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        deleter(viewHolder.adapterPosition)
+        @Suppress("UNCHECKED_CAST")
+        viewHolder as GenericAdapter<*>.GenericViewHolder
+        viewHolder.itemId?.let {
+            deleter(it)
+        } ?: throw IllegalStateException("Viewholder is missing its itemId; that should not happen")
     }
 
     override fun onChildDraw(

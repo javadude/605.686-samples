@@ -23,7 +23,7 @@ class GenericAdapter<T:HasId>(
     val selectionManager: SelectionManager<T>,
     val singleSelectAction : () -> Unit,
     val getText1 : (T) -> String,
-    val getText2 : (T) -> String = {""}
+    val getText2 : (T) -> String
 ) : RecyclerView.Adapter<GenericAdapter<T>.GenericViewHolder>() {
     var selections : Set<T> = emptySet()
         set(value) {
@@ -51,6 +51,7 @@ class GenericAdapter<T:HasId>(
         private val text1 = itemView.findViewById<TextView>(R.id.text1)
         private val text2 = itemView.findViewById<TextView>(R.id.text2)
         private val icon = itemView.findViewById<ImageView>(R.id.icon)
+        var itemId : String? = null
         init {
             itemView.setOnClickListener {
                 selectionManager.onClicked(items[adapterPosition], singleSelectAction)
@@ -63,7 +64,9 @@ class GenericAdapter<T:HasId>(
                 true
             }
         }
+
         fun bind(item : T) {
+            this.itemId = item.id
             text1?.text = getText1(item)
             text2?.text = getText2(item)
             // selection state is inherited by child views! nifty!

@@ -3,10 +3,11 @@ package com.javadude.moviesnav
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(
-    primaryKeys = ["movieId", "order"],
-    indices = [Index("actorId")], // for @Relation
+    indices = [Index("actorId"), Index("movieId")], // for @Relation
     foreignKeys = [
         ForeignKey(
             entity = Movie::class,
@@ -25,8 +26,9 @@ import androidx.room.Index
     ]
 )
 data class Role(
+    @PrimaryKey override var id : String = UUID.randomUUID().toString(),
     var movieId : String,
     var actorId : String,
-    var roleName : String,
+    var roleName : String = "",
     var order : Int
-)
+) : HasId

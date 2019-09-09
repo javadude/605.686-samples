@@ -34,15 +34,5 @@
             android:gravity="end"
             android:layout_gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/delete_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:visibility="gone"
-            android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/ic_clear_red_24dp" />
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

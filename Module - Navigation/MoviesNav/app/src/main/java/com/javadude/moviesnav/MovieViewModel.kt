@@ -39,14 +39,14 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
                 db.execSQL("INSERT INTO Actor (id, name) VALUES('a5', 'Kevin Hart')")
 
 
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m1', 'a1', 'Frank Martin', 1)")
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m1', 'a3', 'Lai', 2)")
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m2', 'a1', 'Frank Martin', 1)")
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m2', 'a4', 'Audrey Billings', 2)")
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m3', 'a2', 'Hobbs', 1)")
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m3', 'a1', 'Shaw', 2)")
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m4', 'a2', 'Spencer', 1)")
-                db.execSQL("INSERT INTO Role (movieId, actorId, roleName, `order`) VALUES('m4', 'a5', 'Fridge', 2)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r1', 'm1', 'a1', 'Frank Martin', 1)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r2', 'm1', 'a3', 'Lai', 2)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r3', 'm2', 'a1', 'Frank Martin', 1)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r4', 'm2', 'a4', 'Audrey Billings', 2)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r5', 'm3', 'a2', 'Hobbs', 1)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r6', 'm3', 'a1', 'Shaw', 2)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r7', 'm4', 'a2', 'Spencer', 1)")
+                db.execSQL("INSERT INTO Role (id, movieId, actorId, roleName, `order`) VALUES('r8', 'm4', 'a5', 'Fridge', 2)")
             }
         })
         .build()
@@ -58,6 +58,7 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
 
     val movieSelectionManager = SelectionManager<Movie>()
     val actorSelectionManager = SelectionManager<Actor>()
+    val roleInfoSelectionManager = SelectionManager<RoleInfo>()
 
     // turns out that kotlin already defines a singleOrNull function...
     //    and here I thought I was being so original...
@@ -70,10 +71,6 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
 
     val cast = movieSelectionManager.selections.switchMap(emptyList()) {
         it?.singleOrNull()?.let { movie -> db.dao.rolesForMovieAsync(movie.id) }
-    }
-
-    val cast2 = movieSelectionManager.selections.switchMap(emptyList()) {
-        it?.singleOrNull()?.let { actor -> db.dao.rolesForMovieAsync2(actor.id) }
     }
 
     val filmography = actorSelectionManager.selections.switchMap(emptyList()) {
@@ -139,19 +136,20 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun deleteMovieAt(position: Int) {
+    fun deleteMovieById(id: String) {
         executor.execute {
-            allMovies.value?.let {
-                db.dao.delete(it[position])
-            }
+            db.dao.deleteMovie(id)
         }
         movieSelectionManager.clearSelections()
     }
-    fun deleteActorAt(position: Int) {
+    fun deleteActorById(id: String) {
         executor.execute {
-            allActors.value?.let {
-                db.dao.delete(it[position])
-            }
+            db.dao.deleteActor(id)
+        }
+    }
+    fun deleteRoleById(id: String) {
+        executor.execute {
+            db.dao.deleteRole(id)
         }
     }
 }
