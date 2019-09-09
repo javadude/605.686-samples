@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
 
         val adapter = MovieAdapter2(
-            onClicked = { viewModel.onClicked(it) },
-            onIconClicked = { viewModel.onIconClicked(it) },
+            onClicked = viewModel::onClicked, // function reference!
+            onIconClicked = { viewModel.onIconClicked(it) }, // normal lambda
             onLongClicked = { viewModel.onLongClicked(it) }
         )
 
@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
 
         // selection support
         viewModel.selectedMovies.observe(this, Observer {
-            adapter.selectedMovies = it
+            adapter.selectedMovies = it ?: emptySet()
+            actionMode?.invalidate()
         })
 
         // adding contextual action mode when multiple items selected
@@ -101,7 +102,11 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
 
-        override fun onPrepareActionMode(mode: ActionMode, menu: Menu) = false
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu) : Boolean {
+            val numSelections = viewModel.selectedMovies.value?.size ?: 0
+            mode.title = "$numSelections selected"
+            return true
+        }
         override fun onDestroyActionMode(mode: ActionMode) {
             actionMode = null
         }

@@ -58,6 +58,7 @@ class MovieAdapter(
             title.text = movie.title
             val selected = movie in selectedMovies
             itemView.isSelected = selected
+            icon.isSelected = selected
             title.isSelected = selected
         }
     }

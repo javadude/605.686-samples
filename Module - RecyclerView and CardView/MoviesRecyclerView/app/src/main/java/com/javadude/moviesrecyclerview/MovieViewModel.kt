@@ -114,7 +114,12 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
     }
 
 
-    val multiMovieSelectMode = MutableLiveData<Boolean>().apply { value = false }
+    val multiMovieSelectMode = MediatorLiveData<Boolean>().apply {
+        value = false
+        addSource(selectedMovies) {
+            value = it?.isNotEmpty() == true
+        }
+    }
 
     private fun getSelectedMovieSet() = selectedMovies.value ?: emptySet()
 
@@ -165,6 +170,7 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
                 db.dao.delete(it[position])
             }
         }
+        selectedMovies.value = emptySet()
     }
     fun deleteActorAt(position: Int) {
         executor.execute {
