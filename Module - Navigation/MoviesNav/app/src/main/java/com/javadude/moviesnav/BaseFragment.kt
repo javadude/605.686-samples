@@ -3,10 +3,7 @@ package com.javadude.moviesnav
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
@@ -20,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutId : Int, @MenuRes val menuId : Int = -1) : Fragment() {
+    open val isTopLevelForDestination = true
     lateinit var viewModel : MovieViewModel
     private val mainActivity : MainActivity?
         get() = activity as MainActivity?
@@ -33,19 +31,35 @@ abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (menuId != -1) {
-            setHasOptionsMenu(true)
-        }
+        setHasOptionsMenu(true)
         if (titleId != -1) {
             activity?.title = getString(titleId)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        if (isTopLevelForDestination) { // so we don't add extra "about" icons on the toolbar
+                                        //    when we have nested fragments
+            inflater.inflate(R.menu.menu_main, menu)
+        }
         if (menuId != -1) {
             inflater.inflate(menuId, menu)
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_about -> {
+                navigate(R.id.action_global_about)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(layoutId, container, false)
 

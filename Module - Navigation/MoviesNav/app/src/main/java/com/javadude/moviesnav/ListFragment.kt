@@ -34,6 +34,7 @@ class MovieListFragment : ListFragment<Movie>(R.string.movies, true, true, R.men
 }
 
 class FilmographyListFragment : ListFragment<Movie>(-1, false, true) {
+    override val isTopLevelForDestination = false
     override fun startDeleteMode() = throw IllegalStateException("Should not be called")
     override fun deleteItemById(id: String) = throw IllegalStateException("Should not be called")
     override fun getText1(item: Movie) = item.title
@@ -50,6 +51,7 @@ class MultiSelectActorListFragment : ActorListFragment(true, R.menu.menu_actor_l
     override fun getCreationNavigation(id: String) = MultiSelectActorListFragmentDirections.actionCreateActor(id)
 }
 class SingleSelectActorListFragment : ActorListFragment(false) {
+    override val isTopLevelForDestination = false
     override fun getSingleSelectNavigation(item : Actor) : NavDirections? = null
     override fun getCreationNavigation(id: String) = throw IllegalStateException("Should never happen")
 }
@@ -83,6 +85,7 @@ class MovieEditRoleInfoListFragment : RoleInfoListFragment() {
 }
 
 abstract class RoleInfoListFragment : ListFragment<RoleInfo>(-1, false, true) {
+    override val isTopLevelForDestination = false
     override fun startDeleteMode() { startActorDeleteMode() }
     override fun deleteItemById(id: String) = viewModel.deleteRoleById(id)
     override fun getText1(item: RoleInfo) = item.roleName

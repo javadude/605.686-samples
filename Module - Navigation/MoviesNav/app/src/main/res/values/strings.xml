@@ -25,4 +25,5 @@
     <string name="role">Role</string>
     <string name="role_name">Role Name</string>
     <string name="order_in_credits">Order In Credits</string>
+    <string name="this_is_a_movie_application">This is a movie application</string>
 </resources>
