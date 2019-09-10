@@ -5,8 +5,6 @@ import androidx.lifecycle.*
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import java.io.PrintWriter
-import java.io.StringWriter
 import java.util.concurrent.Executors
 
 fun <X, Y> LiveData<X>.switchMap(defaultValue : Y?, function : (X?) -> LiveData<Y>?): LiveData<Y> =
@@ -51,8 +49,6 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
         })
         .build()
 
-    val message = MutableLiveData<String>().apply { value = "" }
-
     val allMovies = db.dao.allMoviesAsync()
     val allActors = db.dao.allActorsAsync()
 
@@ -63,12 +59,12 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
 
     // turns out that kotlin already defines a singleOrNull function...
     //    and here I thought I was being so original...
-//    fun <E> Set<E>.singleOrNull() =
-//        if (size != 1)
-//            null
-//        else
-//            first()
-//
+    //    fun <E> Set<E>.singleOrNull() =
+    //        if (size != 1)
+    //            null
+    //        else
+    //            first()
+    //
 
     val cast = movieSelectionManager.selections.switchMap(emptyList()) {
         it?.singleOrNull()?.let { movie -> db.dao.rolesForMovieAsync(movie.id) }
@@ -78,42 +74,8 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
         it?.singleOrNull()?.let { actor -> db.dao.moviesForActorAsync(actor.id) }
     }
 
-    fun deleteMovie(movieId : String) {
-        executor.execute {
-            try {
-                db.dao.deleteMovie(movieId)
-            } catch (t : Throwable) {
-                postStackTraceAsMessage(t)
-            }
-        }
-    }
-
-    fun deleteActor(actorId : String) {
-        executor.execute {
-            try {
-                db.dao.deleteActor(actorId)
-            } catch (t : Throwable) {
-                postStackTraceAsMessage(t)
-            }
-        }
-    }
-
-    private fun postStackTraceAsMessage(t : Throwable) {
-        StringWriter().use { sw ->
-            PrintWriter(sw).use { pw ->
-                t.printStackTrace(pw)
-            }
-            message.postValue(sw.toString())
-        }
-    }
-
-    fun addMovie(movie: Movie, vararg roles : Role) = executor.execute {
+    fun addMovie(movie: Movie) = executor.execute {
         db.dao.insert(movie)
-//        roles.forEach {
-//            db.dao.insert(it)
-//        }
-        // or
-        db.dao.insert(*roles)
     }
     fun addActor(actor: Actor) = executor.execute {
         db.dao.insert(actor)

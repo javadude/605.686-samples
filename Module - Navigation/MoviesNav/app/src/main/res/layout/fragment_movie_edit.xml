@@ -68,6 +68,7 @@
     <fragment
         android:id="@+id/cast_list"
         android:name="com.javadude.moviesnav.MovieEditRoleInfoListFragment"
+        tools:layout="@layout/tools_cast_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>

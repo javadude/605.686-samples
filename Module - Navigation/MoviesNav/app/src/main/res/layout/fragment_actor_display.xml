@@ -35,6 +35,7 @@
         android:id="@+id/filmography"
         android:name="com.javadude.moviesnav.FilmographyListFragment"
         android:layout_width="match_parent"
+        tools:layout="@layout/tools_movie_list"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 </LinearLayout>

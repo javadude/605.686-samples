@@ -8,7 +8,7 @@
         android:id="@+id/movieListFragment"
         android:name="com.javadude.moviesnav.MovieListFragment"
         android:label="fragment_movie_list"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/tools_movie_list">
         <action
             android:id="@+id/action_display_movie"
             app:destination="@id/movieDisplayFragment" />
@@ -23,7 +23,7 @@
         android:id="@+id/actorListFragment"
         android:name="com.javadude.moviesnav.MultiSelectActorListFragment"
         android:label="fragment_actor_list"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/tools_actor_list">
         <action
             android:id="@+id/action_display_actor"
             app:destination="@id/actorDisplayFragment" />
@@ -38,7 +38,7 @@
         android:id="@+id/movieDisplayFragment"
         android:name="com.javadude.moviesnav.MovieDisplayFragment"
         android:label="fragment_movie_display"
-        tools:layout="@layout/fragment_movie_display" >
+        tools:layout="@layout/fragment_movie_display">
         <action
             android:id="@+id/action_edit_movie"
             app:destination="@id/movieEditFragment" />
@@ -53,7 +53,7 @@
         android:id="@+id/actorDisplayFragment"
         android:name="com.javadude.moviesnav.ActorDisplayFragment"
         android:label="fragment_actor_display"
-        tools:layout="@layout/fragment_actor_display" >
+        tools:layout="@layout/fragment_actor_display">
         <action
             android:id="@+id/action_edit_actor"
             app:destination="@id/actorEditFragment" />
@@ -68,7 +68,7 @@
         android:id="@+id/movieEditFragment"
         android:name="com.javadude.moviesnav.MovieEditFragment"
         android:label="fragment_movie_edit"
-        tools:layout="@layout/fragment_movie_edit" >
+        tools:layout="@layout/fragment_movie_edit">
         <argument
             android:name="movieId"
             app:argType="string" />
@@ -80,7 +80,7 @@
         android:id="@+id/actorEditFragment"
         android:name="com.javadude.moviesnav.ActorEditFragment"
         android:label="fragment_actor_edit"
-        tools:layout="@layout/fragment_actor_edit" >
+        tools:layout="@layout/fragment_actor_edit">
         <argument
             android:name="actorId"
             app:argType="string" />
@@ -89,7 +89,7 @@
         android:id="@+id/roleEditFragment"
         android:name="com.javadude.moviesnav.RoleEditFragment"
         android:label="fragment_role_edit"
-        tools:layout="@layout/fragment_role_edit" >
+        tools:layout="@layout/fragment_role_edit">
         <argument
             android:name="roleId"
             app:argType="string"

@@ -1,7 +1,0 @@
-<resources>
-	<string name="app_name">Nav2</string>
-	<string name="title_activity_tabbed1">TabbedActivity1</string>
-	<string name="action_settings">Settings</string>
-	<string name="section_format">Hello World from section: %1$d</string>
-	<string name="title_activity_tabbed2">TabbedActivity2</string>
-</resources>
