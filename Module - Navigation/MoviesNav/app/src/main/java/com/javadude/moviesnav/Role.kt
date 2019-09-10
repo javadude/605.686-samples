@@ -27,8 +27,8 @@ import java.util.*
 )
 data class Role(
     @PrimaryKey override var id : String = UUID.randomUUID().toString(),
-    var movieId : String,
-    var actorId : String,
+    var movieId : String = "",
+    var actorId : String = "",
     var roleName : String = "",
-    var order : Int
+    var order : Int = 1
 ) : HasId

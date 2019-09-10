@@ -59,6 +59,7 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
     val movieSelectionManager = SelectionManager<Movie>()
     val actorSelectionManager = SelectionManager<Actor>()
     val roleInfoSelectionManager = SelectionManager<RoleInfo>()
+    val roleSelectionManager = SelectionManager<Role>()
 
     // turns out that kotlin already defines a singleOrNull function...
     //    and here I thought I was being so original...
@@ -117,6 +118,9 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
     fun addActor(actor: Actor) = executor.execute {
         db.dao.insert(actor)
     }
+    fun addRole(role : Role) = executor.execute {
+        db.dao.insert(role)
+    }
 
     fun deleteSelectedMovies() {
         executor.execute {
@@ -152,5 +156,24 @@ open class MovieViewModel(application: Application) : AndroidViewModel(applicati
             db.dao.deleteRole(id)
         }
     }
+    fun selectMovie(id: String) =
+        movieSelectionManager.selectWhenReady(db.dao.getMovieAsync(id))
+    fun selectActor(id: String) =
+        actorSelectionManager.selectWhenReady(db.dao.getActorAsync(id))
+    fun selectRole(id: String) =
+        roleSelectionManager.selectWhenReady(db.dao.getRoleAsync(id))
+
+    fun save(movie : Movie) =
+        executor.execute {
+            db.dao.update(movie)
+        }
+    fun save(actor : Actor) =
+        executor.execute {
+            db.dao.update(actor)
+        }
+    fun save(role : Role) =
+        executor.execute {
+            db.dao.update(role)
+        }
 }
 

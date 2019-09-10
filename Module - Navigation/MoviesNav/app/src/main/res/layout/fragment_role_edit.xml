@@ -2,25 +2,27 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MovieDisplayFragment">
+    tools:context=".RoleEditFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:labelFor="@id/role"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/title" />
+        android:text="@string/role_name" />
 
-    <TextView
-        android:id="@+id/title"
+    <EditText
+        android:id="@+id/role"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        tools:text="Movie Title"
+        android:inputType="textCapWords"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:importantForAutofill="no" />
 
@@ -28,30 +30,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:labelFor="@id/order"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/description" />
+        android:text="@string/order_in_credits" />
 
-    <TextView
-        android:id="@+id/description"
+    <EditText
+        android:id="@+id/order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        tools:text="Movie Description"
+        android:inputType="number"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:importantForAutofill="no" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/cast" />
+        android:text="@string/actor" />
 
     <fragment
-        android:id="@+id/cast_list"
-        android:name="com.javadude.moviesnav.MovieDisplayRoleInfoListFragment"
+        android:id="@+id/actor_list"
+        android:name="com.javadude.moviesnav.SingleSelectActorListFragment"
         android:layout_width="match_parent"
-        tools:layout="@layout/fragment_list"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 </LinearLayout>

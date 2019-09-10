@@ -8,7 +8,7 @@
         android:id="@+id/movieListFragment"
         android:name="com.javadude.moviesnav.MovieListFragment"
         android:label="fragment_movie_list"
-        tools:layout="@layout/fragment_movie_list" >
+        tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_display_movie"
             app:destination="@id/movieDisplayFragment" />
@@ -21,14 +21,14 @@
     </fragment>
     <fragment
         android:id="@+id/actorListFragment"
-        android:name="com.javadude.moviesnav.ActorListFragment"
+        android:name="com.javadude.moviesnav.MultiSelectActorListFragment"
         android:label="fragment_actor_list"
-        tools:layout="@layout/fragment_actor_list" >
+        tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_display_actor"
             app:destination="@id/actorDisplayFragment" />
         <action
-            android:id="@+id/action_view_movie_list"
+            android:id="@+id/action_view_all_movies"
             app:destination="@id/movieListFragment" />
         <action
             android:id="@+id/action_create_actor"
@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_display_actor"
             app:destination="@id/actorDisplayFragment" />
+        <argument
+            android:name="movieId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/actorDisplayFragment"
@@ -57,15 +60,43 @@
         <action
             android:id="@+id/action_display_movie"
             app:destination="@id/movieDisplayFragment" />
+        <argument
+            android:name="actorId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/movieEditFragment"
         android:name="com.javadude.moviesnav.MovieEditFragment"
         android:label="fragment_movie_edit"
-        tools:layout="@layout/fragment_movie_edit" />
+        tools:layout="@layout/fragment_movie_edit" >
+        <argument
+            android:name="movieId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_edit_role"
+            app:destination="@id/roleEditFragment" />
+    </fragment>
     <fragment
         android:id="@+id/actorEditFragment"
         android:name="com.javadude.moviesnav.ActorEditFragment"
         android:label="fragment_actor_edit"
-        tools:layout="@layout/fragment_actor_edit" />
+        tools:layout="@layout/fragment_actor_edit" >
+        <argument
+            android:name="actorId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/roleEditFragment"
+        android:name="com.javadude.moviesnav.RoleEditFragment"
+        android:label="fragment_role_edit"
+        tools:layout="@layout/fragment_role_edit" >
+        <argument
+            android:name="roleId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="movieId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

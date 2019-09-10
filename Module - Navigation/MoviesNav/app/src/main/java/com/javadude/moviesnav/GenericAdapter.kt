@@ -20,8 +20,9 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class GenericAdapter<T:HasId>(
     @LayoutRes val rowLayoutRes: Int,
+    val multiSelectAllowed : Boolean,
     val selectionManager: SelectionManager<T>,
-    val singleSelectAction : () -> Unit,
+    val singleSelectAction : (T) -> Unit,
     val getText1 : (T) -> String,
     val getText2 : (T) -> String
 ) : RecyclerView.Adapter<GenericAdapter<T>.GenericViewHolder>() {
@@ -54,13 +55,13 @@ class GenericAdapter<T:HasId>(
         var itemId : String? = null
         init {
             itemView.setOnClickListener {
-                selectionManager.onClicked(items[adapterPosition], singleSelectAction)
+                selectionManager.onClicked(multiSelectAllowed, items[adapterPosition], singleSelectAction)
             }
             icon?.setOnClickListener {
-                selectionManager.onLongClicked(items[adapterPosition])
+                selectionManager.onLongClicked(multiSelectAllowed, items[adapterPosition], singleSelectAction)
             }
             itemView.setOnLongClickListener {
-                selectionManager.onLongClicked(items[adapterPosition])
+                selectionManager.onLongClicked(multiSelectAllowed, items[adapterPosition], singleSelectAction)
                 true
             }
         }

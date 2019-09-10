@@ -17,13 +17,16 @@ abstract class MovieDao {
     @Query("SELECT * FROM Movie WHERE id = :id")
     abstract fun getMovieAsync(id : String) : LiveData<Movie>
 
+    @Query("SELECT * FROM Role WHERE id = :id")
+    abstract fun getRoleAsync(id : String) : LiveData<Role>
+
     @Query("SELECT * FROM Movie ORDER BY title")
     abstract fun allMoviesAsync() : LiveData<List<Movie>>
 
     @Query("SELECT * FROM Actor ORDER BY name")
     abstract fun allActorsAsync() : LiveData<List<Actor>>
 
-    @Query("SELECT r.id, a.name AS actorName, r.roleName, r.`order` FROM Actor a, Role r WHERE r.movieId = :movieId AND r.actorId = a.id ORDER BY r.`order`")
+    @Query("SELECT r.id, a.id as actorId, a.name AS actorName, r.roleName, r.`order` FROM Actor a, Role r WHERE r.movieId = :movieId AND r.actorId = a.id ORDER BY r.`order`")
     abstract fun rolesForMovieAsync(movieId : String) : LiveData<List<RoleInfo>>
 
     @Query("SELECT m.id, m.title, m.description FROM Movie m, Role r WHERE m.id = r.movieId AND r.actorId = :actorId")

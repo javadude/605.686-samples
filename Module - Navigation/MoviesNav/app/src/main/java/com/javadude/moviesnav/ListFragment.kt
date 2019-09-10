@@ -3,73 +3,110 @@ package com.javadude.moviesnav
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.MenuRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.RecyclerView
 
-class MovieListFragment : ListFragment<Movie>(true) {
+class MovieListFragment : ListFragment<Movie>(R.string.movies, true, true, R.menu.menu_movie_list) {
     override fun startDeleteMode() { startMovieDeleteMode() }
     override fun deleteItemById(id: String) = viewModel.deleteMovieById(id)
-
-    override val getText1 = { movie: Movie -> movie.title }
+    override fun getText1(item: Movie) = item.title
     override val rowLayoutRes = R.layout.movie
-    override val singleSelectAction : () -> Unit = { navigate(R.id.action_display_movie) }
-    override val selectionManager : SelectionManager<Movie>
-        get() = viewModel.movieSelectionManager
-    override val allItems: LiveData<List<Movie>>
-        get() = viewModel.allMovies
-    override val createNavigationAction = R.id.action_create_movie
-
+    override fun getSingleSelectNavigation(item : Movie) = MovieListFragmentDirections.actionDisplayMovie(item.id)
+    override fun getSelectionManager() = viewModel.movieSelectionManager
+    override fun getAllItems() = viewModel.allMovies
+    override fun getCreationNavigation(id: String) = MovieListFragmentDirections.actionCreateMovie(id)
     override fun createNewItem() =
         Movie().apply {
             viewModel.addMovie(this)
         }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when(item.itemId) {
+            R.id.action_view_all_actors -> {
+                navigate(MovieListFragmentDirections.actionViewAllActors())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }
 
-class ActorListFragment : ListFragment<Actor>(true) {
+class FilmographyListFragment : ListFragment<Movie>(-1, false, true) {
+    override fun startDeleteMode() = throw IllegalStateException("Should not be called")
+    override fun deleteItemById(id: String) = throw IllegalStateException("Should not be called")
+    override fun getText1(item: Movie) = item.title
+    override val rowLayoutRes = R.layout.movie
+    override fun getSingleSelectNavigation(item : Movie) = ActorDisplayFragmentDirections.actionDisplayMovie(item.id)
+    override fun getSelectionManager() = viewModel.movieSelectionManager
+    override fun getAllItems() = viewModel.filmography
+    override fun getCreationNavigation(id: String) = throw IllegalStateException("should never be called")
+    override fun createNewItem() = throw IllegalStateException("Should never be called")
+}
+
+class MultiSelectActorListFragment : ActorListFragment(true, R.menu.menu_actor_list) {
+    override fun getSingleSelectNavigation(item : Actor) = MultiSelectActorListFragmentDirections.actionDisplayActor(item.id)
+    override fun getCreationNavigation(id: String) = MultiSelectActorListFragmentDirections.actionCreateActor(id)
+}
+class SingleSelectActorListFragment : ActorListFragment(false) {
+    override fun getSingleSelectNavigation(item : Actor) : NavDirections? = null
+    override fun getCreationNavigation(id: String) = throw IllegalStateException("Should never happen")
+}
+
+abstract class ActorListFragment(multiSelectAllowed : Boolean, @MenuRes menuId : Int = -1) : ListFragment<Actor>(R.string.actors, true, multiSelectAllowed, menuId) {
     override fun startDeleteMode() { startActorDeleteMode() }
     override fun deleteItemById(id: String) = viewModel.deleteActorById(id)
-
-    override val getText1 = { actor:Actor -> actor.name }
+    override fun getText1(item:Actor) = item.name
     override val rowLayoutRes = R.layout.actor
-    override val singleSelectAction : () -> Unit = { navigate(R.id.action_display_actor) }
-    override val selectionManager : SelectionManager<Actor>
-        get() = viewModel.actorSelectionManager
-    override val allItems: LiveData<List<Actor>>
-        get() = viewModel.allActors
-    override val createNavigationAction = R.id.action_create_actor
-
+    override fun getSelectionManager() = viewModel.actorSelectionManager
+    override fun getAllItems() = viewModel.allActors
     override fun createNewItem() =
         Actor().apply {
             viewModel.addActor(this)
         }
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when(item.itemId) {
+            R.id.action_view_all_movies -> {
+                navigate(MultiSelectActorListFragmentDirections.actionViewAllMovies())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }
 
-class RoleInfoListFragment : ListFragment<RoleInfo>(false) {
+class MovieDisplayRoleInfoListFragment : RoleInfoListFragment() {
+    override fun getSingleSelectNavigation(item : RoleInfo) = MovieDisplayFragmentDirections.actionDisplayActor(item.actorId)
+}
+class MovieEditRoleInfoListFragment : RoleInfoListFragment() {
+    override fun getSingleSelectNavigation(item : RoleInfo) = MovieEditFragmentDirections.actionEditRole(item.id, viewModel.movieSelectionManager.selections.value?.singleOrNull()?.id)
+}
+
+abstract class RoleInfoListFragment : ListFragment<RoleInfo>(-1, false, true) {
     override fun startDeleteMode() { startActorDeleteMode() }
     override fun deleteItemById(id: String) = viewModel.deleteRoleById(id)
-
-    override val getText1 = { roleInfo: RoleInfo -> roleInfo.roleName }
-    override val getText2 = { roleInfo: RoleInfo -> roleInfo.actorName }
+    override fun getText1(item: RoleInfo) = item.roleName
+    override fun getText2(item: RoleInfo) = item.actorName
     override val rowLayoutRes = R.layout.cast_entry
-    override val singleSelectAction : () -> Unit = { navigate(R.id.action_display_actor) }
-    override val selectionManager : SelectionManager<RoleInfo>
-        get() = viewModel.roleInfoSelectionManager
-    override val allItems: LiveData<List<RoleInfo>>
-        get() = viewModel.cast
-    override val createNavigationAction = R.id.action_create_actor
-
+    override fun getSelectionManager() = viewModel.roleInfoSelectionManager
+    override fun getAllItems() = viewModel.cast
+    override fun getCreationNavigation(id: String) = throw IllegalStateException("should never be called")
     override fun createNewItem() = throw IllegalStateException("Should never be called")
 }
 
-abstract class ListFragment<T:HasId>(createAllowed : Boolean)
-        : BaseFragment(R.layout.fragment_list, if (createAllowed) R.menu.menu_list else -1) {
-    abstract val allItems : LiveData<List<T>>
+abstract class ListFragment<T:HasId>(@StringRes titleId : Int,
+                                     private val deleteAllowed : Boolean,
+                                     private val multiSelectAllowed : Boolean,
+                                     @MenuRes menuId : Int = -1)
+        : BaseFragment(titleId, R.layout.fragment_list, menuId) {
     abstract val rowLayoutRes : Int
-    abstract val selectionManager : SelectionManager<T>
-    abstract val singleSelectAction : () -> Unit
-    abstract val createNavigationAction : Int
-    abstract val getText1 : (T) -> String
-    open val getText2 : (T) -> String = {""}
+    abstract fun getAllItems() : LiveData<List<T>>
+    abstract fun getSelectionManager() : SelectionManager<T>
+    abstract fun getText1(item : T) : String
+    open fun getText2(item : T) = ""
+    abstract fun getSingleSelectNavigation(item : T) : NavDirections?
+    abstract fun createNewItem() : T
+    abstract fun getCreationNavigation(id : String) : NavDirections
     abstract fun startDeleteMode()
     abstract fun deleteItemById(id : String)
 
@@ -77,44 +114,47 @@ abstract class ListFragment<T:HasId>(createAllowed : Boolean)
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
 
-        val adapter = GenericAdapter(rowLayoutRes, selectionManager, singleSelectAction, getText1, getText2)
+        val adapter = GenericAdapter(rowLayoutRes, multiSelectAllowed, getSelectionManager(), { getSingleSelectNavigation(it)?.let {dir -> navigate(dir)} }, ::getText1, ::getText2)
 
         recyclerView.adapter = adapter
 
-        allItems.observe(this) {
+        getAllItems().observe(this) {
             adapter.items = it ?: emptyList()
         }
 
         // selection support
-        selectionManager.selections.observe(this) {
+        getSelectionManager().selections.observe(this) {
             adapter.selections = it ?: emptySet()
-            invalidateActionMode()
-        }
-
-        // adding contextual action mode when multiple items selected
-        selectionManager.multiSelectMode.observe(this) {
-            if (it == true) { // handles null as false...
-                startDeleteMode()
-            } else {
-                dismissActionMode()
+            if (deleteAllowed) {
+                invalidateActionMode()
             }
         }
 
-        recyclerView.swipeLeft {
-            deleteItemById(it)
+        // adding contextual action mode when multiple items selected
+        if (deleteAllowed) {
+            getSelectionManager().multiSelectMode.observe(this) {
+                if (it == true) { // handles null as false...
+                    startDeleteMode()
+                } else {
+                    dismissActionMode()
+                }
+            }
+
+            recyclerView.swipeLeft {
+                deleteItemById(it)
+            }
         }
     }
-
-    abstract fun createNewItem() : T
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.action_add -> {
                 val newItem = createNewItem()
-                selectionManager.selections.value = setOf(newItem)
-                navigate(createNavigationAction)
+                getSelectionManager().selections.value = setOf(newItem)
+                navigate(getCreationNavigation(newItem.id))
                 true
             }
             else ->super.onOptionsItemSelected(item)
         }
+
 }

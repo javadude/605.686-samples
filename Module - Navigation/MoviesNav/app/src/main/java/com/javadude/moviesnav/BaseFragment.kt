@@ -10,14 +10,16 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseFragment(@LayoutRes val layoutId : Int, @MenuRes val menuId : Int = -1) : Fragment() {
+abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutId : Int, @MenuRes val menuId : Int = -1) : Fragment() {
     lateinit var viewModel : MovieViewModel
     private val mainActivity : MainActivity?
         get() = activity as MainActivity?
@@ -33,6 +35,9 @@ abstract class BaseFragment(@LayoutRes val layoutId : Int, @MenuRes val menuId :
         super.onCreate(savedInstanceState)
         if (menuId != -1) {
             setHasOptionsMenu(true)
+        }
+        if (titleId != -1) {
+            activity?.title = getString(titleId)
         }
     }
 
@@ -50,6 +55,7 @@ abstract class BaseFragment(@LayoutRes val layoutId : Int, @MenuRes val menuId :
     fun dismissActionMode() = mainActivity?.dismissActionMode()
 
     fun navigate(@IdRes action : Int) = view?.findNavController()?.navigate(action)
+    fun navigate(action : NavDirections) = view?.findNavController()?.navigate(action)
 
     // adding in "swipe to delete" capability
     // NOTE: activity!! is ok here as onViewCreated() is only called when
