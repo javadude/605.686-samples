@@ -8,21 +8,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 // Handler for LEFT-SWIPE = delete
-class Swiper(
-    context : Context,
-    private val deleter : (String) -> Unit)
-        : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+class Swiper(context : Context,                     // to get resources
+             private val deleter : (String) -> Unit // to perform the actual deletions
+    ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
-    private val deleteIcon = ContextCompat.getDrawable(
-        context,
-        R.drawable.ic_delete_sweep_white_24dp
-    )
-    private val background = ColorDrawable(
-        ContextCompat.getColor(
-            context,
-            R.color.delete_swipe_background
-        )
-    )
+    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete_sweep_white_24dp)
+    private val background = ColorDrawable(ContextCompat.getColor(context, R.color.delete_swipe_background))
     private val deleteIconMargin = context.resources.getDimension(R.dimen.delete_icon_margin).toInt()
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = false // should never get called
@@ -35,15 +26,14 @@ class Swiper(
         } ?: throw IllegalStateException("Viewholder is missing its itemId; that should not happen")
     }
 
-    override fun onChildDraw(
-        c: Canvas,
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder,
-        dX: Float,
-        dY: Float,
-        actionState: Int,
-        isCurrentlyActive: Boolean
-    ) {
+    override fun onChildDraw(c: Canvas,
+                             recyclerView: RecyclerView,
+                             viewHolder: RecyclerView.ViewHolder,
+                             dX: Float,
+                             dY: Float,
+                             actionState: Int,
+                             isCurrentlyActive: Boolean) {
+
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
         // get the bounds of the viewHolder
