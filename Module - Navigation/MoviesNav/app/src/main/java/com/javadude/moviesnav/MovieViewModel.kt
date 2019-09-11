@@ -12,7 +12,7 @@ fun <X, Y> LiveData<X>.switchMap(defaultValue : Y?, function : (X?) -> LiveData<
         function(it) ?: MutableLiveData<Y>().apply { this.value = defaultValue }
     }
 
-fun <T> LiveData<T>.observe(lifecycleOwner: LifecycleOwner, observer : (T?) -> Unit) =
+inline fun <T> LiveData<T>.observe(lifecycleOwner: LifecycleOwner, crossinline observer : (T?) -> Unit) =
     observe(lifecycleOwner, Observer {
         observer(it)
     })

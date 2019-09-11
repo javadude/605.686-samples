@@ -32,6 +32,10 @@ abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
         if (titleId != -1) {
             activity?.title = getString(titleId)
         }

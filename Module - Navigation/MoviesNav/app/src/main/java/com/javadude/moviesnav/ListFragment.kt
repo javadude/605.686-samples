@@ -86,8 +86,8 @@ class MovieEditRoleInfoListFragment : RoleInfoListFragment() {
 
 abstract class RoleInfoListFragment : ListFragment<RoleInfo>(-1, false, true) {
     override val isTopLevelForDestination = false
-    override fun startDeleteMode() { startActorDeleteMode() }
-    override fun deleteItemById(id: String) = viewModel.deleteRoleById(id)
+    override fun startDeleteMode() = throw IllegalStateException("should never be called")
+    override fun deleteItemById(id: String) = throw IllegalStateException("should never be called")
     override fun getText1(item: RoleInfo) = item.roleName
     override fun getText2(item: RoleInfo) = item.actorName
     override val rowLayoutRes = R.layout.cast_entry
