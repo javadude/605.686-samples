@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.javadude.intents">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-        <!-- the main activity that will be launched from the home screen or app chooser -->
-        <activity android:name=".MainActivity" android:label="Main Activity">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".MainActivity1" android:label="This is the first activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- an activity that can only be started via explicit intents -->
-        <activity android:name=".MainActivity2" android:label="Another Activity"/>
-
-        <!-- an activity that can be started by an explicit or implicit intent
-             NOTE: this has the same intent filter as MainActivity4, and will
-                   cause the activity chooser to be displayed!
-        -->
-        <activity android:name=".MainActivity3" android:label="Yet Another Activity">
-            <intent-filter>
+        <activity android:name=".MainActivity2"  android:label="This is the second activity"/>
+        <activity android:name=".MainActivity3" android:label="This is the third activity">
+            <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="application/vnd.javadude.data" />
             </intent-filter>
         </activity>
-
-        <!-- an activity that can be started by an explicit or implicit intent
-             NOTE: this has the same intent filter as MainActivity3, and will
-                   cause the activity chooser to be displayed!
-        -->
-        <activity android:name=".MainActivity4" android:label="AND YET Another Activity">
-            <intent-filter>
+        <activity android:name=".MainActivity4" android:label="This is the fourth activity">
+            <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="application/vnd.javadude.data" />
+            </intent-filter>
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" android:host="javadude.com" android:mimeType="text/html" />
             </intent-filter>
         </activity>
     </application>

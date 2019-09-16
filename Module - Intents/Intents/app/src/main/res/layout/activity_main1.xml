@@ -4,32 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.javadude.intents.MainActivity">
+    tools:context="com.javadude.intents.MainActivity1">
 
     <TextView
         android:id="@+id/resultText"
+        android:text="(result will go here)"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/data"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:hint="Enter data to send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
-        android:onClick="onButton1Pressed"
+        android:id="@+id/button1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Explicit Intent" />
     <Button
-        android:onClick="onButton2Pressed"
+        android:id="@+id/button2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Implicit Intent" />
     <Button
-        android:onClick="onButton3Pressed"
+        android:id="@+id/button3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Browse Web" />
