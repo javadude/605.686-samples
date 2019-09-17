@@ -1,24 +1,31 @@
 apply plugin: 'com.android.application'
 
-android {
-	compileSdkVersion versions.sdk.compile
+apply plugin: 'kotlin-android'
 
-	defaultConfig {
-		applicationId "com.javadude.preferences"
-		minSdkVersion versions.sdk.min
-		targetSdkVersion versions.sdk.target
-		versionCode 1
-		versionName "1.0"
-	}
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-		}
-	}
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion versions.sdk.compile
+    defaultConfig {
+        applicationId "com.javadude.preferences"
+        minSdkVersion versions.sdk.min
+        targetSdkVersion versions.sdk.target
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
-	implementation deps.appcompat
-	implementation deps.legacy
+    implementation deps.kotlin.stdlib
+    implementation deps.appcompat
+    implementation deps.preference
+    implementation deps.ktx
+    implementation deps.constraintlayout
+    implementation deps.material
 }
