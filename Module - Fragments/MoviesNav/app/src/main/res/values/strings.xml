@@ -1,0 +1,23 @@
+<resources>
+    <string name="delete">Delete</string>
+
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="cast">Cast</string>
+    <string name="about">About</string>
+    <string name="edit">Edit</string>
+    <string name="add">Add</string>
+    <string name="name">Name</string>
+    <string name="filmography">Filmography</string>
+    <string name="edit_filmography_via_movie">(Edit roles via each movie)</string>
+    <string name="view_all_actors">View All Actors</string>
+    <string name="view_all_movies">View All Movies</string>
+    <string name="movies">Movies</string>
+    <string name="actors">Actors</string>
+    <string name="actor">Actor</string>
+    <string name="movie">Movie</string>
+    <string name="role">Role</string>
+    <string name="role_name">Role Name</string>
+    <string name="order_in_credits">Order In Credits</string>
+    <string name="this_is_a_movie_application">This is a movie application</string>
+</resources>

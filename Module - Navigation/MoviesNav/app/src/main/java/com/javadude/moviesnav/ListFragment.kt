@@ -121,12 +121,12 @@ abstract class ListFragment<T:HasId>(@StringRes titleId : Int,
 
         recyclerView.adapter = adapter
 
-        getAllItems().observe(this) {
+        getAllItems().observe(viewLifecycleOwner) {
             adapter.items = it ?: emptyList()
         }
 
         // selection support
-        getSelectionManager().selections.observe(this) {
+        getSelectionManager().selections.observe(viewLifecycleOwner) {
             adapter.selections = it ?: emptySet()
             if (deleteAllowed) {
                 invalidateActionMode()
@@ -135,7 +135,7 @@ abstract class ListFragment<T:HasId>(@StringRes titleId : Int,
 
         // adding contextual action mode when multiple items selected
         if (deleteAllowed) {
-            getSelectionManager().multiSelectMode.observe(this) {
+            getSelectionManager().multiSelectMode.observe(viewLifecycleOwner) {
                 if (it == true) { // handles null as false...
                     startDeleteMode()
                 } else {
