@@ -20,12 +20,6 @@ class StateActorList : State(R.string.actors, R.layout.state_actor_list), UIActo
             navigate(StateActorListDirections.actionEditActor(it.id))
         }
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        registerMenuHandler(R.id.action_view_all_movies) {
-            navigate(StateActorListDirections.actionViewAllMovies())
-        }
-    }
 }
 class StateActorEdit : State(R.string.actor, R.layout.state_actor_edit), UIMultiSelectActorList.Navigation {
     private val args : StateActorEditArgs by navArgs()
@@ -56,13 +50,6 @@ class StateMovieList : State(R.string.movies, R.layout.state_movie_list), UIMovi
             navigate(StateMovieListDirections.actionEditMovie(it.id))
         }
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        registerMenuHandler(R.id.action_view_all_actors) {
-            navigate(StateMovieListDirections.actionViewAllActors())
-        }
-    }
-
 }
 class StateMovieEdit : State(R.string.movie, R.layout.state_movie_edit), UIMovieEdit.Navigation, UIMovieList.Navigation {
     private val args : StateMovieEditArgs by navArgs()
@@ -108,10 +95,11 @@ open class StateMovieDisplay : State(R.string.movie, R.layout.state_movie_displa
     override fun onEditMovie()                  = navigate(StateMovieEditDirections.actionEditMovie(args.movieId))
 }
 
-class StateRoleEdit : State(R.string.role, R.layout.state_role_edit), UIRoleEdit.Navigation, UIList.Navigation<Role> {
+class StateRoleEdit : State(R.string.role, R.layout.state_role_edit), UIMovieEdit.Navigation, UIRoleEdit.Navigation, UIList.Navigation<Role> {
     private val args : StateRoleEditArgs by navArgs()
-    override fun getRoleId()                    = args.roleId
-    override fun getMovieId()                   = args.movieId
-    override fun onSingleSelect(item: Role)     = navigate(StateRoleEditDirections.actionEditRole(item.id, null))
-    override fun onCreate(id: String)           = navigate(StateRoleEditDirections.actionEditRole(null, args.movieId))
+    override fun getRoleId()                                    = args.roleId
+    override fun getMovieId()                                   = args.movieId
+    override fun onSingleSelect(item: Role)                     = navigate(StateRoleEditDirections.actionEditRole(item.id, null))
+    override fun onCreate(id: String)                           = navigate(StateRoleEditDirections.actionEditRole(null, args.movieId))
+    override fun onEditRole(roleId: String?, movieId: String?)  = navigate(StateMovieEditDirections.actionEditRole(roleId, movieId))
 }
