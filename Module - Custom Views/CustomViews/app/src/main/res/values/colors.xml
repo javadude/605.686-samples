@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="unselected">#FF000000</color>
+    <color name="selected">@color/colorAccent</color>
+
+    <color name="circle_fill">#FF00FF00</color>
+    <color name="square_fill">#FF0000FF</color>
+    <color name="triangle_fill">#FFFFFF00</color>
+    <color name="line_color">#FF777777</color>
+    <color name="new_line_color">#FFFF00FF</color>
+</resources>

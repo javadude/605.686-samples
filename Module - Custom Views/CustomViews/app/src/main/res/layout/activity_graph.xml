@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".GraphActivity">
+
+    <androidx.appcompat.widget.Toolbar
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_square"
+                    android:onClick="onButtonPressed"
+                    android:layout_margin="@dimen/toolbar_spacing"
+                    android:layout_width="@dimen/shape_size"
+                    android:layout_height="@dimen/shape_size"
+                    app:srcCompat="@drawable/square"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_circle"
+                    android:onClick="onButtonPressed"
+                    android:layout_margin="@dimen/toolbar_spacing"
+                    android:layout_width="@dimen/shape_size"
+                    android:layout_height="@dimen/shape_size"
+                    app:srcCompat="@drawable/circle"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_triangle"
+                    android:onClick="onButtonPressed"
+                    android:layout_margin="@dimen/toolbar_spacing"
+                    android:layout_width="@dimen/shape_size"
+                    android:layout_height="@dimen/shape_size"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_selection"
+                    android:onClick="onButtonPressed"
+                    android:layout_margin="@dimen/toolbar_spacing"
+                    android:layout_width="@dimen/shape_size"
+                    android:layout_height="@dimen/shape_size"
+                    app:srcCompat="@drawable/selection"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_line"
+                    android:onClick="onButtonPressed"
+                    android:layout_margin="@dimen/toolbar_spacing"
+                    android:layout_width="@dimen/shape_size"
+                    android:layout_height="@dimen/shape_size"
+                    app:srcCompat="@drawable/line"
+            />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.javadude.customviews.GraphDrawingArea
+        android:id="@+id/drawing_area"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

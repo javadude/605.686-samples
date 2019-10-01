@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="color" format="color"/>
+    <declare-styleable name="CustomView2">
+        <attr name="color"/>
+    </declare-styleable>
+    <declare-styleable name="CustomView3">
+        <attr name="color"/>
+    </declare-styleable>
+    <declare-styleable name="PictographView">
+        <attr name="drawable" format="reference"/>
+        <attr name="count" format="float"/>
+        <attr name="drawable_color" format="color"/>
+    </declare-styleable>
+</resources>

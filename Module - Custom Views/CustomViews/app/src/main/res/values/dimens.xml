@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stroke_width">3dp</dimen>
+    <dimen name="padding">4dp</dimen>
+    <dimen name="text_size">20sp</dimen>
+    <dimen name="preferred_size">200dp</dimen>
+    <dimen name="shape_size">48dp</dimen>
+    <dimen name="toolbar_spacing">8dp</dimen>
+    <dimen name="line_width">3dp</dimen>
+</resources>

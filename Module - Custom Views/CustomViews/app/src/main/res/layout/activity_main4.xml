@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:text="@string/press_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.javadude.customviews.PictographView
+        app:drawable_color="#FF0000"
+        app:drawable="@drawable/ic_directions_car_black_24dp"
+        app:count="14.2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.javadude.customviews.PictographView
+        app:drawable_color="#00FF00"
+        app:drawable="@drawable/ic_directions_car_black_24dp"
+        app:count="10.8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.javadude.customviews.PictographView
+        android:id="@+id/picto"
+        app:drawable_color="#0000FF"
+        app:count="1"
+        app:drawable="@drawable/ic_directions_car_black_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
+</LinearLayout>
