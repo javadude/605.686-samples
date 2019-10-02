@@ -21,18 +21,18 @@ class GraphActivity : AppCompatActivity() {
 
         val buttonTriangle = findViewById<ImageView>(R.id.button_triangle)
         val shapeSize = resources.getDimension(R.dimen.shape_size)
-        buttonTriangle.setImageDrawable(createTriangle(shapeSize, strokeWidth, triangleFillColor, strokeColor))
+        buttonTriangle.setImageDrawable(TriangleDrawable.create(shapeSize, strokeWidth, triangleFillColor, strokeColor))
 
         drawingArea = findViewById(R.id.drawing_area)
     }
 
     fun onButtonPressed(view : View) {
         drawingArea.mode = when (view.id) {
-            R.id.button_square -> GraphDrawingArea.Mode.AddSquare
-            R.id.button_circle -> GraphDrawingArea.Mode.AddCircle
-            R.id.button_triangle -> GraphDrawingArea.Mode.AddTriangle
-            R.id.button_selection -> GraphDrawingArea.Mode.Select
-            R.id.button_line -> GraphDrawingArea.Mode.DrawLine
+            R.id.button_square -> Mode.AddSquare
+            R.id.button_circle -> Mode.AddCircle
+            R.id.button_triangle -> Mode.AddTriangle
+            R.id.button_selection -> Mode.Select
+            R.id.button_line -> Mode.DrawLine
             else -> throw IllegalStateException("Unknown toolbar button")
         }
 

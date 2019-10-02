@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CustomViews</string>
     <string name="press_me">Press Me</string>
+    <string name="graph">Graph</string>
 </resources>

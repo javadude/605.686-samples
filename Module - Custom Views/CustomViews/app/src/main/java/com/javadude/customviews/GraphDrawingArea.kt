@@ -2,8 +2,10 @@ package com.javadude.customviews
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.*
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Point
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
@@ -14,18 +16,24 @@ import androidx.core.graphics.toRect
 import java.util.concurrent.Executors
 import kotlin.math.abs
 
-fun createTriangle(shapeSize : Float, strokeWidth: Float, triangleFillColor: Int, strokeColor: ColorStateList) =
-    TriangleDrawable(strokeWidth, triangleFillColor, strokeColor).apply {
-        bounds = Rect(0, 0, shapeSize.toInt(), shapeSize.toInt())
+
+enum class Mode {
+    AddSquare, AddCircle, AddTriangle, Select, DrawLine
+}
+
+data class Thing(val type : Type, var bounds : RectF) {
+    enum class Type {
+        Square, Circle, Triangle
     }
+}
+
+data class Line(val end1 : Thing, val end2 : Thing)
+
 
 class GraphDrawingArea @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : SurfaceView(context, attrs, defStyleAttr) {
 
-    enum class Mode {
-        AddSquare, AddCircle, AddTriangle, Select, DrawLine
-    }
 
     companion object {
         val selectedState = intArrayOf(android.R.attr.state_selected)
@@ -36,33 +44,39 @@ class GraphDrawingArea @JvmOverloads constructor(
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    private var okToDraw = false
-    private var selectedThing : Thing? = null
-    private var thing1 : Thing? = null
-    private var endOfLine : Point? = null
-    private var tappedX = -1f
-    private var tappedY = -1f
-    private var offsetX = 0f
-    private var offsetY = 0f
-    private var movedMoreThanSlop = false
-
-    private var lines = emptyList<Line>()
-    private var things = emptyList<Thing>()
-
     private val shapeSize = resources.getDimension(R.dimen.shape_size)
     private val halfSize = shapeSize/2
 
-    private val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
     private val squareDrawable = ContextCompat.getDrawable(context, R.drawable.square) ?: throw IllegalStateException("no square found")
     private val circleDrawable = ContextCompat.getDrawable(context, R.drawable.circle) ?: throw IllegalStateException("no color found")
 
     private val strokeWidth = resources.getDimension(R.dimen.stroke_width)
     private val triangleFillColor = ContextCompat.getColor(context, R.color.triangle_fill)
     private val triangleStrokeColor = ContextCompat.getColorStateList(context, R.color.stroke) ?: throw IllegalStateException("no stroke color state list found")
-
-    private val triangleDrawable = createTriangle(shapeSize, strokeWidth, triangleFillColor, triangleStrokeColor)
+    private val triangleDrawable = TriangleDrawable.create(shapeSize, strokeWidth, triangleFillColor, triangleStrokeColor)
 
     private val lineWidth = resources.getDimension(R.dimen.line_width)
+
+    // NOTE: To track lines and things we use a VAR immutable list rather than a VAL mutable list
+    //       This avoid issues with concurrent modification when the user taps while drawing items
+    private var lines = emptyList<Line>()       // lines to be drawn
+    private var things = emptyList<Thing>()     // things to be drawn
+
+    private var okToDraw = false                // make sure the surface is ready
+
+    private var selectedThing : Thing? = null   // when selecting an item
+    private var thing1 : Thing? = null          // first end of drawing a line
+    private var endOfLine : Point? = null       // the point being dragged when creating a line
+    private var tappedX = -1f                   // where the user tapped (for slop calculation)
+    private var tappedY = -1f
+    private var offsetX = 0f                    // offset of tap from center of thing
+    private var offsetY = 0f
+
+    private val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
+    private var movedMoreThanSlop = false
+
+    private var blinkerInProgress = false       // are we blinking - prevents multiple blink threads from being queued
+
 
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
@@ -91,9 +105,29 @@ class GraphDrawingArea @JvmOverloads constructor(
         })
     }
 
+    /**
+     * Find the tapped thing - note that we find the **last** thing in the list
+     * that contains the tapped point because it will be the one painted on top of
+     * all other items at that point
+     */
     private fun findClickedThing(x : Float, y : Float) =
         things.findLast { it.bounds.contains(x, y) }
 
+    /**
+     * Extension property (read-only) that converts a MotionEven (where the user taps/drags)
+     * into a RectF that represents a square Thing
+     */
+    private val MotionEvent.thingBounds
+        get() = RectF(
+            x - halfSize + offsetX,
+            y - halfSize + offsetY,
+            x + halfSize + offsetX,
+            y + halfSize + offsetY
+        )
+
+    /**
+     * Handle user taps and drags
+     */
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent) =
         when (event.action) {
@@ -135,6 +169,7 @@ class GraphDrawingArea @JvmOverloads constructor(
                 }
                 true
             }
+
             MotionEvent.ACTION_MOVE -> {
                 selectedThing?.let {
                     if (!movedMoreThanSlop &&
@@ -152,45 +187,57 @@ class GraphDrawingArea @JvmOverloads constructor(
                 }
                 true
             }
+
             MotionEvent.ACTION_UP -> {
                 selectedThing?.let {
+                    selectedThing = null
+
+                    // if the user tapped and released without ever moving more than touch slop,
+                    //   blink the tapped item
+                    // if we're currently blinking, do nothing (otherwise a bunch of fast taps
+                    //   will queue up a bunch of blinker tasks in the executor, and they can cause
+                    //   some really odd draw behavior that slows things down and interacts poorly
+                    //   with additional user interaction
                     if (!movedMoreThanSlop) {
                         if (!blinkerInProgress) {
-                            executor.execute(Blinker(it.type))
+                            executor.execute(createBlinker(it.type))
                         }
                     } else {
                         doDraw(null)
                     }
                 }
+
                 thing1?.let { firstEnd ->
                     findClickedThing(event.x, event.y)?.let { secondEnd ->
                         lines = lines + Line(firstEnd, secondEnd)
                     }
+                    thing1 = null
+                    endOfLine = null
                     doDraw(null)
                 }
-                selectedThing = null
-                thing1 = null
-                endOfLine = null
+
                 true
             }
             else -> super.onTouchEvent(event)
         }
 
-    private val MotionEvent.thingBounds
-            get() = RectF(
-                        x - halfSize + offsetX,
-                        y - halfSize + offsetY,
-                        x + halfSize + offsetX,
-                        y + halfSize + offsetY
-                    )
-
+    /**
+     * Do the actual drawing (draw is the name of an inherited function, so I chose "doDraw" instead)
+     * @param selectedThingType If we're being asked to draw to highlight things, this is the
+     *                          type of the things to highlight. If null, we won't highlight anything
+     */
     fun doDraw(selectedThingType: Thing.Type?) {
         if (!okToDraw) {
             return
         }
+
         val canvas = holder.lockCanvas()
+
         try {
+            // fill the background white
             canvas.drawColor(Color.WHITE)
+
+            // draw the lines
             lines.forEach {
                 canvas.drawLine(
                     it.end1.bounds.centerX(),
@@ -201,14 +248,19 @@ class GraphDrawingArea @JvmOverloads constructor(
                 )
             }
 
+            // draw the things
             things.forEach {
+                // find the right rubber stamp based on the type of the thing
                 val drawable = when (it.type) {
                     Thing.Type.Square -> squareDrawable
                     Thing.Type.Circle -> circleDrawable
                     Thing.Type.Triangle -> triangleDrawable
                 }
+
+                // move the rubber stamp to the right location
                 drawable.bounds = it.bounds.toRect()
 
+                // set the state of the stamp if we're drawing a highlight and it matches
                 drawable.state =
                     if (selectedThingType == it.type) {
                         selectedState
@@ -216,9 +268,11 @@ class GraphDrawingArea @JvmOverloads constructor(
                         unselectedState
                     }
 
+                // draw the thing
                 drawable.draw(canvas)
             }
 
+            // draw the line being created (if in progress)
             endOfLine?.let { end1 ->
                 thing1?.let { thing ->
                     canvas.drawLine(
@@ -233,22 +287,17 @@ class GraphDrawingArea @JvmOverloads constructor(
         }
     }
 
-    private var blinkerInProgress = false
-    private inner class Blinker(val selectedThingType : Thing.Type) : Runnable {
-        override fun run() {
-            blinkerInProgress = true
-            doDraw(selectedThingType)
-            Thread.sleep(250)
-            doDraw(null)
-            Thread.sleep(250)
-            doDraw(selectedThingType)
-            Thread.sleep(250)
-            doDraw(null)
-            Thread.sleep(250)
-            doDraw(selectedThingType)
-            Thread.sleep(250)
-            doDraw(null)
-            blinkerInProgress = false
+    private fun createBlinker(selectedThingType : Thing.Type) : () -> Unit = {
+            try {
+                blinkerInProgress = true
+                repeat(3) {
+                    doDraw(selectedThingType)
+                    Thread.sleep(250)
+                    doDraw(null)
+                    Thread.sleep(250)
+                }
+            } finally {
+                blinkerInProgress = false
+            }
         }
-    }
 }

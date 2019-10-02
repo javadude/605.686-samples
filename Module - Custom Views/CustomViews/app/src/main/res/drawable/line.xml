@@ -3,5 +3,4 @@
     android:shape="line">
     <size android:width="@dimen/shape_size" android:height="@dimen/shape_size" />
     <stroke android:color="@color/stroke" android:width="@dimen/stroke_width" />
-    <corners android:radius="3dp"/>
 </shape>
