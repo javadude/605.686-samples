@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Sample Task Application</string>
+    <string name="channel_name">JavaDude Background Task</string>
+    <string name="channel_description">This represents JavaDude background task notifications</string>
+    <string name="upload_task">Upload something to server</string>
+    <string name="upload">Upload</string>
+    <string name="fail">Fail</string>
+    <string name="try_to_upload_again">Try to Upload Again</string>
+    <string name="status">Status</string>
+    <string name="status2">(status)</string>
+    <string name="already_in_progress">already in progress</string>
+    <string name="ok">Ok</string>
+</resources>
