@@ -4,6 +4,7 @@
         package="com.javadude.services2">
 
     <permission android:name="com.javadude.services2.remote.permission" android:protectionLevel="normal" />
+
     <application
             android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"
@@ -12,7 +13,15 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <service android:name=".RemoteService1" android:exported="true" android:permission="com.javadude.services2.remote.permission" />
-        <service android:name=".RemoteService2Impl" android:exported="true" android:permission="com.javadude.services2.remote.permission" />
+
+        <service
+                android:name=".RemoteService1"
+                android:exported="true"
+                android:permission="com.javadude.services2.remote.permission" />
+
+        <service
+                android:name=".RemoteService2Impl"
+                android:exported="true"
+                android:permission="com.javadude.services2.remote.permission" />
     </application>
 </manifest>

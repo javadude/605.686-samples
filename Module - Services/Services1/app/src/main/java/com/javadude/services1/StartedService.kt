@@ -6,7 +6,6 @@ import android.util.Log
 
 // A started service (basically "start and forget")
 class StartedService : Service() {
-
     private val counterThread = object : Thread() {
         override fun run() {
             var i = 0
@@ -30,7 +29,7 @@ class StartedService : Service() {
     }
 
     override fun onDestroy() {
-//        counterThread.interrupt()
+        counterThread.interrupt()
         super.onDestroy()
     }
     override fun onBind(p0: Intent?) = null
