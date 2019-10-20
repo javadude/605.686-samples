@@ -19,7 +19,7 @@ private val json = Json(JsonConfiguration.Stable)
 fun TodoItem.toJsonString() =
     json.stringify(TodoItem.serializer(), this)
 
-fun List<TodoItem>.toJsonString() =
+fun List<TodoItem>.todoListToJsonString() =
     json.stringify(TodoItem.serializer().list, this)
 
 fun String.toTodoItem() =

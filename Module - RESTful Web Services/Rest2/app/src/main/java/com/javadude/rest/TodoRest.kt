@@ -18,7 +18,7 @@ import com.javadude.data.toTodoItemList
 // NOTE: if running on a real device, you'll probably need to change firewall settings...
 //       10.0.2.2 is a special address for an android emulator to access localhost on its host
 //       computer
-private const val serverUrlBase = "http://10.0.2.2:8080/restserver/todox"
+private const val serverUrlBase = "http://10.0.2.2:8080/restserver/todo"
 
 class TodoRest {
     private fun liveDataResponse(

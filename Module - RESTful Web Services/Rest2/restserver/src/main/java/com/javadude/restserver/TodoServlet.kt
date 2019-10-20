@@ -3,6 +3,7 @@ package com.javadude.restserver
 import com.javadude.data.TodoItem
 import com.javadude.data.toJsonString
 import com.javadude.data.toTodoItem
+import com.javadude.data.todoListToJsonString
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -47,7 +48,7 @@ class TodoServlet : HttpServlet() {
 
             } else {
                 response.contentType = "application/json"
-                response.writer.write(items.values.toList().toJsonString())
+                response.writer.write(items.values.toList().todoListToJsonString())
             }
         }
     }
