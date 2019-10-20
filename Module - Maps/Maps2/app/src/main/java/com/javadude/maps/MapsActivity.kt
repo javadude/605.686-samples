@@ -129,7 +129,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     MarkerOptions()
                         .anchor(0.5f, 0.5f)
                         .icon(blueCar)
-                        .title("Saved Location")
+                        .title("Parked Here!")
                         .snippet("Lat/Lng: " + it.latitude + ", " + it.longitude)
                         .position(it)
                 )
@@ -144,7 +144,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         googleMap.setOnMapLongClickListener {
             stopLocationUpdates()
-            myLocationMarker?.remove()
             currentLocation = it
         }
     }
@@ -197,6 +196,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .anchor(0.5f, 0.5f)
                             .icon(blueCar)
                             .title("Parked Here!")
+                            .snippet("Lat/Lng: $latitude, $longitude")
                             .position(this)
                     )
                 }
