@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion versions.sdk.compile
+    defaultConfig {
+        applicationId "com.javadude.rest"
+        minSdkVersion versions.sdk.min
+        targetSdkVersion versions.sdk.target
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation project(":data")
+    implementation deps.fuel.core
+    implementation deps.fuel.android
+    implementation deps.fuel.livedata
+    implementation deps.kotlin.stdlib
+    implementation deps.lifecycle.extensions
+    implementation deps.appcompat
+    implementation deps.constraintlayout
+    implementation deps.recyclerview
+    implementation deps.cardview
+    implementation deps.ktx
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+}

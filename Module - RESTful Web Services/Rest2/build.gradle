@@ -5,12 +5,15 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath deps.android.plugin
         classpath deps.kotlin.plugin
-        classpath deps.dokka
+        classpath deps.kotlin.serialization.plugin
+        classpath deps.gretty.plugin
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -20,7 +23,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "http://jitpack.io/" } // for quickpermissions
+
     }
 }
 

@@ -55,9 +55,20 @@ ext {
 		legacy : 'androidx.legacy:legacy-support-v4:1.0.0',
 		maps: 'com.google.android.gms:play-services-maps:17.0.0',
 		maputils : 'com.google.maps.android:android-maps-utils:0.5',
+		location : 'com.google.android.gms:play-services-location:17.0.0',
 		viewpagerindicator : 'com.github.JakeWharton:ViewPagerIndicator:2.4.1',
 		versionedparcelable : 'androidx.versionedparcelable:versionedparcelable:1.1.0',
 		antlr : 'org.antlr:antlr4:4.7.2',
-		json : 'org.json:json:20180813'
+		json : 'org.json:json:20180813',
+		servletApi : 'javax.servlet:javax.servlet-api:4.0.1',
+		gretty : [
+			plugin : 'gradle.plugin.org.gretty:gretty:2.3.1'
+		],
+		fuel : [
+			core : 'com.github.kittinunf.fuel:fuel:2.2.1',
+			android : 'com.github.kittinunf.fuel:fuel-android:2.2.1',
+			livedata : 'com.github.kittinunf.fuel:fuel-livedata:2.2.1'
+		],
+		dokka : "org.jetbrains.dokka:dokka-gradle-plugin:0.10.0"
 	]
 }

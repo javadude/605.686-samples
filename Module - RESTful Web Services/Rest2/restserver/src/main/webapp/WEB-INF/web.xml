@@ -1,0 +1,16 @@
+
+<web-app>
+	<display-name>Simple REST Server</display-name>
+	<servlet>
+		<servlet-name>Todo</servlet-name>
+		<servlet-class>com.javadude.restserver.TodoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Todo</servlet-name>
+		<url-pattern>/todo</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Todo</servlet-name>
+		<url-pattern>/todo/*</url-pattern>
+	</servlet-mapping>
+</web-app>

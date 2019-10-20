@@ -4,76 +4,93 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.VectorDrawable
+import android.location.Location
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
-import com.google.maps.android.PolyUtil
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
-import java.util.*
 
-// CHANGES FROM VIDEO
-// - converted to kotlin
-// - replaced my permissions manager with quickpermissions-kotlin
-// - fixed broken location support (looks like Google finally killed it from GoogleMap)
-// - disabled routing API call - as of December 2018 it requires an API key with a credit card on file
-//     (note - navigation button still works)
-// - added long-press on map to set a dummy location for setting the car location
-//     = long press the map to drop a marker to explicitly set where your car is
-//     = drop the car marker
-//     = pressing navigation button will show route from real current location to car
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
-    private var map: GoogleMap? = null
-    private var mapFragment: SupportMapFragment? = null
-    private var blueCar: BitmapDescriptor? = null
-    private var dummyLocationIcon: BitmapDescriptor? = null
-    private var savedPosition: LatLng? = null
-    private var marker: Marker? = null
-    private var dummyLocationMarker: Marker? = null
-//    private var route: Polyline? = null // DISABLED - AS OF DECEMBER 2018 REQUIRES AN API KEY WITH CREDIT CARD ACCOUNT
-
-    @SuppressLint("MissingPermission")
-    fun enableLocation() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
-        map!!.isMyLocationEnabled = true
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var mapFragment: SupportMapFragment
+    private lateinit var blueCar: BitmapDescriptor
+    private lateinit var myLocationIcon: BitmapDescriptor
+    private val locationRequest = LocationRequest.create().apply {
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        interval = 4000
+        fastestInterval = 2000
     }
 
-    var latLngBoundsPadding = 0
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult?) {
+            currentLocation = result?.locations?.last()?.toLatLng()
+        }
+    }
+
+    private fun Location.toLatLng() = LatLng(latitude, longitude)
+
+    private var currentLocation: LatLng? = null
+        set(value) {
+            field = value
+            map?.let {
+                myLocationMarker?.remove()
+                value?.let { newLocation ->
+                    myLocationMarker = it.addMarker(
+                        MarkerOptions()
+                            .anchor(0.5f, 0.5f)
+                            .icon(myLocationIcon)
+                            .position(newLocation)
+                    )
+                }
+            }
+        }
+
+    private var map: GoogleMap? = null
+    private var savedPosition: LatLng? = null
+    private var marker: Marker? = null
+    private var myLocationMarker: Marker? = null
+
+    private var latLngBoundsPadding = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         latLngBoundsPadding = resources.getDimension(R.dimen.lat_lng_bounds_padding).toInt()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
-        blueCar = BitmapDescriptorFactory.fromResource(R.mipmap.car_blue)
+        blueCar = BitmapDescriptorFactory.fromResource(R.mipmap.car_blue) // already a bitmap drawable
 
-        dummyLocationIcon = BitmapDescriptorFactory.fromBitmap(toBitmap(R.drawable.ic_my_location_white_24dp))
+        myLocationIcon = loadBitmapDescriptor(R.drawable.my_location)
+    }
+
+    private fun startLocationUpdates() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+    }
+    private fun stopLocationUpdates() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
     /**
@@ -92,19 +109,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val latitudeString = preferences.getString("latitude", null)
         val longitudeString = preferences.getString("longitude", null)
 
-        val p1 = LatLng(39.163742, -76.900235)
-        val p2 = LatLng(39.163467, -76.897381)
-        val p3 = LatLng(39.162610, -76.899500)
 
         var latLngBounds : LatLngBounds? = null
 
-        fun addPoint(latLng : LatLng) {
-            latLngBounds = latLngBounds?.including(latLng) ?: LatLngBounds(latLng, latLng)
+        fun LatLng.addToBounds() {
+            latLngBounds = latLngBounds?.including(this) ?: LatLngBounds(this, this)
         }
 
-        addPoint(p1)
-        addPoint(p2)
-        addPoint(p3)
+        // start the bounds around APL
+        LatLng(39.163742, -76.900235).addToBounds()
+        LatLng(39.163467, -76.897381).addToBounds()
+        LatLng(39.162610, -76.899500).addToBounds()
 
         if (latitudeString != null && longitudeString != null) {
             LatLng(latitudeString.toDouble(), longitudeString.toDouble()).let {
@@ -118,33 +133,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         .snippet("Lat/Lng: " + it.latitude + ", " + it.longitude)
                         .position(it)
                 )
-//                map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 18f))
             }
         }
 
-        map!!.setOnMapLoadedCallback {
-            map!!.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, latLngBoundsPadding))
+        savedPosition?.addToBounds()
+
+        googleMap.setOnMapLoadedCallback {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, latLngBoundsPadding))
         }
 
         googleMap.setOnMapLongClickListener {
-            dummyLocationMarker?.remove()
-            dummyLocationMarker = googleMap.addMarker(
-                    MarkerOptions()
-                        .anchor(0.5f, 0.5f)
-                        .icon(dummyLocationIcon)
-                        .title("Dummy Location")
-                        .snippet("Lat/Lng: " + it.latitude + ", " + it.longitude)
-                        .position(it)
-                )
+            stopLocationUpdates()
+            myLocationMarker?.remove()
+            currentLocation = it
         }
-        enableLocation()
     }
 
     @SuppressLint("MissingPermission")
     override fun onPause() {
         super.onPause()
-        if (map?.isMyLocationEnabled == true)
-            map?.isMyLocationEnabled = false
+        stopLocationUpdates()
         savedPosition?.let {
             getSharedPreferences("position", Context.MODE_PRIVATE)
                 .edit()
@@ -156,7 +164,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        mapFragment?.getMapAsync(this)
+        startLocationUpdates()
+        mapFragment.getMapAsync(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -167,135 +176,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_navigate -> {
-                savedPosition?.let {
-                    val uri = Uri.parse("google.navigation:q=" + it.latitude + "," + it.longitude)
-                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                currentLocation?.let { curr ->
+                    savedPosition?.let { car ->
+                        // see https://developers.google.com/maps/documentation/urls/guide
+                        //   for details on specifying the URI - it's consistent across all platforms
+                        val uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=${curr.latitude},${curr.longitude}&destination=${car.latitude},${car.longitude}&travelmode=walking")
+                        startActivity(Intent(Intent.ACTION_VIEW, uri).apply {
+                            setPackage("com.google.android.apps.maps")
+                        })
+                    }
                 }
                 return true
             }
-// DISABLED - AS OF DECEMBER 2018 REQUIRES AN API KEY WITH CREDIT CARD ACCOUNT
-//            R.id.action_show_route -> {
-//                savedPosition?.let {
-//                    val myLocation = map!!.myLocation
-//                    RouteFetcher().execute(
-//                        myLocation.latitude,
-//                        myLocation.longitude,
-//                        it.latitude,
-//                        it.longitude
-//                    )
-//                }
-//                return true
-//            }
-            R.id.action_remember_location -> {
-                val myLocation = dummyLocationMarker?.position?.let {
-                    Pair(it.latitude, it.longitude)
-                }
-                    ?: map?.myLocation?.let { Pair(it.latitude, it.longitude) }
-                    ?: Pair(0.0, 0.0)
 
+            R.id.action_remember_location -> {
                 marker?.remove()
-                savedPosition = LatLng(myLocation.first, myLocation.second).apply {
+                savedPosition = currentLocation?.apply {
                     marker = map!!.addMarker(
                         MarkerOptions()
                             .anchor(0.5f, 0.5f)
                             .icon(blueCar)
-                            .title("Saved Location")
+                            .title("Parked Here!")
                             .position(this)
                     )
                 }
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }
-
-// DISABLED - AS OF DECEMBER 2018 REQUIRES AN API KEY WITH CREDIT CARD ACCOUNT
-//    private inner class RouteFetcher : AsyncTask<Double, Void, List<LatLng>>() {
-//
-//        override fun onPreExecute() {
-//            super.onPreExecute()
-//            if (route != null)
-//                route!!.remove()
-//        }
-//
-//        override fun onPostExecute(latLngs: List<LatLng>) {
-//            super.onPostExecute(latLngs)
-//            route = map!!.addPolyline(
-//                PolylineOptions()
-//                    .addAll(latLngs)
-//                    .color(Color.RED)
-//                    .width(8f)
-//            )
-//        }
-//
-//        override fun doInBackground(vararg params: Double?): List<LatLng> {
-//            val myLat = params[0]
-//            val myLon = params[1]
-//            val savedLat = params[2]
-//            val savedLon = params[3]
-//            try {
-//                val uriString =
-//                    "http://maps.googleapis.com/maps/api/directions/json?mode=walking&origin=$myLat,$myLon&destination=$savedLat,$savedLon&sensor=true"
-//
-//                val url = URL(uriString)
-//                val connection = url.openConnection() as HttpURLConnection
-//
-//                connection.requestMethod = "GET"
-//                connection.connect()
-//                val responseCode = connection.responseCode
-//                if (responseCode < 300) {
-//                    BufferedReader(InputStreamReader(connection.inputStream)).use {
-//                        val content = it.readText()
-//                        Log.d("!!STUFF", content)
-//                        // SHOW THE ROUTE ON THE MAP
-//                        val jsonObject = JSONObject(content)
-//                        val steps = jsonObject
-//                            .getJSONArray("routes")
-//                            .getJSONObject(0)
-//                            .getJSONArray("legs")
-//                            .getJSONObject(0)
-//                            .getJSONArray("steps")
-//                        val allLatLngs = ArrayList<LatLng>()
-//                        for (i in 0 until steps.length()) {
-//                            val step = steps.getJSONObject(i)
-//                            val points = step.getJSONObject("polyline").getString("points")
-//                            val latLngs = PolyUtil.decode(points)
-//                            allLatLngs.addAll(latLngs)
-//                        }
-//                        return allLatLngs
-//                    }
-//                }
-//
-//                throw RuntimeException("Could not access routing information. Response from server: $responseCode")
-//
-//            } catch (e: IOException) {
-//                throw RuntimeException(e)
-//            } catch (e: JSONException) {
-//                throw RuntimeException(e)
-//            }
-//        }
-//    }
-
-    // adapted from https://gist.github.com/Gnzlt/6ddc846ef68c587d559f1e1fcd0900d3
-    private fun VectorDrawable.toBitmap() =
-        Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888).apply {
-            val canvas = Canvas(this)
-            setBounds(0, 0, canvas.width, canvas.height)
-            draw(canvas)
-        }
-
-    private fun VectorDrawableCompat.toBitmap() =
-        Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888).apply {
-            val canvas = Canvas(this)
-            setBounds(0, 0, canvas.width, canvas.height)
-            draw(canvas)
-        }
-
-    private fun toBitmap(drawableResId : Int) =
-        when (val drawable = ContextCompat.getDrawable(this, drawableResId)) {
-            is BitmapDrawable -> drawable.bitmap
-            is VectorDrawableCompat -> drawable.toBitmap()
-            is VectorDrawable -> drawable.toBitmap()
-            else -> throw IllegalArgumentException("Unsupported drawable type")
-        }
 }
+

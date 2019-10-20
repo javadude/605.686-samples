@@ -1,0 +1,12 @@
+apply plugin: 'org.gretty'
+apply plugin: 'kotlin'
+apply plugin: 'war'
+
+dependencies {
+    implementation project(":data")
+    implementation deps.kotlin.stdlib
+    implementation deps.servletApi
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

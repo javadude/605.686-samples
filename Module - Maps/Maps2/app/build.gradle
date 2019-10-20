@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka'
 
 android {
 	compileSdkVersion versions.sdk.compile
@@ -19,6 +19,14 @@ android {
 	}
 }
 
+dokka {
+	outputFormat = 'html'
+	outputDirectory = "$buildDir/dokka"
+	configuration {
+		samples = ['src/samples']
+	}
+}
+
 dependencies {
 	implementation deps.vectordrawable
 	implementation deps.mediarouter
@@ -26,6 +34,7 @@ dependencies {
 	implementation deps.appcompat
 	implementation deps.maps
 	implementation deps.maputils
+	implementation deps.location
 	implementation deps.kotlin.stdlib
 	implementation deps.quickpermissions
 }

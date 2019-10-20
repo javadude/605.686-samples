@@ -6,18 +6,18 @@
 	<item
 		android:title="@string/remember_location"
 		android:id="@+id/action_remember_location"
-		android:icon="@drawable/ic_pin_drop_white_24dp"
+		android:icon="@drawable/pin_drop"
 		app:showAsAction="ifRoom"/>
 	<!-- DISABLED - AS OF DECEMBER 2018 REQUIRES AN API KEY WITH CREDIT CARD ACCOUNT
 	<item
 		android:title="@string/show_route"
 		android:id="@+id/action_show_route"
-		android:icon="@drawable/ic_directions_walk_white_24dp"
+		android:icon="@drawable/person"
 		app:showAsAction="ifRoom"/>
 	-->
 	<item
 		android:title="@string/navigate"
 		android:id="@+id/action_navigate"
-		android:icon="@drawable/ic_navigation_white_24dp"
+		android:icon="@drawable/navigation"
 		app:showAsAction="ifRoom"/>
 </menu>
