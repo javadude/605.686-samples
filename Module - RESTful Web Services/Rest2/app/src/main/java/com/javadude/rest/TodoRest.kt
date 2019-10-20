@@ -20,32 +20,16 @@ import com.javadude.data.toTodoItemList
 //       computer
 private const val serverUrlBase = "http://10.0.2.2:8080/restserver/todox"
 
-private sealed class TodoRequest {
-    abstract fun toFuelRequest() : Request
-}
-private object GetAllTodoItems : TodoRequest() {
-    override fun toFuelRequest() = Fuel.get(serverUrlBase)
-}
-private object CreateTodoItem : TodoRequest() {
-    override fun toFuelRequest() = Fuel.post(serverUrlBase)
-}
-private class GetTodoItem(val id: String) : TodoRequest() {
-    override fun toFuelRequest() = Fuel.get("$serverUrlBase/${id}")
-}
-private class UpdateTodoItem(private val item : TodoItem) : TodoRequest() {
-    override fun toFuelRequest() = Fuel.put("$serverUrlBase/${item.id}").jsonBody(item.toJsonString())
-}
-private class DeleteTodoItem(private val item: TodoItem) : TodoRequest() {
-    override fun toFuelRequest() = Fuel.post("$serverUrlBase/${item.id}")
-}
-
 class TodoRest {
-    private fun TodoRequest.liveDataResponse(createResult : (ByteArray) -> TodoResponse) : LiveData<TodoResponse> =
+    private fun liveDataResponse(
+        createFuelRequest: () -> Request,
+        createResult: (ByteArray) -> TodoResponse
+    ) : LiveData<TodoResponse> =
         MediatorLiveData<TodoResponse>().apply {
-            val source = this@liveDataResponse.toFuelRequest().liveDataResponse()
+            val source = createFuelRequest().liveDataResponse()
 
             addSource(source) { (response, result) ->
-                removeSource(source)
+                removeSource(source) // stop observing when we get the result
                 result.success {
                     value = createResult(it)
                 }
@@ -60,16 +44,29 @@ class TodoRest {
             }
         }
 
-    fun getAllTodoItems() = GetAllTodoItems.liveDataResponse { TodoItemListResult(it.toTodoItemList().sortedWith(compareBy(TodoItem::priority, TodoItem::name))) }
+    fun getAllTodoItems() = liveDataResponse(
+        createFuelRequest = { Fuel.get(serverUrlBase) },
+        createResult = { TodoItemListResult(it.toTodoItemList().sortedWith(compareBy(TodoItem::priority, TodoItem::name))) }
+    )
 
     @Suppress("unused") // in case we use it later it would look like this
-    fun getTodoItem(id : String) = GetTodoItem(id).liveDataResponse { bytes -> bytes.toTodoItem()?.let { TodoItemResult(it) } ?: TodoItemNotFound }
+    fun getTodoItem(id : String) = liveDataResponse(
+        createFuelRequest = { Fuel.get("$serverUrlBase/${id}") },
+        createResult = { bytes -> bytes.toTodoItem()?.let { TodoItemResult(it) } ?: TodoItemNotFound }
+    )
 
-    fun updateTodoItem(item: TodoItem) = UpdateTodoItem(item).liveDataResponse { TodoItemUpdated }
+    fun updateTodoItem(item: TodoItem) = liveDataResponse(
+        createFuelRequest = { Fuel.put("$serverUrlBase/${item.id}").jsonBody(item.toJsonString()) },
+        createResult = { TodoItemUpdated }
+    )
 
-    fun deleteTodoItem(item: TodoItem) = DeleteTodoItem(item).liveDataResponse { TodoItemDeleted }
+    fun deleteTodoItem(item: TodoItem) = liveDataResponse(
+        createFuelRequest = { Fuel.delete("$serverUrlBase/${item.id}").jsonBody(item.toJsonString()) },
+        createResult = { TodoItemDeleted }
+    )
 
-    fun createTodoItem() = CreateTodoItem.liveDataResponse {
-        TodoItemResult(TodoItem(id = Uri.parse(String(it)).lastPathSegment!!))
-    }
+    fun createTodoItem() = liveDataResponse(
+        createFuelRequest = { Fuel.post(serverUrlBase) },
+        createResult = { TodoItemResult(TodoItem(id = Uri.parse(String(it)).lastPathSegment!!)) }
+    )
 }
