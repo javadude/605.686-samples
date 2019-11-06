@@ -80,27 +80,4 @@ class StateSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         override fun getItemId(postion: Int) = postion.toLong()
         override fun getCount() = State.values().size
     }
-
-    companion object {
-        @JvmStatic
-        @BindingAdapter("selection")
-        fun setStateInt(spinner : StateSpinner, value : State?) {
-            val oldValue = spinner.getSelection()
-            val newValue = value?.ordinal ?: -1
-            if (oldValue != newValue) {
-                spinner.setSelection(newValue)
-            }
-        }
-
-        @JvmStatic
-        @InverseBindingAdapter(attribute = "selection")
-        fun getStateInt(spinner: StateSpinner) : State? {
-            val selection = spinner.getSelection()
-            return if (selection == -1) {
-                null
-            } else {
-                State.values()[selection]
-            }
-        }
-    }
 }
