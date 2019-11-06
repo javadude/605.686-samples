@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="person" type="com.javadude.databinding1.Person" />
+        <variable name="selected" type="boolean" />
+        <variable name="model" type="com.javadude.databinding1.MainActivity.Model" />
+        <import type="android.graphics.Color" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:labelFor="@id/name"
+                android:background="@{selected ? Color.BLUE : Color.TRANSPARENT}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/name" />
+
+            <EditText
+                android:id="@+id/name"
+                android:text="@={person.name}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="textCapWords" />
+
+            <TextView
+                android:labelFor="@id/age"
+                android:onClick="@{() -> model.onAgeClicked(person.name)}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/age" />
+
+            <EditText
+                android:id="@+id/age"
+                android:text="@={``+person.age}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

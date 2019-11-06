@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<attr name="row_layout" format="reference" />
+	<attr name="items" format="reference"/>
+	<attr name="model" format="reference"/>
+
+	<declare-styleable name="BindingRecyclerView">
+		<attr name="row_layout"/>
+		<attr name="items"/>
+		<attr name="model"/>
+	</declare-styleable>
+
+	<declare-styleable name="BindingSpinner">
+		<attr name="row_layout"/>
+		<attr name="items"/>
+		<attr name="model"/>
+	</declare-styleable>
+</resources>

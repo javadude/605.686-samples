@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="model" type="com.javadude.databinding3.ContactViewModel"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:text="@string/name"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                    android:text="@={model.personWrapper.name}"
+                    android:inputType="text"
+                    android:layout_margin="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:text="@string/age"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                    android:text="@={`` + model.personWrapper.age}"
+                    android:inputType="number"
+                    android:layout_margin="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:text="@string/addresses"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <com.javadude.databinding3.BindingSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:model="@{model}"
+                app:items="@{model.addresses}"
+                app:selection="@={model.selectedAddressIndex}"
+                app:row_layout="@layout/address_row"
+                />
+
+            <include layout="@layout/fragment_edit_address" bind:address="@{model.selectedAddressWrapper}"/>
+        </LinearLayout>
+    </ScrollView>
+</layout>

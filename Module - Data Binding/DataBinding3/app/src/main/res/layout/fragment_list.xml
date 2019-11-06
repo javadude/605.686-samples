@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="model" type="com.javadude.databinding3.ListFragment.ListModel"/>
+    </data>
+
+    <com.javadude.databinding3.BindingRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:model="@{model}"
+        app:items="@{model.viewModel.people}"
+        app:row_layout="@layout/person_row"
+        />
+</layout>
