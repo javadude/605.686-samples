@@ -18,7 +18,7 @@ import androidx.databinding.DataBindingUtil
  *         app:row_layout="R.layout.my_item_layout"
  *         ... />
  *
- * The layout passed in for "itemLayout" must look similar to
+ * The layout passed in for "row_layout" must look similar to
  *
  *     <layout ...>
  *         <data>
