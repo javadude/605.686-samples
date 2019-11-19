@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+    compileSdkVersion versions.sdk.compile
+    defaultConfig {
+        applicationId "com.javadude.moviesnav"
+        minSdkVersion versions.sdk.min
+        targetSdkVersion versions.sdk.target
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    kapt deps.room.compiler
+    implementation deps.room.runtime
+    implementation deps.kotlin.stdlib
+    implementation deps.appcompat
+    implementation deps.material
+    implementation deps.constraintlayout
+    implementation deps.ktx
+    implementation deps.stetho
+    implementation deps.recyclerview
+    implementation deps.cardview
+    implementation deps.lifecycle.extensions
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+    implementation deps.testing.fragments
+
+    testImplementation deps.testing.junit
+    testImplementation deps.testing.robolectric
+    testImplementation deps.testing.androidxJunit
+
+    androidTestImplementation deps.testing.testCore
+    androidTestImplementation deps.testing.core
+    androidTestImplementation deps.testing.androidxJunit
+    androidTestImplementation deps.testing.espresso
+    androidTestImplementation deps.testing.runner
+    androidTestImplementation deps.testing.rules
+    androidTestImplementation deps.testing.mockito
+}

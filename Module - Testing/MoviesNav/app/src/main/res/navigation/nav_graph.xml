@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/state_movie_list">
+    <fragment
+        android:id="@+id/state_movie_list"
+        android:name="com.javadude.moviesnav.StateMovieList"
+        android:label="state_movie_list"
+        tools:layout="@layout/tools_movie_list">
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/state_first_movie_display" />
+        <action
+            android:id="@+id/action_view_all_actors"
+            app:destination="@id/state_actor_list" />
+        <action
+            android:id="@+id/action_edit_movie"
+            app:destination="@id/state_movie_edit" />
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/state_actor_display" />
+    </fragment>
+    <fragment
+        android:id="@+id/state_actor_list"
+        android:name="com.javadude.moviesnav.StateActorList"
+        android:label="state_actor_list"
+        tools:layout="@layout/tools_actor_list">
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/state_actor_display" />
+        <action
+            android:id="@+id/action_view_all_movies"
+            app:destination="@id/state_movie_list" />
+        <action
+            android:id="@+id/action_edit_actor"
+            app:destination="@id/state_actor_edit" />
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/state_movie_display" />
+    </fragment>
+    <fragment
+        android:id="@+id/state_first_movie_display"
+        android:name="com.javadude.moviesnav.StateFirstMovieDisplay"
+        android:label="state_first_movie_display"
+        tools:layout="@layout/state_movie_display">
+        <action
+            android:id="@+id/action_edit_movie"
+            app:destination="@id/state_movie_edit" />
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/state_actor_display" />
+        <argument
+            android:name="movieId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/state_movie_display" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/state_movie_display"
+        android:name="com.javadude.moviesnav.StateMovieDisplay"
+        android:label="state_movie_display"
+        tools:layout="@layout/ui_movie_display">
+        <action
+            android:id="@+id/action_edit_movie"
+            app:destination="@id/state_movie_edit" />
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/state_actor_display" />
+        <argument
+            android:name="movieId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/state_movie_display" />
+    </fragment>
+    <fragment
+        android:id="@+id/state_actor_display"
+        android:name="com.javadude.moviesnav.StateActorDisplay"
+        android:label="state_actor_display"
+        tools:layout="@layout/ui_actor_display">
+        <action
+            android:id="@+id/action_edit_actor"
+            app:destination="@id/state_actor_edit" />
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/state_movie_display" />
+        <argument
+            android:name="actorId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/state_actor_display" />
+    </fragment>
+    <fragment
+        android:id="@+id/state_movie_edit"
+        android:name="com.javadude.moviesnav.StateMovieEdit"
+        android:label="state_movie_edit"
+        tools:layout="@layout/ui_movie_edit">
+        <argument
+            android:name="movieId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_edit_role"
+            app:destination="@id/state_role_edit" />
+        <action
+            android:id="@+id/action_display_movie"
+            app:destination="@id/state_movie_display" />
+        <action
+            android:id="@+id/action_edit_movie"
+            app:destination="@id/state_movie_edit" />
+    </fragment>
+    <fragment
+        android:id="@+id/state_actor_edit"
+        android:name="com.javadude.moviesnav.StateActorEdit"
+        android:label="state_actor_edit"
+        tools:layout="@layout/ui_actor_edit">
+        <argument
+            android:name="actorId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_display_actor"
+            app:destination="@id/state_actor_display" />
+        <action
+            android:id="@+id/action_edit_actor"
+            app:destination="@id/state_actor_edit" />
+    </fragment>
+    <fragment
+        android:id="@+id/state_role_edit"
+        android:name="com.javadude.moviesnav.StateRoleEdit"
+        android:label="state_role_edit"
+        tools:layout="@layout/ui_role_edit">
+        <argument
+            android:name="roleId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="movieId"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_edit_role"
+            app:destination="@id/state_role_edit" />
+    </fragment>
+    <fragment
+        android:id="@+id/state_about"
+        android:name="com.javadude.moviesnav.StateAbout"
+        android:label="fragment_about"
+        tools:layout="@layout/state_about" />
+    <action android:id="@+id/action_global_about" app:destination="@id/state_about" />
+</navigation>

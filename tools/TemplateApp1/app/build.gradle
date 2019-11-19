@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.ben-manes.versions" version "0.21.0"
+    id "com.github.ben-manes.versions" version "0.27.0"
 }
 
 apply plugin: 'com.android.application'
@@ -28,17 +28,32 @@ android {
 
 dependencies {
     // include all the dependencies so we can run the dependency updater
-    kapt deps.lifecycle.compiler
-    kapt deps.room.compiler
-
+    implementation deps.kotlin.plugin
     implementation deps.kotlin.stdlib
+    implementation deps.kotlin.serialization.plugin
+    implementation deps.kotlin.serialization.runtime
+    implementation deps.kotlin.reflect
+    implementation deps.kotlin.coroutines.core
+    implementation deps.kotlin.coroutines.android
+    implementation deps.versionsPlugin
+    implementation deps.navigation.safeArgsPlugin
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
     implementation deps.quickpermissions
     implementation deps.stetho
+    implementation deps.android.plugin
     implementation deps.appcompat
     implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.compiler
+    implementation deps.lifecycle.viewModelKtx
+    implementation deps.activityKtx
+    implementation deps.fragment
     implementation deps.room.runtime
+    implementation deps.room.compiler
     implementation deps.androidxcore
+    implementation deps.androidxcoreruntime
     implementation deps.ktx
+    implementation deps.preference
     implementation deps.constraintlayout
     implementation deps.cardview
     implementation deps.recyclerview
@@ -48,8 +63,24 @@ dependencies {
     implementation deps.legacy
     implementation deps.maps
     implementation deps.maputils
+    implementation deps.location
     implementation deps.viewpagerindicator
     implementation deps.versionedparcelable
     implementation deps.antlr
     implementation deps.json
+    implementation deps.servletApi
+    implementation deps.gretty.plugin
+    implementation deps.fuel.core
+    implementation deps.fuel.android
+    implementation deps.fuel.livedata
+    implementation deps.dokka
+    implementation deps.databinding.compiler
+    implementation deps.testing.core
+    implementation deps.testing.junit
+    implementation deps.testing.androidxJunit
+    implementation deps.testing.espresso
+    implementation deps.testing.robolectric
+    implementation deps.testing.runner
+    implementation deps.testing.rules
+    implementation deps.testing.fragments
 }

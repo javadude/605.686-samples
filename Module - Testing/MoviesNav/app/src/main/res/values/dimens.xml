@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="delete_icon_margin">8dp</dimen>
+</resources>
