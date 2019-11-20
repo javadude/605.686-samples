@@ -42,7 +42,6 @@ class DummyViewModelTest {
 
     @Test
     fun `test set name`() {
-        val viewModel = DummyViewModel()
         assertEquals("", viewModel.name)
         viewModel.changeName("Scott")
         assertEquals("Scott", viewModel.name)

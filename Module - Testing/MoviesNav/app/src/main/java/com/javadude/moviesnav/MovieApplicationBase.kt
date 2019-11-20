@@ -37,8 +37,7 @@ abstract class MovieApplicationBase : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ServiceLocator.db = Room.inMemoryDatabaseBuilder(this, Database::class.java)
-            .allowMainThreadQueries()
+        ServiceLocator.db = Room.databaseBuilder(this, Database::class.java, "MOVIES")
             .addCallback(callback)
             .build()
     }
