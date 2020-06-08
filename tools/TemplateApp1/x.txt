@@ -13,76 +13,71 @@ Databinding v1 is removed.
 ------------------------------------------------------------
 
 The following dependencies are using the latest milestone version:
- - androidx.activity:activity-ktx:1.1.0-rc02
+ - androidx.activity:activity-ktx:1.1.0
  - androidx.appcompat:appcompat:1.1.0
  - androidx.arch.core:core-testing:2.1.0
  - androidx.cardview:cardview:1.0.0
- - androidx.constraintlayout:constraintlayout:2.0.0-beta3
- - androidx.core:core:1.2.0-beta02
- - androidx.core:core-ktx:1.2.0-beta02
- - androidx.fragment:fragment:1.2.0-rc02
- - androidx.fragment:fragment-testing:1.2.0-rc02
+ - androidx.core:core:1.3.0
+ - androidx.core:core-ktx:1.3.0
+ - androidx.fragment:fragment:1.2.4
+ - androidx.fragment:fragment-testing:1.2.4
  - androidx.legacy:legacy-support-v4:1.0.0
- - androidx.lifecycle:lifecycle-compiler:2.2.0-rc02
- - androidx.lifecycle:lifecycle-extensions:2.2.0-rc02
- - androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc02
+ - androidx.lifecycle:lifecycle-compiler:2.2.0
+ - androidx.lifecycle:lifecycle-extensions:2.2.0
+ - androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0
  - androidx.mediarouter:mediarouter:1.1.0
- - androidx.navigation:navigation-fragment-ktx:2.2.0-rc02
- - androidx.navigation:navigation-safe-args-gradle-plugin:2.2.0-rc02
- - androidx.navigation:navigation-ui-ktx:2.2.0-rc02
- - androidx.preference:preference-ktx:1.1.0
- - androidx.recyclerview:recyclerview:1.1.0-rc01
- - androidx.room:room-compiler:2.2.1
- - androidx.room:room-runtime:2.2.1
- - androidx.test:rules:1.3.0-alpha02
- - androidx.test:runner:1.3.0-alpha02
- - androidx.test.espresso:espresso-core:3.3.0-alpha02
- - androidx.test.ext:junit:1.1.2-alpha02
+ - androidx.navigation:navigation-fragment-ktx:2.2.2
+ - androidx.navigation:navigation-safe-args-gradle-plugin:2.2.2
+ - androidx.navigation:navigation-ui-ktx:2.2.2
+ - androidx.preference:preference-ktx:1.1.1
+ - androidx.recyclerview:recyclerview:1.1.0
+ - androidx.room:room-compiler:2.2.5
+ - androidx.room:room-runtime:2.2.5
+ - androidx.test:rules:1.2.0
+ - androidx.test:runner:1.2.0
+ - androidx.test.espresso:espresso-core:3.2.0
+ - androidx.test.ext:junit:1.1.1
  - androidx.vectordrawable:vectordrawable-animated:1.1.0
- - androidx.versionedparcelable:versionedparcelable:1.1.0
+ - androidx.versionedparcelable:versionedparcelable:1.1.1
  - com.facebook.stetho:stetho:1.5.1
  - com.github.JakeWharton:ViewPagerIndicator:2.4.1
- - com.github.ben-manes:gradle-versions-plugin:0.27.0
- - com.github.ben-manes.versions:com.github.ben-manes.versions.gradle.plugin:0.27.0
- - com.github.kittinunf.fuel:fuel:2.2.1
- - com.github.kittinunf.fuel:fuel-android:2.2.1
- - com.github.kittinunf.fuel:fuel-livedata:2.2.1
+ - com.github.ben-manes.versions:com.github.ben-manes.versions.gradle.plugin:0.28.0
+ - com.github.kittinunf.fuel:fuel:2.2.2
+ - com.github.kittinunf.fuel:fuel-android:2.2.2
+ - com.github.kittinunf.fuel:fuel-livedata:2.2.2
  - com.github.quickpermissions:quickpermissions-kotlin:0.4.1
  - com.google.android.gms:play-services-location:17.0.0
  - com.google.android.gms:play-services-maps:17.0.0
- - com.google.maps.android:android-maps-utils:0.6.2
+ - com.google.android.material:material:1.1.0
+ - com.google.maps.android:android-maps-utils:1.3.3
  - javax.servlet:javax.servlet-api:4.0.1
- - junit:junit:4.13-rc-1
- - org.antlr:antlr4:4.7.2
- - org.jetbrains.dokka:dokka-gradle-plugin:0.10.0
- - org.jetbrains.kotlin:kotlin-android-extensions:1.3.60
- - org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.60
- - org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.3.60
- - org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.60
- - org.jetbrains.kotlin:kotlin-reflect:1.3.60
- - org.jetbrains.kotlin:kotlin-serialization:1.3.60
- - org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.60
+ - junit:junit:4.13
+ - org.antlr:antlr4:4.8-1
+ - org.jetbrains.dokka:dokka-gradle-plugin:0.10.1
+ - org.jetbrains.kotlin:kotlin-android-extensions:1.3.72
+ - org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.72
+ - org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.3.72
+ - org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72
+ - org.jetbrains.kotlin:kotlin-reflect:1.3.72
+ - org.jetbrains.kotlin:kotlin-serialization:1.3.72
+ - org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72
+ - org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7
+ - org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7
  - org.robolectric:robolectric:4.3.1
 
 The following dependencies exceed the version found at the milestone revision level:
- - com.android.databinding:compiler [3.5.2 <- 3.2.0-alpha10]
+ - androidx.constraintlayout:constraintlayout [2.0.0-beta3 <- 1.1.3]
      http://tools.android.com
+ - com.android.databinding:compiler [3.6.3 <- 3.1.4]
+     http://tools.android.com
+ - org.jetbrains.kotlinx:kotlinx-serialization-runtime [0.20.0-1.4-M2 <- 0.20.0-1.4-M1-release-99]
+     https://github.com/Kotlin/kotlinx.serialization
 
 The following dependencies have later milestone versions:
- - com.android.tools.build:aapt2 [3.5.2-5435860 -> 4.0.0-alpha03-5910961]
+ - com.android.tools.build:gradle [3.6.3 -> 4.0.0]
      https://developer.android.com/studio
- - com.android.tools.build:gradle [3.5.2 -> 4.0.0-alpha03]
-     https://developer.android.com/studio
- - com.android.tools.lint:lint-gradle [26.5.2 -> 27.0.0-alpha03]
-     https://developer.android.com/studio
- - com.google.android.material:material [1.1.0-alpha10 -> 1.2.0-alpha01]
-     http://developer.android.com/tools/extras/support-library.html
- - org.jetbrains.kotlinx:kotlinx-coroutines-android [1.3.2 -> 1.3.2-1.3.60-eap-76]
-     https://github.com/Kotlin/kotlinx.coroutines
- - org.jetbrains.kotlinx:kotlinx-coroutines-core [1.3.2 -> 1.3.2-1.3.60-eap-76]
-     https://github.com/Kotlin/kotlinx.coroutines
- - org.jetbrains.kotlinx:kotlinx-serialization-runtime [0.12.0 -> 0.14.0-1.3.60-eap-76]
-     https://github.com/Kotlin/kotlinx.serialization
+ - com.github.ben-manes:gradle-versions-plugin [0.27.0 -> 0.28.0]
+     https://github.com/ben-manes/gradle-versions-plugin
 
 Failed to determine the latest version for the following dependencies (use --info for details):
  - androidx.core:core-runtime
@@ -90,9 +85,9 @@ Failed to determine the latest version for the following dependencies (use --inf
  - org.json:json
 
 Gradle release-candidate updates:
- - Gradle: [5.4.1 -> 6.0.1]
+ - Gradle: [5.6.4 -> 6.5]
 
-Generated report file C:\Users\scott\git\605.686-samples\tools\TemplateApp1\app\build\dependencyUpdates\report.txt
+Generated report file D:\git\605.686-samples\tools\TemplateApp1\app\build\dependencyUpdates\report.txt
 
-BUILD SUCCESSFUL in 8s
+BUILD SUCCESSFUL in 4s
 1 actionable task: 1 executed

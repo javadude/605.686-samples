@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.ben-manes.versions" version "0.27.0"
+    id "com.github.ben-manes.versions" version "0.28.0"
 }
 
 apply plugin: 'com.android.application'
@@ -24,6 +24,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+def isNonStable = { String version ->
+  def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+  def regex = /^[0-9,.v-]+(-r)?$/
+  return !stableKeyword && !(version ==~ regex)
+}
+
+dependencyUpdates {
+  rejectVersionIf {
+    isNonStable(it.candidate.version)
+  }
 }
 
 dependencies {

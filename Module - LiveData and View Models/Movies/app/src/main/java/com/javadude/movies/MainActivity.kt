@@ -5,17 +5,18 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: MovieViewModel2
+    private lateinit var viewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this).get(MovieViewModel2::class.java)
+        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
 
         val allMovies = findViewById<TextView>(R.id.all_movies)
         val allActors = findViewById<TextView>(R.id.all_actors)
