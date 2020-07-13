@@ -1,29 +1,21 @@
 package com.javadude.speech2
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-
-import org.antlr.v4.runtime.ANTLRErrorListener
-import org.antlr.v4.runtime.ANTLRInputStream
-import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.Parser
-import org.antlr.v4.runtime.RecognitionException
-import org.antlr.v4.runtime.Recognizer
+import androidx.appcompat.app.AppCompatActivity
+import org.antlr.v4.runtime.*
 import org.antlr.v4.runtime.atn.ATNConfigSet
 import org.antlr.v4.runtime.dfa.DFA
-
-import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.util.BitSet
+import java.util.*
 
 class GameActivity1 : AppCompatActivity() {
-    private var inputView: EditText? = null
-    private var textView: TextView? = null
-    private var game: Game? = null
+    private lateinit var inputView: EditText
+    private lateinit var textView: TextView
+    private lateinit var game: Game
 
     private val listener = object : ANTLRErrorListener {
         override fun syntaxError(
@@ -58,8 +50,8 @@ class GameActivity1 : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        textView = findViewById(R.id.textView) as TextView
-        inputView = findViewById(R.id.input) as EditText
+        textView = findViewById(R.id.textView)
+        inputView = findViewById(R.id.input)
     }
 
     override fun onResume() {
@@ -78,9 +70,9 @@ class GameActivity1 : AppCompatActivity() {
             parser.addErrorListener(listener)
             parser.command(game)
         } catch (e: RecognitionException) {
-            game!!.report(command, "Command not recognized; try again")
+            game.report(command, "Command not recognized; try again")
         } catch (e: RuntimeException) {
-            game!!.report(command, "Command $command not recognized; try again")
+            game.report(command, "Command $command not recognized; try again")
         }
 
     }
@@ -89,14 +81,14 @@ class GameActivity1 : AppCompatActivity() {
         val json = InputStreamReader(resources.openRawResource(R.raw.data)).readText()
         game = Game(json, object : Game.Reporter {
             override fun report(message: String, text: String) {
-                textView!!.text = text
+                textView.text = text
             }
         })
     }
 
     fun onSubmitCommand(view: View) {
-        val command = inputView!!.text.toString()
+        val command = inputView.text.toString()
         parseCommand(command.trim { it <= ' ' })
-        inputView!!.setText("")
+        inputView.setText("")
     }
 }

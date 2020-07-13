@@ -31,10 +31,11 @@ import java.util.ArrayList
 import java.util.BitSet
 import java.util.HashMap
 import java.util.Locale
+import kotlin.concurrent.thread
 
 class GameActivity4 : AppCompatActivity() {
-    private var game: Game? = null
-    private var textToSpeech: TextToSpeech? = null
+    private lateinit var game: Game
+    private lateinit var textToSpeech: TextToSpeech
     private val utteranceInfo = HashMap<String, String>()
 
     private fun startListening() = runWithPermissions(Manifest.permission.RECORD_AUDIO) {
@@ -124,12 +125,17 @@ class GameActivity4 : AppCompatActivity() {
         recognizerIntent!!.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
 
         textToSpeech = TextToSpeech(this, TextToSpeech.OnInitListener {
-            textToSpeech!!.language = Locale.US
+            textToSpeech.language = Locale.US
             utteranceInfo[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "spoken"
-            textToSpeech!!.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                 override fun onStart(utteranceId: String) {}
                 override fun onDone(utteranceId: String) {
-                    startListening()
+                    thread {
+                        Thread.sleep(100)
+                        runOnUiThread {
+                            startListening()
+                        }
+                    }
                 }
 
                 override fun onError(utteranceId: String) {}
@@ -141,8 +147,7 @@ class GameActivity4 : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         stopListening()
-        if (textToSpeech != null)
-            textToSpeech!!.shutdown()
+        textToSpeech.shutdown()
     }
 
     private fun parseCommand(command: String) {
@@ -156,9 +161,9 @@ class GameActivity4 : AppCompatActivity() {
             parser.addErrorListener(listener)
             parser.command(game)
         } catch (e: RecognitionException) {
-            game!!.report(command, "Command not recognized; try again")
+            game.report(command, "Command not recognized; try again")
         } catch (e: RuntimeException) {
-            game!!.report(command, "Command $command not recognized; try again")
+            game.report(command, "Command $command not recognized; try again")
         }
 
     }
@@ -169,7 +174,7 @@ class GameActivity4 : AppCompatActivity() {
             override fun report(message: String, text: String) {
                 textView!!.text = text
                 statusView!!.text = "Shhhhhhhh"
-                textToSpeech!!.speak(message, TextToSpeech.QUEUE_ADD, utteranceInfo)
+                textToSpeech.speak(message, TextToSpeech.QUEUE_ADD, utteranceInfo)
             }
         })
     }

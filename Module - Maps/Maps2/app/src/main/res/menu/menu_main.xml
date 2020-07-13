@@ -4,17 +4,20 @@
 	>
 
 	<item
+		android:title="@string/my_location"
+		android:id="@+id/action_my_location"
+		android:icon="@drawable/ic_my_location_white_24dp"
+		app:showAsAction="ifRoom"/>
+	<item
+		android:title="@string/car_location"
+		android:id="@+id/action_car_location"
+		android:icon="@drawable/ic_directions_car_black_24dp"
+		app:showAsAction="ifRoom"/>
+	<item
 		android:title="@string/remember_location"
 		android:id="@+id/action_remember_location"
 		android:icon="@drawable/pin_drop"
 		app:showAsAction="ifRoom"/>
-	<!-- DISABLED - AS OF DECEMBER 2018 REQUIRES AN API KEY WITH CREDIT CARD ACCOUNT
-	<item
-		android:title="@string/show_route"
-		android:id="@+id/action_show_route"
-		android:icon="@drawable/person"
-		app:showAsAction="ifRoom"/>
-	-->
 	<item
 		android:title="@string/navigate"
 		android:id="@+id/action_navigate"

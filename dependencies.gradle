@@ -14,7 +14,7 @@ ext {
 			stdlib : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
 			serialization : [
 				plugin : "org.jetbrains.kotlin:kotlin-serialization:${versions.kotlin}",
-				runtime : "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0-1.4-M2"
+				runtime : "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
 			],
 			reflect : "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
 			coroutines : [

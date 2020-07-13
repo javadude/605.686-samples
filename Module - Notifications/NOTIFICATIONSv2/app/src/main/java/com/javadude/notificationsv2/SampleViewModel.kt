@@ -29,17 +29,17 @@ class SampleViewModel : ViewModel() {
             progressLiveData.value = 0
 
             withContext(Dispatchers.IO) {
-                for (i in 0..99) {
+                repeat(100) {
                     if (throwException) {
                         throwException = false
                         throw RuntimeException("You asked to throw an exception!")
                     }
                     withContext(Dispatchers.Main) {
-                        progressLiveData.value = i
+                        progressLiveData.value = it
                     }
                     // OR
-                    //     progressLiveData.postValue(i)
-                    Log.d("MY COROUTINE 1", "Count = $i")
+//                         progressLiveData.postValue(it)
+                    Log.d("MY COROUTINE 1", "Count = $it")
                     delay(25)
                 }
             }
@@ -74,7 +74,7 @@ class SampleViewModel : ViewModel() {
                 task {progress ->
                     progressLiveData.postValue(progress)
                 }
-//                task(progressLiveData::postValue) // SORT-HAND METHOD REREFERENCE
+//                task(progressLiveData::postValue) // SHORT-HAND METHOD REFERENCE
             }
 
         } catch (t : Throwable) {

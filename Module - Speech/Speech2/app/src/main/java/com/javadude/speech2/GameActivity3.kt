@@ -4,31 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
-
-import org.antlr.v4.runtime.ANTLRErrorListener
-import org.antlr.v4.runtime.ANTLRInputStream
-import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.Parser
-import org.antlr.v4.runtime.RecognitionException
-import org.antlr.v4.runtime.Recognizer
+import androidx.appcompat.app.AppCompatActivity
+import org.antlr.v4.runtime.*
 import org.antlr.v4.runtime.atn.ATNConfigSet
 import org.antlr.v4.runtime.dfa.DFA
-
-import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.util.ArrayList
-import java.util.BitSet
-import java.util.Locale
+import java.util.*
 
 class GameActivity3 : AppCompatActivity() {
-    private var textView: TextView? = null
-    private var game: Game? = null
-    private var textToSpeech: TextToSpeech? = null
+    private lateinit var textView: TextView
+    private lateinit var game: Game
+    private lateinit var textToSpeech: TextToSpeech
 
     private val listener = object : ANTLRErrorListener {
         override fun syntaxError(
@@ -63,10 +52,10 @@ class GameActivity3 : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
-        textView = findViewById(R.id.textView) as TextView
+        textView = findViewById(R.id.textView)
 
         textToSpeech = TextToSpeech(this, TextToSpeech.OnInitListener {
-            textToSpeech!!.language = Locale.US
+            textToSpeech.language = Locale.US
             startTheGame()
         })
     }
@@ -82,9 +71,9 @@ class GameActivity3 : AppCompatActivity() {
             parser.addErrorListener(listener)
             parser.command(game)
         } catch (e: RecognitionException) {
-            game!!.report(command, "Command not recognized; try again")
+            game.report(command, "Command not recognized; try again")
         } catch (e: RuntimeException) {
-            game!!.report(command, "Command $command not recognized; try again")
+            game.report(command, "Command $command not recognized; try again")
         }
 
     }
@@ -93,8 +82,8 @@ class GameActivity3 : AppCompatActivity() {
         val json = InputStreamReader(resources.openRawResource(R.raw.data)).readText()
         game = Game(json, object : Game.Reporter {
             override fun report(message: String, text: String) {
-                textView!!.text = text
-                textToSpeech!!.speak(message, TextToSpeech.QUEUE_ADD, null)
+                textView.text = text
+                textToSpeech.speak(message, TextToSpeech.QUEUE_ADD, null)
             }
         })
     }
@@ -118,7 +107,6 @@ class GameActivity3 : AppCompatActivity() {
     }
 
     companion object {
-
-        private val REQUEST_GET_SPEECH = 42
+        private const val REQUEST_GET_SPEECH = 42
     }
 }

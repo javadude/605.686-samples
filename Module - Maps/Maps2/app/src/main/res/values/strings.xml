@@ -2,6 +2,12 @@
 	<string name="app_name">Maps</string>
 	<string name="title_activity_maps">Map</string>
 
+	<string name="my_location">My Location</string>
+	<string name="car_location">Car Location</string>
 	<string name="remember_location">Remember Location</string>
 	<string name="navigate">Navigate</string>
+
+	<string name="no_car_title">No Location Saved</string>
+	<string name="no_car_message">You have not set a location for your car</string>
+	<string name="ok">Ok</string>
 </resources>

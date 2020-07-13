@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -172,8 +173,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
+            R.id.action_my_location -> {
+                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16f))
+                true
+            }
+            R.id.action_car_location -> {
+                savedPosition?.let {
+                    map?.animateCamera(CameraUpdateFactory.newLatLngZoom(it, 16f))
+
+                } ?: run {
+                    AlertDialog.Builder(this@MapsActivity)
+                        .setTitle(R.string.no_car_title)
+                        .setMessage(R.string.no_car_message)
+                        .setPositiveButton(R.string.ok) { _, _ -> }
+                        .show()
+                }
+                true
+            }
             R.id.action_navigate -> {
                 currentLocation?.let { curr ->
                     savedPosition?.let { car ->
@@ -185,7 +203,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         })
                     }
                 }
-                return true
+                true
             }
 
             R.id.action_remember_location -> {
@@ -200,11 +218,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .position(this)
                     )
                 }
-                return true
+                true
             }
 
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
-    }
 }
 

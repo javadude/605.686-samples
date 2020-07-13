@@ -8,11 +8,7 @@ import android.view.View
 import android.widget.TextView
 import java.util.*
 
-class MainActivity2 : AppCompatActivity() {
-
-    private fun Int.onClick(handler : () -> Unit) =
-        findViewById<View>(this).setOnClickListener { handler() }
-
+class MainActivity2 : MyActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)

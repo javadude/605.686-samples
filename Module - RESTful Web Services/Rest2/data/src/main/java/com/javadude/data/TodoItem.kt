@@ -1,9 +1,9 @@
 package com.javadude.data
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.list
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.list
 import java.util.UUID
 
 @Serializable

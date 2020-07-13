@@ -48,7 +48,7 @@ class GraphDrawingArea @JvmOverloads constructor(
     private val halfSize = shapeSize/2
 
     private val squareDrawable = ContextCompat.getDrawable(context, R.drawable.square) ?: throw IllegalStateException("no square found")
-    private val circleDrawable = ContextCompat.getDrawable(context, R.drawable.circle) ?: throw IllegalStateException("no color found")
+    private val circleDrawable = ContextCompat.getDrawable(context, R.drawable.circle) ?: throw IllegalStateException("no circle found")
 
     private val strokeWidth = resources.getDimension(R.dimen.stroke_width)
     private val triangleFillColor = ContextCompat.getColor(context, R.color.triangle_fill)

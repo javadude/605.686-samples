@@ -1,13 +1,11 @@
 package com.javadude.customviews
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.View
 import kotlin.math.min
 
 class CustomView3 @JvmOverloads constructor(
@@ -28,6 +26,11 @@ class CustomView3 @JvmOverloads constructor(
     private val paint = Paint().apply {
         style = Paint.Style.FILL
         color = Color.BLUE
+    }
+    private val borderPaint = Paint().apply {
+        style = Paint.Style.STROKE
+        color = Color.BLACK
+        strokeWidth = context.resources.getDimension(R.dimen.stroke_width)
     }
 
     init {
@@ -63,6 +66,7 @@ class CustomView3 @JvmOverloads constructor(
         val canvas = holder.lockCanvas()
         try {
             canvas.drawColor(Color.WHITE)
+            canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), borderPaint)
             canvas.drawCircle(cx, cy, radius, paint)
 
         } finally {

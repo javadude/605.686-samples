@@ -9,14 +9,16 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 
-class MainActivity1 : AppCompatActivity() {
+abstract class MyActivityBase: AppCompatActivity() {
+    protected fun Int.onClick(handler : () -> Unit) =
+        findViewById<View>(this).setOnClickListener { handler() }
+}
+
+class MainActivity1 : MyActivityBase() {
     companion object {
         private const val DATA_REQUEST = 42
     }
     private lateinit var resultView : TextView
-
-    private fun Int.onClick(handler : () -> Unit) =
-        findViewById<View>(this).setOnClickListener { handler() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,7 @@ class MainActivity1 : AppCompatActivity() {
                 putExtra("data", dataView.text.toString())
             }
 
+//            startActivity(intent)
             startActivityForResult(intent, DATA_REQUEST)
         }
         R.id.button2.onClick {
@@ -58,9 +61,9 @@ class MainActivity1 : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == DATA_REQUEST) {
             if (resultCode == RESULT_OK) {
-                resultView.text = data?.getStringExtra("resultInfo")
+                resultView.text = data?.getStringExtra("resultInfo") ?: "no data returned"
             } else {
-                resultView.text = "canceled"
+                resultView.text = getString(R.string.canceled)
             }
             return
         }

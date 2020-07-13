@@ -22,7 +22,7 @@
 
     <com.javadude.customviews.PictographView
         app:drawable_color="#00FF00"
-        app:drawable="@drawable/ic_directions_car_black_24dp"
+        app:drawable="@drawable/ic_android_white_24dp"
         app:count="10.8"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 class CustomView1 @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
+
     private var halfWidth = 0f
     private var halfHeight = 0f
     private val strokeWidth = context.resources.getDimension(R.dimen.stroke_width)

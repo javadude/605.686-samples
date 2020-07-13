@@ -54,8 +54,24 @@ class MovieViewModel3(application: Application) : AndroidViewModel(application) 
     val allMovies = db.dao.allMoviesAsync()
     val allActors = db.dao.allActorsAsync()
 
-    val selectedMovieId = MutableLiveData<String>().apply { value = null }
-    val selectedActorId = MutableLiveData<String>().apply { value = null }
+    class CustomMutableLiveData<T>: MutableLiveData<T>() {
+        override fun setValue(value: T?) {
+            super.setValue(value)
+        }
+    }
+
+    val selectedMovieId = CustomMutableLiveData<String>().apply { value = null }
+    val selectedActorId = CustomMutableLiveData<String>().apply { value = null }
+
+    val selectedThing = object: MutableLiveData<String>() {
+        init { // FIXME
+            value = null
+        }
+
+        override fun setValue(value: String?) {
+            super.setValue(value)
+        }
+    }
 
     val selectedMovie = selectedMovieId.switchMap(null) {
         it?.let { db.dao.getMovieAsync(it) }

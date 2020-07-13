@@ -9,7 +9,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        setContentView(CustomView(this))
+//        setContentView(CustomView1(this))
+//        setContentView(R.layout.activity_main2)
+//        setContentView(R.layout.activity_main3)
         setContentView(R.layout.activity_main4)
 
         val picto = findViewById<PictographView>(R.id.picto)

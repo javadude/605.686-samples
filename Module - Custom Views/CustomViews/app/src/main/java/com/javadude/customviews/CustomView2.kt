@@ -27,6 +27,11 @@ class CustomView2 @JvmOverloads constructor(
         style = Paint.Style.FILL
         color = Color.BLUE
     }
+    private val borderPaint = Paint().apply {
+        style = Paint.Style.STROKE
+        color = Color.BLACK
+        strokeWidth = context.resources.getDimension(R.dimen.stroke_width)
+    }
 
     init {
         attrs?.let {
@@ -48,6 +53,7 @@ class CustomView2 @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(Color.WHITE)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), borderPaint)
         canvas.drawCircle(cx, cy, radius, paint)
     }
 
