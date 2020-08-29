@@ -46,12 +46,12 @@ dependencies {
     implementation deps.lifecycle.extensions
     implementation deps.navigation.fragment
     implementation deps.navigation.ui
-    implementation deps.testing.fragments
 
     testImplementation deps.testing.junit
     testImplementation deps.testing.robolectric
     testImplementation deps.testing.androidxJunit
 
+    androidTestImplementation deps.testing.fragments
     androidTestImplementation deps.testing.testCore
     androidTestImplementation deps.testing.core
     androidTestImplementation deps.testing.androidxJunit

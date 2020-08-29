@@ -43,12 +43,12 @@ class CustomView3 @JvmOverloads constructor(
             }
         }
         holder.addCallback(object : SurfaceHolder.Callback {
-            override fun surfaceChanged(p0: SurfaceHolder?, p1: Int, p2: Int, p3: Int) {}
-            override fun surfaceDestroyed(p0: SurfaceHolder?) {
+            override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {}
+            override fun surfaceDestroyed(p0: SurfaceHolder) {
                 moverThread?.interrupt()
                 moverThread = null
             }
-            override fun surfaceCreated(p0: SurfaceHolder?) {
+            override fun surfaceCreated(p0: SurfaceHolder) {
                 moverThread = MoverThread()
                 moverThread?.start()
             }

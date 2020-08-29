@@ -5,11 +5,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion versions.sdk.compile
+    compileSdkVersion 29 // NOT YET UPDATED FOR STORAGE ACCESS FRAMEWORK!!!
     defaultConfig {
         applicationId "com.javadude.files"
         minSdkVersion versions.sdk.min
-        targetSdkVersion versions.sdk.target
+        targetSdkVersion // NOT YET UPDATED FOR STORAGE ACCESS FRAMEWORK!!!
         versionCode 1
         versionName "1.0"
     }

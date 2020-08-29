@@ -1,6 +1,7 @@
 package com.javadude.data
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
@@ -14,19 +15,21 @@ data class TodoItem(
     var priority : Int = 1
 )
 
-private val json = Json(JsonConfiguration.Stable)
+private val json = Json { allowStructuredMapKeys = true }
 
+// NOTE - the Kotlin Serialization lib has changed the API since the video was created
+//    the code below correctly works with the 1.0 RC version of kotlin serialization
 fun TodoItem.toJsonString() =
-    json.stringify(TodoItem.serializer(), this)
+    json.encodeToString(TodoItem.serializer(), this)
 
 fun List<TodoItem>.todoListToJsonString() =
-    json.stringify(TodoItem.serializer().list, this)
+    json.encodeToString(ListSerializer(TodoItem.serializer()), this)
 
 fun String.toTodoItem() =
-    if (this.isEmpty()) null else json.parse(TodoItem.serializer(), this)
+    if (this.isEmpty()) null else json.decodeFromString(TodoItem.serializer(), this)
 
 fun String.toTodoItemList() =
-    if (this.isEmpty()) emptyList() else json.parse(TodoItem.serializer().list, this)
+    if (this.isEmpty()) emptyList() else json.decodeFromString(ListSerializer(TodoItem.serializer()), this)
 
 fun ByteArray.toTodoItem() = String(this).toTodoItem()
 fun ByteArray.toTodoItemList() = String(this).toTodoItemList()
