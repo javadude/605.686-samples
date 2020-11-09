@@ -51,7 +51,9 @@ dependencies {
     testImplementation deps.testing.robolectric
     testImplementation deps.testing.androidxJunit
 
-    androidTestImplementation deps.testing.fragments
+    debugImplementation(deps.testing.fragments) {
+        exclude group: 'androidx.test', module: 'core'
+    }
     androidTestImplementation deps.testing.testCore
     androidTestImplementation deps.testing.core
     androidTestImplementation deps.testing.androidxJunit
