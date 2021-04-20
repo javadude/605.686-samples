@@ -13,20 +13,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 const val notificationChannel = "com.javadude.foo"
 
 class MainActivity : AppCompatActivity() {
-    lateinit var viewModel: SampleViewModel
+    private val viewModel by viewModels<SampleViewModel>()
 
     lateinit var notificationManager: NotificationManager
 
@@ -44,22 +43,20 @@ class MainActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel::class.java)
-
-        viewModel.isActiveLiveData.observe(this, Observer {
+        viewModel.isActiveLiveData.observe(this) {
             progressBar2.visibility = if (it == true) View.VISIBLE else View.GONE
             coroutine_task1_button.isEnabled = it != true
             coroutine_task2_button.isEnabled = it != true
             throw_exception_button.isEnabled = it == true
-        })
-        viewModel.messageLiveData.observe(this, Observer {
+        }
+        viewModel.messageLiveData.observe(this) {
             text.text = it
-        })
-        viewModel.progressLiveData.observe(this, Observer {
+        }
+        viewModel.progressLiveData.observe(this) {
             it?.let {
                 progressBar2.progress = it
             }
-        })
+        }
 
         toast_button.setOnClickListener {
             Toast.makeText(this, "I am a toast!", Toast.LENGTH_SHORT).show()

@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.ben-manes.versions" version "0.28.0"
+    id "com.github.ben-manes.versions" version "0.38.0"
 }
 
 apply plugin: 'com.android.application'
@@ -55,7 +55,8 @@ dependencies {
     implementation deps.stetho
     implementation deps.android.plugin
     implementation deps.appcompat
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewModel
+    implementation deps.lifecycle.liveData
     implementation deps.lifecycle.compiler
     implementation deps.lifecycle.viewModelKtx
     implementation deps.activityKtx
@@ -79,7 +80,6 @@ dependencies {
     implementation deps.viewpagerindicator
     implementation deps.versionedparcelable
     implementation deps.antlr
-    implementation deps.json
     implementation deps.servletApi
     implementation deps.gretty.plugin
     implementation deps.fuel.core

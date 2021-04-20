@@ -1,7 +1,6 @@
 package com.javadude.moviesdb
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.*
 

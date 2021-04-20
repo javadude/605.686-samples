@@ -2,10 +2,7 @@ package com.javadude.services2
 
 import android.app.Service
 import android.content.Intent
-import android.os.Handler
-import android.os.IBinder
-import android.os.Message
-import android.os.Messenger
+import android.os.*
 import android.util.Log
 import java.lang.ref.WeakReference
 
@@ -25,7 +22,7 @@ class RemoteService1 : Service() {
         reporters.remove(reporter)
     }
 
-    private class MyHandler(remoteService1: RemoteService1) : Handler() {
+    private class MyHandler(remoteService1: RemoteService1) : Handler(Looper.getMainLooper()) {
         private val serviceRef = WeakReference(remoteService1)
 
         override fun handleMessage(msg: Message) {

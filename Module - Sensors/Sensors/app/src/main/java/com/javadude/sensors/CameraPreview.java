@@ -11,8 +11,7 @@ import android.view.SurfaceView;
 // From Android Developer's website
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = "CameraPreview";
-    private SurfaceHolder holder;
-    private Camera camera;
+    private final Camera camera;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
@@ -20,7 +19,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
-        holder = getHolder();
+        SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);

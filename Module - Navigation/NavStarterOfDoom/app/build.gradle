@@ -43,7 +43,8 @@ dependencies {
     implementation deps.stetho
     implementation deps.recyclerview
     implementation deps.cardview
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewModel
+    implementation deps.lifecycle.liveData
     implementation deps.navigation.fragment
     implementation deps.navigation.ui
 }

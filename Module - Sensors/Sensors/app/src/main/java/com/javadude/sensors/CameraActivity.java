@@ -13,16 +13,18 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 public class CameraActivity extends AppCompatActivity {
 	private static final int permissionsRequestCode = 42;
 	private static final String CAMERA_PERMISSION = "android.permission.CAMERA";
-	private static double smoothFactor = 0.15;
+	private static final double smoothFactor = 0.15;
 
 	private Camera camera;
 	private FrameLayout preview;
@@ -30,10 +32,10 @@ public class CameraActivity extends AppCompatActivity {
 
 	private Sensor accelerometer;
 	private Sensor magnetometer;
-	private float[] gravity = new float[3];
-	private float[] geomagnetic = new float[3];
-	private float[] matrixR = new float[9];
-	private float[] orientation = new float[3];
+	private final float[] gravity = new float[3];
+	private final float[] geomagnetic = new float[3];
+	private final float[] matrixR = new float[9];
+	private final float[] orientation = new float[3];
 	private float horizontalViewAngle;
 	private float verticalViewAngle;
 	private int halfHorizontalViewAngle;
@@ -93,6 +95,7 @@ public class CameraActivity extends AppCompatActivity {
 
 	private void updateOrientation() {
 		if (SensorManager.getRotationMatrix(matrixR, null, gravity, geomagnetic)) {
+			//noinspection SuspiciousNameCombination
 			SensorManager.remapCoordinateSystem(matrixR, SensorManager.AXIS_Z, SensorManager.AXIS_MINUS_X, matrixR);
 			SensorManager.getOrientation(matrixR, orientation);
 			compass = lowpass((Math.toDegrees(orientation[0]) + 360) % 360, compass);
@@ -157,7 +160,7 @@ public class CameraActivity extends AppCompatActivity {
 		}
 	}
 	@Override
-	public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults){
+	public void onRequestPermissionsResult(int permsRequestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
 		switch(permsRequestCode){
 			case permissionsRequestCode:
 				if (grantResults[0]== PackageManager.PERMISSION_GRANTED) {
@@ -188,7 +191,7 @@ public class CameraActivity extends AppCompatActivity {
 	private class DrawOnTop extends View {
 		private Paint paint1;
 		private Paint paint2;
-		private Rect bounds = new Rect();
+		private final Rect bounds = new Rect();
 		public DrawOnTop(Context context) {
 			super(context);
 		}
@@ -236,7 +239,7 @@ public class CameraActivity extends AppCompatActivity {
 				String text = ""+(-(i%360));
 				paint2.getTextBounds(text, 0, text.length(), bounds);
 				if (i % 20 == 0)
-					canvas.drawText(text, 40, y + (bounds.bottom-bounds.top)/2, paint2);
+					canvas.drawText(text, 40, y + (bounds.bottom-bounds.top)/2f, paint2);
 				canvas.drawLine(0, y, 30, y, paint2);
 				y += ypixelsPerChunk;
 			}

@@ -54,7 +54,7 @@ class BoundService2 : Service() {
         super.onDestroy()
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
+    override fun onBind(intent: Intent?): IBinder {
         if (counterThread == null) {
             counterThread = createCounter()
             counterThread!!.start()

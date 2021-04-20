@@ -43,7 +43,8 @@ dependencies {
     implementation deps.stetho
     implementation deps.recyclerview
     implementation deps.cardview
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewModel
+    implementation deps.lifecycle.liveData
     implementation deps.navigation.fragment
     implementation deps.navigation.ui
 
@@ -51,12 +52,12 @@ dependencies {
     testImplementation deps.testing.robolectric
     testImplementation deps.testing.androidxJunit
 
-    androidTestImplementation deps.testing.fragments
-    androidTestImplementation deps.testing.testCore
-    androidTestImplementation deps.testing.core
-    androidTestImplementation deps.testing.androidxJunit
-    androidTestImplementation deps.testing.espresso
-    androidTestImplementation deps.testing.runner
-    androidTestImplementation deps.testing.rules
-    androidTestImplementation deps.testing.mockito
+    debugImplementation deps.testing.fragments
+    debugImplementation deps.testing.testCore
+    debugImplementation deps.testing.core
+    debugImplementation deps.testing.androidxJunit
+    debugImplementation deps.testing.espresso
+    debugImplementation deps.testing.runner
+    debugImplementation deps.testing.rules
+    debugImplementation deps.testing.mockito
 }

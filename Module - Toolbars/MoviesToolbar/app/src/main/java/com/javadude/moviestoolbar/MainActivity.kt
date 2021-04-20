@@ -5,13 +5,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: MovieViewModel3
+    private val viewModel by viewModels<MovieViewModel3>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         // END NEW FOR TOOLBAR
-
-        viewModel = ViewModelProvider(this).get(MovieViewModel3::class.java)
 
         val allMovies = findViewById<TextView>(R.id.all_movies)
         val allActors = findViewById<TextView>(R.id.all_actors)
@@ -66,46 +63,46 @@ class MainActivity : AppCompatActivity() {
             viewModel.deleteMovie("m3")
         }
 
-        viewModel.message.observe(this, Observer {
+        viewModel.message.observe(this) {
             filmography.text = it
-        })
+        }
 
-        viewModel.allMovies.observe(this, Observer {
+        viewModel.allMovies.observe(this) {
             allMovies.text = it?.let {
                 it.joinToString("\n") {movie ->
                     movie.title
                 }
             } ?: "no movies in database"
-        })
+        }
 
-        viewModel.allActors.observe(this, Observer {
+        viewModel.allActors.observe(this) {
             allActors.text = it?.let {
                 it.joinToString("\n") {actor ->
                     actor.name
                 }
             } ?: "no actors in database"
-        })
+        }
 
-        viewModel.selectedMovie.observe(this, Observer {
+        viewModel.selectedMovie.observe(this) {
             title.text = it?.title ?: "(no movie selected)"
             description.text = it?.description ?: "(no movie selected)"
-        })
+        }
 
-        viewModel.selectedActor.observe(this, Observer {
+        viewModel.selectedActor.observe(this) {
             name.text = it?.name ?: "(no actor selected)"
-        })
+        }
 
-        viewModel.cast2.observe(this, Observer {
+        viewModel.cast2.observe(this) {
             cast.text = it.joinToString("\n") {role ->
                 "${role.roleName}: ${role.actor.name}"
             }
-        })
+        }
 
-        viewModel.filmography.observe(this, Observer {
+        viewModel.filmography.observe(this) {
             filmography.text = it.joinToString("\n") {movie ->
                 movie.title
             }
-        })
+        }
     }
 
 

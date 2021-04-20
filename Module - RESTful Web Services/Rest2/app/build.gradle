@@ -35,7 +35,8 @@ dependencies {
     implementation deps.fuel.android
     implementation deps.fuel.livedata
     implementation deps.kotlin.stdlib
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewModel
+    implementation deps.lifecycle.liveData
     implementation deps.appcompat
     implementation deps.constraintlayout
     implementation deps.recyclerview

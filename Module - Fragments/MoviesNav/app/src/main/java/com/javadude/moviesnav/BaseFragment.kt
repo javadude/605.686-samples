@@ -1,21 +1,14 @@
 package com.javadude.moviesnav
 
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -36,20 +29,15 @@ abstract class State(
 }
 
 abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutId : Int, @MenuRes val menuId : Int) : Fragment() {
-    lateinit var viewModel : MovieViewModel
+    val viewModel by activityViewModels<MovieViewModel>()
+        // NOTE: This view model instance is scoped to the _activity_, not this fragment,
+        //       so it can share data with all fragments
     private val mainActivity : MainActivity?
         get() = activity as MainActivity?
 
     private val menuActions = mutableMapOf<Int, () -> Unit>()
     fun registerMenuHandler(@IdRes menuItemId: Int, handler: () -> Unit) {
         menuActions[menuItemId] = handler
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // NOTE: This view model instance is scoped to the _activity_, not this fragment,
-        //       so it can share data with all fragments
-        viewModel = ViewModelProvider(context as AppCompatActivity).get(MovieViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,5 +91,5 @@ abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutI
     // NOTE: activity!! is ok here as onViewCreated() is only called when
     //         we're attached to an Activity
     fun RecyclerView.swipeLeft(action : (String) -> Unit) =
-        ItemTouchHelper(Swiper(activity!!, action)).attachToRecyclerView(this)
+        ItemTouchHelper(Swiper(requireActivity(), action)).attachToRecyclerView(this)
 }

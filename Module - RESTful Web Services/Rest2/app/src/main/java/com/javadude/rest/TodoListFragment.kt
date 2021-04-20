@@ -1,35 +1,23 @@
 package com.javadude.rest
 
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.javadude.data.TodoItem
 
 class TodoListFragment : Fragment() {
-    private lateinit var viewModel : TodoViewModel
+    private val viewModel by activityViewModels<TodoViewModel>()
     private lateinit var adapter : TodoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-    }
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        viewModel = ViewModelProvider(context as AppCompatActivity).get(TodoViewModel::class.java)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(R.layout.fragment_todo_list, container, false)
@@ -45,7 +33,7 @@ class TodoListFragment : Fragment() {
 
         recycler.adapter = adapter
 
-        viewModel.todoItems.observe(viewLifecycleOwner, Observer {
+        viewModel.todoItems.observe(viewLifecycleOwner) {
             when (it) {
                 is TodoItemListResult -> adapter.items = it.items
                 is TodoError -> {
@@ -58,15 +46,15 @@ class TodoListFragment : Fragment() {
                     Toast.makeText(context, "Unexpected response: $it", Toast.LENGTH_LONG).show()
                 }
             }
-        })
+        }
 
-        viewModel.actionResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.actionResponse.observe(viewLifecycleOwner) {
             if (it is TodoItemResult) {
                 // new item was created - go edit it
                 viewModel.selectedTodoItem.value = it.item
                 findNavController().navigate(R.id.action_edit)
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -15,7 +15,7 @@ class MainActivity4 : AppCompatActivity() {
     private val messenger = Messenger(MyHandler(this))
     private var remoteService : Messenger? = null
 
-    class MyHandler(activity : MainActivity4) : Handler() {
+    class MyHandler(activity : MainActivity4) : Handler(Looper.getMainLooper()) {
         private val activityRef = WeakReference(activity)
 
         override fun handleMessage(msg: Message) {

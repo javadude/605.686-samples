@@ -19,13 +19,15 @@ android {
 	}
 }
 
-dokka {
-	outputFormat = 'html'
-	outputDirectory = "$buildDir/dokka"
-	configuration {
-		samples = ['src/samples']
-	}
-}
+
+// needs to be updated
+//dokka {
+//	outputFormat = 'html'
+//	outputDirectory = "$buildDir/dokka"
+//	configuration {
+//		samples = ['src/samples']
+//	}
+//}
 
 dependencies {
 	implementation deps.vectordrawable

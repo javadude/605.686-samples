@@ -5,17 +5,16 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel : MovieViewModel
+    private val viewModel by viewModels<MovieViewModel>()
 
     private var actionMode : ActionMode? = null
 
@@ -28,8 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         val movieList = findViewById<RecyclerView>(R.id.movie_list)
 
-        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
-
         val adapter = MovieAdapter2(
             onClicked = viewModel::onClicked, // function reference!
             onIconClicked = { viewModel.onIconClicked(it) }, // normal lambda
@@ -38,18 +35,18 @@ class MainActivity : AppCompatActivity() {
 
         movieList.adapter = adapter
 
-        viewModel.allMovies.observe(this, Observer {
+        viewModel.allMovies.observe(this) {
             adapter.movies = it ?: emptyList()
-        })
+        }
 
         // selection support
-        viewModel.selectedMovies.observe(this, Observer {
+        viewModel.selectedMovies.observe(this) {
             adapter.selectedMovies = it ?: emptySet()
             actionMode?.invalidate()
-        })
+        }
 
         // adding contextual action mode when multiple items selected
-        viewModel.multiMovieSelectMode.observe(this, Observer {
+        viewModel.multiMovieSelectMode.observe(this) {
             if (it == true) { // handles null as false...
                 // start action mode
                 if (actionMode == null) {
@@ -59,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 // dismiss action mode
                 actionMode?.finish()
             }
-        })
+        }
 
         // adding in "swipe to delete" capability
         ItemTouchHelper(Swiper()).attachToRecyclerView(movieList)

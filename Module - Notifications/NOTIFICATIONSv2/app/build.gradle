@@ -19,11 +19,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation deps.lifecycle.viewModelKtx
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewModel
+    implementation deps.lifecycle.liveData
     implementation deps.kotlin.coroutines.core
     implementation deps.kotlin.coroutines.android
     implementation deps.kotlin.stdlib
@@ -31,4 +40,5 @@ dependencies {
     implementation deps.constraintlayout
     implementation deps.material
     implementation deps.androidxcore
+    implementation deps.fragmentKtx
 }

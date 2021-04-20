@@ -3,23 +3,22 @@ package com.javadude.moviesnav
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 
 class MainActivity : AppCompatActivity() {
-    lateinit var viewModel : MovieViewModel
+    private val viewModel by viewModels<MovieViewModel>()
+        // NOTE: This view model instance is scoped to this activity.
+        //       In the fragments, we need to also scope to the activity so they all share
+        //       the same data
     private var actionMode : ActionMode? = null
     private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // NOTE: This view model instance is scoped to this activity.
-        //       In the fragments, we need to also scope to the activity so they all share
-        //       the same data
-        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
         setContentView(R.layout.activity_main)
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

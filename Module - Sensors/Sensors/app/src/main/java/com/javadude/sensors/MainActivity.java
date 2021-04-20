@@ -4,16 +4,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView accelZ;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private WindowManager windowManager;
     private Display defaultDisplay;
 
     @Override
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         defaultDisplay = windowManager.getDefaultDisplay();
 //        List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
 //        for(Sensor sensor : sensorList) {
@@ -62,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
         sensorManager.unregisterListener(listener);
     }
 
-    private float[] gravity = new float[3];
-    private float[] linear_acceleration = new float[3];
-    private final float alpha = 0.8f;
-    private SensorEventListener listener = new SensorEventListener() {
+    private final float[] gravity = new float[3];
+    private final float[] linear_acceleration = new float[3];
+    private final SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
             // alpha is calculated as t / (t + dT)
             // with t, the low-pass filter's time-constant
             // and dT, the event delivery rate
 
+            float alpha = 0.8f;
             gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
             gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
             gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];

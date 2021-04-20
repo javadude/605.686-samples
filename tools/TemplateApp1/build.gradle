@@ -5,7 +5,8 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath deps.android.plugin
@@ -19,7 +20,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url "http://jitpack.io/" } // for quickpermissions
+        maven { url "https://plugins.gradle.org/m2/" }
     }
 }
 

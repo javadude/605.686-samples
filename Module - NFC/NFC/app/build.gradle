@@ -5,8 +5,8 @@ android {
 
 	defaultConfig {
 		applicationId "com.javadude.nfc"
-		minSdkVersion versions.sdk.compile
-		targetSdkVersion versions.sdk.compile
+		minSdkVersion versions.sdk.min
+		targetSdkVersion versions.sdk.target
 		versionCode 1
 		versionName "1.0"
 	}

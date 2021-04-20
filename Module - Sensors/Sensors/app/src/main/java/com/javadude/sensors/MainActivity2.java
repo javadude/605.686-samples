@@ -5,17 +5,16 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity2 extends AppCompatActivity {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private WindowManager windowManager;
     private Display defaultDisplay;
     private PuckView puckView;
 
@@ -26,7 +25,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(puckView);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         defaultDisplay = windowManager.getDefaultDisplay();
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -44,7 +43,7 @@ public class MainActivity2 extends AppCompatActivity {
         sensorManager.unregisterListener(listener);
     }
 
-    private SensorEventListener listener = new SensorEventListener() {
+    private final SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
             float x = 0;

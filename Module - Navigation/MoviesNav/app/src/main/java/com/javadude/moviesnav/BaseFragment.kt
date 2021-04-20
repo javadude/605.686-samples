@@ -1,16 +1,16 @@
+@file:Suppress("SameParameterValue")
+
 package com.javadude.moviesnav
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,16 +18,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutId : Int, @MenuRes val menuId : Int = -1) : Fragment() {
     open val isTopLevelForDestination = true
-    lateinit var viewModel : MovieViewModel
-    private val mainActivity : MainActivity?
-        get() = activity as MainActivity?
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    val viewModel by activityViewModels<MovieViewModel>()
         // NOTE: This view model instance is scoped to the _activity_, not this fragment,
         //       so it can share data with all fragments
-        viewModel = ViewModelProvider(context as AppCompatActivity).get(MovieViewModel::class.java)
-    }
+    private val mainActivity : MainActivity?
+        get() = activity as MainActivity?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +59,7 @@ abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutI
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutId, container, false)
 
     fun startMovieDeleteMode() = mainActivity?.startMovieDeleteMode()
@@ -72,14 +67,14 @@ abstract class BaseFragment(@StringRes val titleId : Int, @LayoutRes val layoutI
     fun invalidateActionMode() = mainActivity?.invalidateActionMode()
     fun dismissActionMode() = mainActivity?.dismissActionMode()
 
-    fun navigate(@IdRes action : Int) = view?.findNavController()?.navigate(action)
+    private fun navigate(@IdRes action : Int) = view?.findNavController()?.navigate(action)
     fun navigate(action : NavDirections) = view?.findNavController()?.navigate(action)
 
     // adding in "swipe to delete" capability
     // NOTE: activity!! is ok here as onViewCreated() is only called when
     //         we're attached to an Activity
     fun RecyclerView.swipeLeft(action : (String) -> Unit) =
-        ItemTouchHelper(Swiper(activity!!, action)).attachToRecyclerView(this)
+        ItemTouchHelper(Swiper(requireActivity(), action)).attachToRecyclerView(this)
 
 
 }

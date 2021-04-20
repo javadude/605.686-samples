@@ -1,17 +1,14 @@
 package com.javadude.widgetsv2
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -22,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val adapter = NamesAdapter()
-    private lateinit var viewModel: SampleViewModel
+    private val viewModel by viewModels<SampleViewModel>()
 
     var people : List<Person>? = null
 
@@ -35,16 +32,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel::class.java)
-
         viewModel.selectedName.value = intent.getStringExtra(EXTRA_ITEM_NAME)
-        viewModel.people.observe(this, Observer {
+        viewModel.people.observe(this) {
             people = it
             adapter.notifyDataSetChanged()
-        })
-        viewModel.selectedName.observe(this, Observer {
+        }
+        viewModel.selectedName.observe(this) {
             name.setText(it ?: "")
-        })
+        }
         setSupportActionBar(toolbar)
         recycler.adapter = adapter
         recycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)

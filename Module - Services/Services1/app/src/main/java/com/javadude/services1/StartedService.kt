@@ -2,6 +2,7 @@ package com.javadude.services1
 
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.util.Log
 
 // A started service (basically "start and forget")
@@ -32,5 +33,5 @@ class StartedService : Service() {
         counterThread.interrupt()
         super.onDestroy()
     }
-    override fun onBind(p0: Intent?) = null
+    override fun onBind(intent: Intent?): Binder? = null
 }

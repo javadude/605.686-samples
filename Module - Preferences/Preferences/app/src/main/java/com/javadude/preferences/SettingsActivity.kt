@@ -2,10 +2,8 @@ package com.javadude.preferences
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 
 class SettingsActivity : AppCompatActivity() {
 

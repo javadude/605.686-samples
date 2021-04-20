@@ -3,20 +3,19 @@ package com.javadude.movies
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: MovieViewModel
+    private val viewModel by viewModels<MovieViewModel>()
+        // newer way to access view model; requires activity KTX dependency
+    private lateinit var cast: TextView
+    private lateinit var filmography: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
 
         val allMovies = findViewById<TextView>(R.id.all_movies)
         val allActors = findViewById<TextView>(R.id.all_actors)
@@ -27,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         val actor2Button = findViewById<Button>(R.id.button_actor_2)
         val movie1Button = findViewById<Button>(R.id.button_movie_1)
         val movie2Button = findViewById<Button>(R.id.button_movie_2)
+        cast = findViewById(R.id.cast)
+        filmography = findViewById(R.id.filmography)
 
         actor1Button.setOnClickListener {
             executor.execute {

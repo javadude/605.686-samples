@@ -4,6 +4,7 @@ apply plugin: 'kotlinx-serialization'
 dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.serialization.runtime
+    implementation deps.kotlin.serialization.json
 }
 
 sourceCompatibility = "8"

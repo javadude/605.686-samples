@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -50,9 +49,9 @@ class MainActivity : AppCompatActivity() {
         R.id.change_sign.onClick { viewModel.logic.negate() }
 
         val display = findViewById<TextView>(R.id.display)
-        viewModel.displayLiveData.observe(this, Observer {
+        viewModel.displayLiveData.observe(this) {
             display.text = it
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

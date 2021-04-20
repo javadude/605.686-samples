@@ -16,7 +16,7 @@ class SampleTaskService : TaskServiceImpl(
     class UploadTask(runId: String, private val args : Bundle?) :
             Task(runId, R.string.upload_task) {
 
-        override fun run(): Bundle? {
+        override fun run(): Bundle {
             progress(0, "Initializing...")
             requireNotNull(args)
             val start = args.getInt("start", -1)

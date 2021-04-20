@@ -11,7 +11,7 @@ import android.util.Log
 class RemoteService2Impl : Service() {
     @Volatile var i = 1
 
-    var binder = object : RemoteService2.Stub() {
+    private var binder = object : RemoteService2.Stub() {
         override fun reset() {
             i = 1
         }
@@ -55,7 +55,7 @@ class RemoteService2Impl : Service() {
         super.onDestroy()
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
+    override fun onBind(intent: Intent?): IBinder {
         if (counterThread == null) {
             counterThread = createCounter()
             counterThread!!.start()

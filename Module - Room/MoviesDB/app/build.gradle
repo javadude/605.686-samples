@@ -20,6 +20,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -29,6 +37,8 @@ dependencies {
     implementation deps.appcompat
     implementation deps.constraintlayout
     implementation deps.ktx
+    implementation deps.activityKtx
     implementation deps.stetho
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.liveData
+    implementation deps.lifecycle.viewModel
 }

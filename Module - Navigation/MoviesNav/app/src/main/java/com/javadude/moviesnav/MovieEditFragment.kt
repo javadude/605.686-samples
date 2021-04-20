@@ -1,16 +1,11 @@
 package com.javadude.moviesnav
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.navArgs
-import java.util.*
 
 
 class MovieEditFragment : BaseFragment(R.string.movie, R.layout.fragment_movie_edit) {

@@ -9,7 +9,7 @@ val gradle = File("gradle")
 val gradlewBat = File("gradlew.bat")
 val gradlew = File("gradlew")
 
-fun main(args: Array<String>) {
+fun main() {
     val currentDir = File(System.getProperty("user.dir")!!)
     val dir = currentDir.parentFile!!.parentFile!!
     val projects = dir.findProjects().filterNot { it == currentDir }
@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
 private fun File.findProjects() : List<File> =
     when {
         File(this, "app").exists() -> listOf(this)
-        this.isDirectory -> this.listFiles().flatMap { it.findProjects() }
+        this.isDirectory -> this.listFiles()?.flatMap { it.findProjects() } ?: throw RuntimeException("cannot listFiles()")
         else -> emptyList()
     }
 

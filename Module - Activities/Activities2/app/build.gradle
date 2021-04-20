@@ -27,5 +27,6 @@ dependencies {
     implementation deps.ktx
     implementation deps.constraintlayout
     implementation deps.recyclerview
-    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewModel
+    implementation deps.lifecycle.liveData
 }
