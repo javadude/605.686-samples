@@ -1,11 +1,11 @@
 ext {
 	versions = [
-		kotlin      : '1.4.31',
-		build_tools : '4.1.2',
+		kotlin      : '1.9.10',
+		build_tools : '8.2.0-rc2',
 		sdk : [
-			min     : 21,
-			compile : 30,
-			target  : 30
+			min     : 24,
+			compile : 34,
+			target  : 34
 		],
 	]
 	deps = [
